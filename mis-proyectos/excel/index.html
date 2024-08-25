@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Excel.js</title>
+
+    <!------------------------ CSS ------------------------>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+          Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+          sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      img {
+        max-width: 20px;
+        height: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+      }
+
+      thead,
+      tr td:first-child {
+        background: #eee;
+      }
+
+      tr td:first-child,
+      tr th:first-child {
+        width: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ccc;
+        font-weight: normal;
+        font-size: 12px;
+        text-align: center;
+        width: 64px;
+        height: 20px;
+        vertical-align: middle;
+        position: relative;
+      }
+
+      /* td:active {
+      } */
+
+      span,
+      input {
+        position: absolute;
+        inset: 0;
+        vertical-align: middle;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      input {
+        border: 0;
+        opacity: 0;
+        pointer-events: none;
+        width: 100%;
+        border-radius: 2px;
+
+        &:focus {
+          opacity: 1;
+          outline: 2px solid #09f;
+        }
+      }
+
+      .selected {
+        background: rgb(174, 223, 255);
+      }
+
+      th.selected {
+        background: rgb(45, 192, 255);
+      }
+    </style>
+
+    <!------------------------ JavaScript ------------------------>
+    <script type="module">
+      const $ = (el) => document.querySelector(el);
+      const $$ = (el) => document.querySelectorAll(el);
+
+      const $table = $('table');
+      const $head = $('thead');
+      const $body = $('tbody');
+
+      const ROWS = 10;
+      const COLUMNS = 5;
+      const FIRST_CHAR_CODE = 65;
+
+      const times = (length) => Array.from({ length }, (_, i) => i);
+      const getColumn = (i) => String.fromCharCode(FIRST_CHAR_CODE + i);
+      //Ver si hago casos de superar Z
+
+      let selectedColumn = null;
+
+      let STATE = times(COLUMNS).map((i) =>
+        times(ROWS).map((j) => ({ computedValue: 0, value: 0 }))
+      );
+
+      console.log(STATE);
+
+      function unselect(event) {
+        const { target } = event;
+
+        const isThClicked = target.closest('th');
+        const isTdClicked = target.closest('td');
+
+        if (!isThClicked && !isTdClicked) {
+          $$('.selected').forEach((el) => el.classList.remove('selected'));
+          selectedColumn = null;
+        }
+      }
+
+      function updateCell({ x, y, value }) {
+        const newState = structuredClone(STATE);
+        const constants = generateCellsContstants(newState);
+        // console.log(constants);
+        const cell = newState[x][y];
+
+        cell.computedValue = computeValue(value, constants); // --> span
+        cell.value = value; // --> input
+
+        newState[x][y] = cell;
+
+        computeAllCells(newState, generateCellsContstants(newState)); // Igual no resuelve el caso de fórmulas encadenadas (requiere nuevo blur)
+        STATE = newState;
+
+        console.log(STATE);
+
+        renderSpreadSheet();
+      }
+
+      function generateCellsContstants(cells) {
+        return cells
+          .map((rows, x) => {
+            return rows
+              .map((cell, y) => {
+                const letter = getColumn(x); // --> A
+                const cellId = `${letter}${y + 1}`; // --> A1
+                return `const ${cellId} = ${cell.computedValue};`;
+              })
+              .join('\n');
+          })
+          .join('\n');
+      }
+
+      function computeAllCells(columns, constants) {
+        columns.forEach((rows, x) => {
+          rows.forEach((cell, y) => {
+            const computedValue = computeValue(cell.value, constants);
+            cell.computedValue = computedValue;
+          });
+        });
+      }
+
+      function computeValue(value, constants) {
+        if (typeof value !== 'string' || !value.startsWith('=')) return value;
+
+        const formula = value.slice(1);
+
+        let computedValue;
+        try {
+          computedValue = eval(`(()=>{
+          ${constants}
+          return ${formula}
+        })()`);
+        } catch (e) {
+          computedValue = 'NaN';
+          console.log(`!ERROR: ${e.message}`);
+        }
+
+        return computedValue;
+      }
+
+      const renderSpreadSheet = () => {
+        const headerHTML = `<tr>
+            <th></th>
+            ${times(COLUMNS)
+              .map((i) => `<th>${getColumn(i)}</th>`)
+              .join('')}
+        </tr>`;
+
+        $head.innerHTML = headerHTML;
+
+        const bodyHTML = times(ROWS)
+          .map((row) => {
+            return `<tr>
+            <td>${row + 1}</td>
+            ${times(COLUMNS)
+              .map(
+                (column) => `
+            <td data-x = "${column}" data-y="${row}">
+                <span>${STATE[column][row].computedValue}</span>
+                <input type="text" value="${STATE[column][row].value}" />
+                </td>
+            `
+              )
+              .join('')}
+            </tr>`;
+          })
+          .join('');
+
+        $body.innerHTML = bodyHTML;
+      };
+
+      $body.addEventListener('click', (event) => {
+        const td = event.target.closest('td');
+        if (!td) return;
+
+        const { x, y } = td.dataset;
+        const input = td.querySelector('input');
+        const span = td.querySelector('span');
+
+        const end = input.value.length;
+        input.setSelectionRange(end, end); //Posiciona el cursor al final
+        input.focus();
+
+        $$('.selected').forEach((el) => el.classList.remove('selected'));
+        selectedColumn = null;
+
+        input.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') input.blur();
+        });
+
+        input.addEventListener(
+          'blur',
+          () => {
+            if (input.value === STATE[x][y].value) return;
+
+            updateCell({ x, y, value: input.value });
+
+            // console.log({ value: input.value, state: STATE[x][y].value });
+          },
+          { once: true }
+        );
+      });
+
+      $head.addEventListener('click', (event) => {
+        const th = event.target.closest('th');
+        if (!th) return;
+
+        /* MI FORMA:
+        const pos = th.textContent.charCodeAt(0) - 65;
+        const cells = $$(`[data-x="${pos}"]`);
+        cells.forEach((cell) => {
+          cell.classList.add('selected');
+        });
+        */
+
+        /* MIDU STYLE: */
+        const x = [...th.parentNode.children].indexOf(th);
+        if (x <= 0) return;
+
+        selectedColumn = x - 1;
+
+        $$('.selected').forEach((el) => el.classList.remove('selected'));
+        th.classList.add('selected');
+        $$(`tr td:nth-child(${x + 1})`).forEach((e) =>
+          e.classList.add('selected')
+        );
+      });
+
+      document.addEventListener('keydown', (event) => {
+        // console.log(event);
+        if (
+          (event.key === 'Backspace' || event.key === 'Delete') &&
+          selectedColumn !== null
+        ) {
+          times(ROWS).forEach((row) => {
+            updateCell({ x: selectedColumn, y: row, value: 0 });
+          });
+          console.log('Borrado');
+          renderSpreadSheet();
+          selectedColumn = null;
+        }
+      });
+
+      //Si hago que el edit cell sea doble click como corresponde, podría también hacer el copy de las celdas individuales
+      document.addEventListener('copy', (event) => {
+        if (selectedColumn !== null) {
+          const columnValues = times(ROWS).map((row) => {
+            return STATE[selectedColumn][row].computedValue;
+          });
+
+          event.clipboardData.setData('text/plain', columnValues.join('\n'));
+          event.preventDefault();
+        }
+      });
+
+      document.addEventListener('click', (event) => {
+        unselect(event);
+      });
+
+      renderSpreadSheet();
+    </script>
+  </head>
+  <body>
+    <img src="assets/excel.png" alt="excel icon" />
+
+    <table>
+      <thead></thead>
+      <tbody></tbody>
+    </table>
+  </body>
+</html>

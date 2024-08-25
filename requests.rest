@@ -1,0 +1,20 @@
+@api = https://vigenere-api.onrender.com/
+@apiLocal = http://localhost:3000/
+@frontendOrigin = https://mati-fernandez.github.io
+@frontendOriginLocal = http://127.0.0.1:5500
+
+### Despertar servicio
+GET {{api}}wake-up
+Origin: http://127.0.0.1:5500
+
+### Get next phrase
+GET {{api}}api/next-phrase?index=0&language=es
+Origin: http://127.0.0.1:5500
+
+### Wake up service from local to local
+GET {{apiLocal}}wake-up
+Origin: http://127.0.0.1:5500
+
+### Get next phrase from local to local
+GET {{apiLocal}}api/next-phrase?index=0&language=es
+Origin: {{frontendOrigin}}
