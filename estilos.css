@@ -99,14 +99,8 @@ div {
   flex-direction: row;
   border-radius: 20px;
   z-index: 1;
-}
-
-#caja-fondo {
-  border-radius: 20px;
   background-color: var(--color1);
-  width: 100%;
-  height: 100%;
-  position: absolute;
+  overflow: hidden;
 }
 
 #caja-cara {
@@ -308,10 +302,7 @@ footer {
   #caja-central {
     height: fit-content;
     flex-direction: column;
-  }
-
-  #caja-fondo {
-    display: none;
+    background-color: transparent;
   }
 
   #caja-cara {
