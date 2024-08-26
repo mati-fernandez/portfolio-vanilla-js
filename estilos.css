@@ -250,7 +250,9 @@ img#profile-pic {
 }
 
 .card {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
   grid-template-rows: 10% 80% 10%;
   text-align: center;
   align-items: center;
@@ -264,6 +266,8 @@ img#profile-pic {
 
 .card img {
   width: 100%;
+  max-height: 300px;
+  object-fit: contain;
 }
 
 .card a {
