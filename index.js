@@ -12,11 +12,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
   document.addEventListener('click', (e) => {
     //Manejo de los botones flecha animadas para deslizar pagina
     if (e.target.matches('#first-page')) {
-      document.querySelector('#seccion-aptitudes').scrollIntoView();
-    }
-    if (e.target.matches('#second-page')) {
       document.querySelector('#seccion-tecnologias').scrollIntoView();
     }
+
     //Scroll to top general
     if (e.target.matches('#scroll-to-top')) {
       $scrollToBottom.style.display = 'block';

@@ -15,6 +15,7 @@ html {
   --color1: #303e2d;
   --color2: #000000;
   --color3: #ffffff;
+  --color4: #007fff;
 }
 
 ::-webkit-scrollbar {
@@ -81,6 +82,8 @@ div {
   cursor: pointer;
 }
 
+/*******************************************************************/
+
 #seccion-presentacion {
   width: 100%;
   display: flex;
@@ -127,7 +130,6 @@ img#profile-pic {
   font-size: 14px;
   position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
   width: 60%;
   color: var(--color3);
@@ -147,44 +149,69 @@ img#profile-pic {
   z-index: 5;
 }
 
-#seccion-aptitudes {
-  background-color: var(--color2);
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: var(--color3);
-  text-wrap: balance;
-  z-index: 1;
-}
-
-#seccion-aptitudes > p:nth-of-type(1) {
-  text-align: center;
-}
+/*****************************************************************/
 
 #seccion-tecnologias {
   background-color: var(--color1);
-  height: fit-content;
+  color: var(--color3);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 3% 21%;
   z-index: 1;
+  & h2 {
+    margin-bottom: 0;
+  }
 }
 
-#tech-list {
+.skills-list {
+  list-style: none;
+  padding: 0;
+  width: 800px;
+  margin-bottom: 20px;
+  /* margin-right: 5vw; */
+}
+
+.skills-list li {
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.tech {
-  height: 6rem;
-  margin: 1.5rem;
+.skill-container {
+  display: flex;
+  width: 180px;
+  justify-content: right;
+  align-items: center;
+  overflow: hidden;
 }
+
+.skills-list img {
+  margin-right: 15px;
+  width: 24px;
+  height: max-content;
+}
+
+.skill-name {
+  font-weight: bold;
+  margin-right: 10px;
+  white-space: nowrap;
+  text-overflow: clip;
+}
+
+.progress-bar {
+  background-color: var(--color3);
+  width: 70%;
+  height: 10px;
+  margin-left: 10px;
+  overflow: hidden;
+}
+
+.progress {
+  background-color: var(--color4);
+  height: 100%;
+}
+
+/*****************************************************************/
 
 #seccion-pec {
   background-color: var(--color2);
@@ -272,8 +299,8 @@ footer {
 /*Solo PC (Por no hacer mobile first tengo que meter estos parches)*/
 @media (min-width: 801px) {
   li:hover {
-    filter: brightness(5);
-    color: var(--color1);
+    /*Cuando haga anim de llenado, al pasar el mouse se repite el de ese item o algo asi*/
+    /* color: var(--color1); */
   }
 
   .tech {
@@ -292,6 +319,8 @@ footer {
     transform: scale(1.1);
   }
 }
+
+/***********************************************************************/
 
 /*Solo MOBILE*/
 @media (max-width: 800px) {
@@ -347,7 +376,7 @@ footer {
   }
 
   #tech-list {
-    padding: 0;
+    padding: 2vh 0;
     flex-wrap: wrap;
     flex-basis: 30%;
   }
@@ -356,18 +385,28 @@ footer {
     height: 3.5rem;
   }
 
-  #seccion-aptitudes {
-    height: fit-content;
-    padding: 5%;
-    padding-bottom: 10%;
-  }
+  /*******************************************************************/
 
   #seccion-tecnologias {
     padding: 0;
     margin: 0;
     height: fit-content;
-    padding: 10% 0;
   }
+
+  .skills-list {
+    width: 95vw;
+  }
+
+  .skills-list li {
+    justify-content: center;
+  }
+
+  .progress-bar {
+    width: 33vw;
+    margin-right: 1vw;
+  }
+
+  /********************************************************************/
 
   #seccion-pec {
     height: fit-content;
