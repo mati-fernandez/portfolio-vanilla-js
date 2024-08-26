@@ -65,6 +65,15 @@ header {
 
 section {
   position: relative;
+  padding: 7vh 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+h4 {
+  margin: 0;
 }
 
 div {
@@ -74,8 +83,8 @@ div {
 #scroll-to-bottom {
   display: none;
   position: absolute;
-  bottom: 50px;
-  right: 50px;
+  bottom: 1vh;
+  right: 5vw;
   padding: 20px 10px;
   z-index: 5;
   cursor: pointer;
@@ -88,18 +97,17 @@ div {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 90vh;
+  height: 80vh;
   background-color: var(--color2);
   color: white;
 }
 
 #caja-central {
   margin: auto;
-  width: 800px;
-  height: 300px;
+  width: fit-content;
+  height: 50vh;
   display: flex;
   flex-direction: row;
-  border-radius: 20px;
   z-index: 1;
   background-color: var(--color1);
   overflow: hidden;
@@ -109,6 +117,7 @@ div {
   position: relative;
   display: flex;
   width: 40%;
+  justify-content: center;
 }
 
 #caja-cara img {
@@ -126,26 +135,25 @@ img#profile-pic {
 }
 
 #caja-presentacion {
-  font-size: 14px;
   position: relative;
   display: flex;
   align-items: center;
   width: 60%;
   color: var(--color3);
-  padding: 0 55px 0 23px;
+  padding-right: 15vw;
   text-align: center;
   z-index: 0;
   overflow: visible;
 }
 
 .fa-chevron-down {
-  padding: 30px 50px 10px;
   font-size: 1em;
   color: var(--color3);
   position: absolute;
   bottom: 20px;
-  cursor: pointer;
   z-index: 5;
+  opacity: 50%;
+  transition: opacity 1s;
 }
 
 /*****************************************************************/
@@ -156,7 +164,9 @@ img#profile-pic {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   z-index: 1;
+  min-height: 80vh;
   & h2 {
     margin-bottom: 0;
   }
@@ -172,7 +182,7 @@ img#profile-pic {
 .skills-list li {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 4vh;
 }
 
 .skill-container {
@@ -219,12 +229,10 @@ img#profile-pic {
 
 #seccion-proyectos {
   background-color: var(--color2);
-  padding: 0.83em 0 2.1em;
 }
 
 #seccion-ejercicios {
   background-color: var(--color1);
-  padding: 0.83em 0 2.1em;
   & .card a {
     background-color: var(--color2);
   }
@@ -232,11 +240,10 @@ img#profile-pic {
 
 #seccion-certificaciones {
   background-color: var(--color2);
-  padding: 0.83em 0 2.1em;
 }
 
 .pec {
-  width: 85%;
+  width: 90%;
   display: grid;
   grid-template-columns: 10fr 1fr 10fr 1fr 10fr;
   margin: auto;
@@ -252,6 +259,7 @@ img#profile-pic {
   border-radius: 10px;
   padding: 10px;
   gap: 3px;
+  margin: 6vh 0;
 }
 
 .card img {
@@ -270,53 +278,46 @@ footer a {
   color: var(--color3);
 }
 
+footer a {
+  line-height: 0;
+}
+
 .red-social {
   height: 3.75rem;
   border-radius: 10px;
-  margin: 0 40px;
+  margin: 0 5vw;
 }
 
 footer {
   background-color: var(--color1);
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
   color: var(--color3);
   font-weight: lighter;
-  height: 25vh;
-  padding-bottom: 0.83em;
+  padding: 6vh 0;
   position: relative;
   z-index: 1;
 }
 
-#contacto {
-  margin-bottom: 30px;
-}
-
 #contacto-links {
-  width: 55%;
   display: flex;
-  justify-content: center;
-  padding: 10px 0 25px 0;
-  & a {
-    margin: 0 -30px 0 -30px;
-  }
+  gap: 0 15vw;
+  margin: 5vh 0;
 }
 
 #scroll-to-top {
   position: absolute;
-  bottom: 50px;
-  right: 50px;
+  top: 5vh;
+  right: 5vw;
   cursor: pointer;
   padding: 20px 10px;
 }
 
 /*Solo PC (Por no hacer mobile first tengo que meter estos parches)*/
-@media (min-width: 801px) {
+@media (min-aspect-ratio: 1.33) {
   li:hover {
     /*Cuando haga anim de llenado, al pasar el mouse se repite el de ese item o algo asi*/
-    /* color: var(--color1); */
+    color: var(--color1);
   }
 
   .card > img {
@@ -331,9 +332,9 @@ footer {
 /***********************************************************************/
 
 /*Solo MOBILE*/
-@media (max-width: 800px) {
+@media (max-aspect-ratio: 1.33) {
   #seccion-presentacion {
-    height: 90svh;
+    height: 80svh;
   }
 
   #caja-central {
@@ -346,7 +347,6 @@ footer {
     overflow: hidden;
     height: 30vh;
     width: 30vh;
-    margin-top: 50px;
     margin: auto;
     border-radius: 200px;
     justify-content: center;
@@ -372,7 +372,7 @@ footer {
     background-color: var(--color-oscuro);
     color: var(--color-claro);
     text-align: center;
-    padding: 20px 5% 42px;
+    padding: 0 6vw;
   }
   .fa-chevron-down {
     bottom: 10px;
@@ -380,10 +380,8 @@ footer {
 
   /*******************************************************************/
 
-  #seccion-skills {
-    padding: 0;
-    margin: 0;
-    height: fit-content;
+  #seccion-skills h2 {
+    margin-bottom: 0.83em;
   }
 
   .skills-list {
@@ -392,6 +390,7 @@ footer {
 
   .skills-list li {
     justify-content: center;
+    margin-right: 8vw;
   }
 
   .progress-bar {
@@ -407,7 +406,6 @@ footer {
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    padding-top: 10px;
   }
 
   #seccion-proyectos h2 {
@@ -429,22 +427,13 @@ footer {
     padding: 10px;
   }
 
-  footer {
-    height: 25vh;
-  }
+  /************************* Contacto ************/
 
-  #contacto {
-    margin-bottom: 40px;
+  #contacto-links {
+    gap: 0;
   }
 
   .red-social {
-    height: 3rem;
-    margin: 0 5vw;
-  }
-
-  #scroll-to-top {
-    top: 50px;
-    right: 50px;
-    padding: 20px 10px;
+    margin: 7vw;
   }
 }

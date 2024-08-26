@@ -8,13 +8,15 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
   /************************* FUNCIONES ******************************/
 
+  //Indicador de scroll
+  document.addEventListener('scroll', (e) => {
+    if (window.scrollY > 50) {
+      document.querySelector('.fa-chevron-down').style.opacity = 0;
+    }
+  });
+
   //Manejo de eventos click
   document.addEventListener('click', (e) => {
-    //Manejo de los botones flecha animadas para deslizar pagina
-    if (e.target.matches('#first-page')) {
-      document.querySelector('#seccion-skills').scrollIntoView();
-    }
-
     //Scroll to top general
     if (e.target.matches('#scroll-to-top')) {
       $scrollToBottom.style.display = 'block';
