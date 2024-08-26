@@ -219,12 +219,12 @@ img#profile-pic {
 
 #seccion-proyectos {
   background-color: var(--color2);
-  padding: 0.83em 0;
+  padding: 0.83em 0 2.1em;
 }
 
 #seccion-ejercicios {
   background-color: var(--color1);
-  padding: 0.83em 0;
+  padding: 0.83em 0 2.1em;
   & .card a {
     background-color: var(--color2);
   }
@@ -232,7 +232,7 @@ img#profile-pic {
 
 #seccion-certificaciones {
   background-color: var(--color2);
-  padding: 0.83em 0;
+  padding: 0.83em 0 2.1em;
 }
 
 .pec {
@@ -285,7 +285,7 @@ footer {
   color: var(--color3);
   font-weight: lighter;
   height: 25vh;
-  padding-bottom: 30px;
+  padding-bottom: 0.83em;
   position: relative;
   z-index: 1;
 }
