@@ -261,7 +261,7 @@ img#profile-pic {
   border-radius: 10px;
   padding: 10px;
   gap: 3px;
-  margin: 6vh 0;
+  margin: 3.3vh 0 0;
 }
 
 .card img {
@@ -395,10 +395,6 @@ footer {
     align-items: center;
   }
 
-  #seccion-proyectos h2 {
-    margin-bottom: 30px;
-  }
-
   .pec {
     width: 100%;
     display: flex;
@@ -410,8 +406,6 @@ footer {
   .card {
     text-align: center;
     width: 100%;
-    border-radius: 10px;
-    padding: 10px;
   }
 
   /************************* Contacto ************/
