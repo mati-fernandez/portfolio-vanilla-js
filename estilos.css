@@ -153,8 +153,9 @@ img#profile-pic {
   position: absolute;
   bottom: 20px;
   z-index: 5;
-  opacity: 50%;
+  opacity: 33%;
   transition: opacity 1s;
+  cursor: pointer;
 }
 
 /*****************************************************************/
@@ -167,7 +168,7 @@ img#profile-pic {
   align-items: center;
   justify-content: center;
   z-index: 1;
-  min-height: 80vh;
+  height: 100vh;
   & h2 {
     margin-bottom: 0;
   }

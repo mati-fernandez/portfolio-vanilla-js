@@ -8,13 +8,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
   /************************* FUNCIONES ******************************/
 
-  //Indicador de scroll
-  document.addEventListener('scroll', (e) => {
-    if (window.scrollY > 50) {
-      document.querySelector('.fa-chevron-down').style.opacity = 0;
-    }
-  });
-
   //Manejo de eventos click
   document.addEventListener('click', (e) => {
     //Scroll to top general
@@ -32,6 +25,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
         top: 50000,
       });
     }
+  });
+
+  //Scroll to sections
+  document.querySelectorAll('.fa-chevron-down').forEach((button, index) => {
+    button.addEventListener('click', () => {
+      const sectionId = index === 0 ? '#seccion-skills' : '#seccion-proyectos';
+      document.querySelector(sectionId).scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    });
   });
 
   //Manejo de eventos hover
