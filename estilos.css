@@ -97,7 +97,7 @@ div {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 88vh;
+  height: 88svh;
   background-color: var(--color2);
   color: white;
 }
@@ -168,7 +168,7 @@ img#profile-pic {
   align-items: center;
   justify-content: center;
   z-index: 1;
-  height: 100vh;
+  height: 100svh;
   & h2 {
     margin-bottom: 0;
   }
@@ -322,10 +322,6 @@ footer {
 
 /*Solo MOBILE*/
 @media (max-aspect-ratio: 1.33) {
-  #seccion-presentacion {
-    height: 80vh;
-  }
-
   #caja-central {
     height: fit-content;
     flex-direction: column;
