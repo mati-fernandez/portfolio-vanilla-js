@@ -160,6 +160,7 @@ img#profile-pic {
   opacity: 33%;
   transition: opacity 1s;
   cursor: pointer;
+  padding: 10px;
 }
 
 /*****************************************************************/
