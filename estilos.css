@@ -214,10 +214,14 @@ img#profile-pic {
 }
 
 .skills-list img.landscape {
-  max-height: calc(var(--font-size-landscape) * 1.2);
+  max-width: calc(var(--font-size-landscape) * 2);
 }
 
 .skills-list img.portrait {
+  max-height: calc(var(--font-size-landscape) * 1.8);
+}
+
+#js-icon {
   max-height: calc(var(--font-size-landscape) * 1.5);
 }
 
@@ -421,11 +425,15 @@ footer {
   }
 
   .skills-list img.landscape {
-    max-height: calc(var(--font-size-landscape) * 1.5);
+    max-width: calc(var(--font-size-landscape) * 2.7);
   }
 
   .skills-list img.portrait {
     max-height: calc(var(--font-size-landscape) * 2.5);
+  }
+
+  #js-icon {
+    max-height: calc(var(--font-size-landscape) * 2.2);
   }
 
   .progress-bar {
