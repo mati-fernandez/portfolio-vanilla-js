@@ -326,7 +326,7 @@ footer {
   justify-content: center;
   color: var(--color3);
   font-weight: lighter;
-  padding-bottom: 6vh;
+  padding: 6vh 0;
   position: relative;
   z-index: 1;
 }
