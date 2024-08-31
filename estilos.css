@@ -12,10 +12,10 @@ html {
 }
 
 :root {
-  --color1: #471a1a;
-  --color2: #000000;
-  --color3: #ffffff;
-  --color4: #007fff;
+  --color1: #000000;
+  --color2: #471a1a;
+  --color3: #d6d6d6;
+  --color4: #0064c9;
   --font-size-landscape: calc((1vw + 1vh) * 0.8);
   --font-size-mobile: calc((1vw + 1vh) * 1.2);
 }
@@ -59,7 +59,7 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #fff;
+  color: var(--color3);
   z-index: 1;
   position: relative;
 }
@@ -106,7 +106,7 @@ div {
 
 #caja-central {
   position: absolute;
-  top: 45%;
+  top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
   width: 100%;
@@ -114,7 +114,7 @@ div {
   display: flex;
   flex-direction: row;
   z-index: 1;
-  background: linear-gradient(var(--color2), var(--color1) 50%);
+  background-color: var(--color1);
 }
 
 #caja-cara {
@@ -151,7 +151,7 @@ img#profile-pic {
 
 #presentacion {
   position: absolute;
-  top: 55%;
+  top: 50%;
   left: 40%;
   transform: translate(-50%, -50%);
   width: 80%;
