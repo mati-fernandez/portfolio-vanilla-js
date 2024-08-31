@@ -13,9 +13,9 @@ html {
 
 :root {
   --color1: #000000;
-  --color2: #471a1a;
-  --color3: #d6d6d6;
-  --color4: #0064c9;
+  --color2: #070066;
+  --color3: #c3c3c3;
+  --color4: #1c6fc2;
   --font-size-landscape: calc((1vw + 1vh) * 0.8);
   --font-size-mobile: calc((1vw + 1vh) * 1.2);
 }
@@ -355,6 +355,7 @@ footer {
   #seccion-presentacion {
     flex-direction: column;
     align-items: center;
+    /* background-color: var(--color1); */
   }
 
   #caja-central {
@@ -382,7 +383,7 @@ footer {
 
   #caja-fondo-mobile {
     display: block;
-    background: linear-gradient(transparent, var(--color1));
+    background-color: var(--color1);
     position: absolute;
     justify-content: center;
     border-radius: 200px;
