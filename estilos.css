@@ -301,6 +301,15 @@ footer a {
   color: var(--color3);
 }
 
+#seccion-certificaciones {
+  & img {
+    aspect-ratio: unset;
+  }
+  & .card {
+    margin-top: 3vh;
+  }
+}
+
 footer a {
   line-height: 0;
 }
@@ -460,10 +469,6 @@ footer {
   .card {
     text-align: center;
     width: 100%;
-  }
-
-  #seccion-certificaciones img {
-    aspect-ratio: unset;
   }
 
   #calc-img {
