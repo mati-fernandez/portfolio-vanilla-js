@@ -8,10 +8,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
   // Asignación de aspect ratio a imágenes de habilidades
   document.querySelectorAll('.skills-list img').forEach((img) => {
-    if (img.naturalWidth > img.naturalHeight) {
-      img.classList.add('landscape');
-    } else {
-      img.classList.add('portrait');
+    img.addEventListener('load', () => {
+      if (img.naturalWidth > img.naturalHeight) {
+        img.classList.add('landscape');
+      } else {
+        img.classList.add('portrait');
+      }
+    });
+
+    // Si la imagen ya se cargó (para navegadores que no disparan 'load' en imágenes ya cargadas)
+    if (img.complete) {
+      img.dispatchEvent(new Event('load'));
     }
   });
 
