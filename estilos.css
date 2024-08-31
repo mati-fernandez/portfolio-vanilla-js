@@ -67,14 +67,20 @@ header {
 section {
   position: relative;
   padding: 7vh 0;
+  background-color: var(--color1);
+  & a {
+    border: 1px solid var(--color3);
+  }
 }
 
 h2 {
   margin: 0;
+  text-decoration: underline;
 }
 
 h4 {
   margin: 0;
+  text-decoration: underline;
 }
 
 div {
@@ -100,13 +106,12 @@ div {
   flex-direction: row;
   justify-content: center;
   height: 90svh;
-  background-color: var(--color2);
   color: white;
 }
 
 #caja-central {
   position: absolute;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
   margin: 0 auto;
   width: 100%;
@@ -115,6 +120,8 @@ div {
   flex-direction: row;
   z-index: 1;
   background-color: var(--color1);
+  border-bottom: 1px solid var(--color3);
+  border-top: 1px solid var(--color3);
 }
 
 #caja-cara {
@@ -254,21 +261,6 @@ img#profile-pic {
   z-index: 1;
 }
 
-#seccion-proyectos {
-  background-color: var(--color2);
-}
-
-#seccion-ejercicios {
-  background-color: var(--color1);
-  & .card a {
-    background-color: var(--color2);
-  }
-}
-
-#seccion-certificaciones {
-  background-color: var(--color2);
-}
-
 .pec {
   width: 90%;
   display: grid;
@@ -325,7 +317,7 @@ footer {
   justify-content: center;
   color: var(--color3);
   font-weight: lighter;
-  padding: 6vh 0;
+  padding-bottom: 6vh;
   position: relative;
   z-index: 1;
 }
@@ -355,7 +347,6 @@ footer {
   #seccion-presentacion {
     flex-direction: column;
     align-items: center;
-    /* background-color: var(--color1); */
   }
 
   #caja-central {
@@ -366,14 +357,17 @@ footer {
     flex-direction: column;
     background: none;
     justify-content: center;
+    box-shadow: none;
+    border: none;
   }
 
   #caja-cara {
     overflow: hidden;
     width: 60%;
     height: 35%;
-    margin: 5vh auto 0;
+    margin: 0 auto;
     border-radius: 200px;
+    box-shadow: var(--neon);
   }
 
   #profile-pic {
@@ -389,6 +383,7 @@ footer {
     border-radius: 200px;
     width: 100%;
     height: 100%;
+    border: 1px solid var(--color3);
   }
 
   #caja-presentacion {
@@ -402,7 +397,7 @@ footer {
 
   #presentacion {
     line-height: 1.5;
-    top: 35%;
+    top: 38%;
     left: 50%;
   }
 
@@ -465,6 +460,10 @@ footer {
   .card {
     text-align: center;
     width: 100%;
+  }
+
+  #seccion-certificaciones img {
+    aspect-ratio: unset;
   }
 
   #calc-img {
