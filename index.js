@@ -1,10 +1,19 @@
 //Establecer todo el js después de la carga del dom:
 document.addEventListener('DOMContentLoaded', (e) => {
   const $scrollToBottom = document.querySelector('#scroll-to-bottom');
+  const $parallaxBkg = document.querySelector('#parallax-bkg');
+  const $portfolio = document.querySelector('#portfolio');
 
   //Variables y constantes de uso global:
   const wideVersionMinWidth = 800; // FALTA CORREGIR, VERI PROP WINDOW.ASPECTRATIO SI HAY
   let wideVersion = window.innerWidth > wideVersionMinWidth ? true : false;
+
+  // Parallax effect
+  document.addEventListener('scroll', () => {
+    let scroll = window.scrollY;
+
+    $parallaxBkg.style.top = scroll * 0.5 + 'px';
+  });
 
   // Asignación de aspect ratio a imágenes de habilidades
   document.querySelectorAll('.skills-list img').forEach((img) => {
@@ -100,5 +109,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
       wideVersion = false;
       console.log('Wide version', wideVersion);
     }
+    // Parallax background height adjustment
+    const portfolioHeight = window.getComputedStyle($portfolio.height);
+    const portfolioHeightValue = parseFloat(portfolioHeight);
+    const parallaxBkgHeight = portfolioHeightValue / 2;
+    $parallaxBkg.style.height = parallaxBkgHeight + 'px';
   });
 });

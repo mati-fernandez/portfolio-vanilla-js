@@ -14,7 +14,7 @@ html {
 :root {
   --color1: #000000;
   --color2: #070066;
-  --color2-alpha: #070066e8;
+  --color2-alpha: #0700668f;
   --color3: #c3c3c3;
   --color4: #1c6fc2;
   --font-size-landscape: calc((1vw + 1vh) * 0.8);
@@ -47,83 +47,28 @@ html {
 
 /********************** PARALLAX **********************/
 
-.parallax-wrapper {
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-  perspective: 1000px;
-  background-color: var(--color1);
-}
-
-.parallax-group {
-  position: relative;
-  transform-style: preserve-3d;
-}
-
-.parallax-group {
-  position: relative;
-  height: 100%;
+#parallax-bkg {
   width: 100%;
-  object-fit: cover;
-}
-
-.background-group {
-  position: fixed;
-  inset: 0;
-  /* height: 100vh; */
+  height: 250%;
+  position: absolute;
   z-index: -1;
+  opacity: 0.5;
 }
 
-.background-layer {
-  transform: translateZ(-1500px) scale(2.5);
-  height: 100vh;
-}
-
-.background-layer iframe {
+#portfolio {
+  position: absolute;
   width: 100%;
-  height: 100%;
-  border: none;
-  overflow: hidden;
-  /* object-fit: cover; */
 }
-
-.content-group {
-  z-index: 1;
-  position: relative;
-  background: transparent;
-}
-
-.content-layer {
-  transform: translateZ(0);
-  height: 100%;
-}
-
-/* Adjustments for your existing styles */
-#header,
-#seccion-presentacion,
-#seccion-skills,
-#seccion-proyectos,
-#seccion-ejercicios,
-#seccion-certificaciones,
-footer {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Responsive adjustments */
-/* @media (max-width: 768px) {
-  .background-layer {
-    transform: translateZ(-0.5px) scale(1.5);
-  }
-} */
 
 body {
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
   margin: 0;
   font-family: 'Bitstream Vera Sans Mono', monospace;
   font-size: var(--font-size-landscape);
   text-wrap: balance;
   user-select: none;
+  background-color: var(--color1);
 }
 
 header {
@@ -423,20 +368,8 @@ footer {
 /******************** DEJAR ASI POR PANTALLA CUADRADA !!!!!!!*/
 @media (max-aspect-ratio: 0.8) {
   /*************** PARALLAX ****************/
-  .parallax-wrapper {
-    perspective: 1px;
-  }
-
-  .background-layer {
-    transform: translateZ(-0.5px) scale(1);
-    height: 100vh;
-  }
-
-  .background-layer iframe {
-    height: 650vh;
-    width: 180vw;
-    position: absolute;
-    left: -39vw;
+  #parallax-bkg {
+    height: 550%;
   }
 
   body {
