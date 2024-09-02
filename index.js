@@ -6,6 +6,27 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const wideVersionMinWidth = 800; // FALTA CORREGIR, VERI PROP WINDOW.ASPECTRATIO SI HAY
   let wideVersion = window.innerWidth > wideVersionMinWidth ? true : false;
 
+  // Parallax background height adjustment
+  window.addEventListener('load', function () {
+    const content = document.getElementById('content');
+    const parallaxBackground = document.getElementById('parallax-background');
+
+    function adjustParallaxHeight() {
+      const isFirefox = typeof InstallTrigger !== 'undefined'; // Detecta Firefox
+      const contentHeight = content.offsetHeight;
+      console.log('Content Height:', contentHeight);
+      if (isFirefox) {
+        parallaxBackground.style.height = `${contentHeight * 0.71}px`; // Ajusta este valor según sea necesario
+      } else {
+        parallaxBackground.style.height = `${contentHeight}px`;
+      }
+    }
+
+    adjustParallaxHeight();
+
+    window.addEventListener('resize', adjustParallaxHeight);
+  });
+
   // Asignación de aspect ratio a imágenes de habilidades
   document.querySelectorAll('.skills-list img').forEach((img) => {
     img.addEventListener('load', () => {

@@ -2,6 +2,8 @@
 *::before,
 *::after,
 html {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
   user-select: none; /* Estándar moderno */
   -webkit-user-select: none; /* Safari */
@@ -40,14 +42,6 @@ html {
   font-style: normal;
 }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-x: hidden;
-}
-
 body {
   font-family: 'Bitstream Vera Sans Mono', monospace;
   font-size: var(--font-size-landscape);
@@ -55,35 +49,30 @@ body {
   user-select: none;
   scroll-behavior: smooth;
   overflow-y: auto;
+  background-color: var(--color1);
 }
 
 #parallax-container {
-  overflow-x: hidden;
+  overflow: hidden;
   overflow-y: auto;
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
+  height: 100vh; /* Este siempre deberia ser fijo en 100vh */
   perspective: 10px;
 }
 
 #parallax-background {
-  position: absolute;
-  inset: 0;
-  min-width: 100%;
-  min-height: 200%;
   background-image: url('parallax-bkg.webp');
-  background-size: cover;
-  background-position: center;
-  z-index: -1;
   transform: translateZ(-10px) scale(2.1);
-  /* object-fit: cover; */
+  background-size: cover;
+  height: 100vh; /* este deberia ser responsive */
 }
 
 #content {
-  position: relative;
-  z-index: 1;
-  /* transform-style: preserve-3d; */
-  transform: translateZ(0);
+  width: 100%;
+  position: absolute;
+  top: 0;
+  transform: translateZ(
+    0
+  ); /* creo que es similar a transform-style: preserve 3d */
 }
 
 body * {
