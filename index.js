@@ -3,29 +3,32 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const $scrollToBottom = document.querySelector('#scroll-to-bottom');
 
   //Variables y constantes de uso global:
-  const wideVersionMinWidth = 800; // FALTA CORREGIR, VERI PROP WINDOW.ASPECTRATIO SI HAY
-  let wideVersion = window.innerWidth > wideVersionMinWidth ? true : false;
+  const mobileVersionMaxAspectRatio = 0.8;
+  let mobileVersion =
+    window.innerWidth / window.innerHeight < 0.8 ? true : false;
 
   // Parallax background height adjustment
-  window.addEventListener('load', function () {
-    const content = document.getElementById('content');
-    const parallaxBackground = document.getElementById('parallax-background');
+  const content = document.getElementById('content');
+  const parallaxBackground = document.getElementById('parallax-background');
 
-    function adjustParallaxHeight() {
-      const isFirefox = typeof InstallTrigger !== 'undefined'; // Detecta Firefox
-      const contentHeight = content.offsetHeight;
-      console.log('Content Height:', contentHeight);
-      if (isFirefox) {
-        parallaxBackground.style.height = `${contentHeight * 0.71}px`; // Ajusta este valor según sea necesario
+  function adjustParallaxHeight() {
+    const isFirefox = typeof InstallTrigger !== 'undefined';
+    const contentHeight = content.offsetHeight;
+    console.log('Content Height:', contentHeight);
+    if (isFirefox) {
+      if (mobileVersion) {
+        parallaxBackground.style.transform = 'translateZ(-10px) scale(2.1)';
+        parallaxBackground.style.height = `${contentHeight * 0.69}px`;
       } else {
-        parallaxBackground.style.height = `${contentHeight}px`;
+        parallaxBackground.style.height = `${contentHeight * 0.72}px`;
+        parallaxBackground.style.transform = 'translateZ(-10px) scale(2.1)';
       }
+    } else {
+      parallaxBackground.style.height = `${contentHeight}px`;
     }
+  }
 
-    adjustParallaxHeight();
-
-    window.addEventListener('resize', adjustParallaxHeight);
-  });
+  adjustParallaxHeight();
 
   // Asignación de aspect ratio a imágenes de habilidades
   document.querySelectorAll('.skills-list img').forEach((img) => {
@@ -73,36 +76,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
   });
 
-  //Manejo de eventos hover
-  document.addEventListener('mouseover', (e) => {
-    //Manejo del hover en profile-pic
-    // DESKTOP
-    if (window.innerWidth > wideVersionMinWidth) {
-      if (e.target.matches('#prof-pic-area')) {
-        console.log('Mouseover PC');
-        // MOBILE
-      } else {
-        if (e.target.matches('#caja-cara')) {
-          console.log('Mouseover MOBILE');
-        }
-      }
-    }
-  });
-
-  //Manejo de eventos mouseout
-  document.addEventListener('mouseout', (e) => {
-    //Manejo del mouseout en profile pic
-    if (window.innerWidth > wideVersionMinWidth) {
-      if (e.target.matches('#prof-pic-area')) {
-        console.log('mouseout PC');
-      }
-    } else {
-      if (e.target.matches('#caja-cara')) {
-        console.log('mouseout MOBILE');
-      }
-    }
-  });
-
   //Long press en mobile, click derecho en pc
   document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
@@ -113,13 +86,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
   });
 
   window.addEventListener('resize', (e) => {
-    // console.log('Resize event, window innerWidth', e.target.innerWidth);
-    if (e.target.innerWidth > wideVersionMinWidth && !wideVersion) {
-      wideVersion = true;
-      console.log('Wide version', wideVersion);
-    } else if (e.target.innerWidth <= wideVersionMinWidth && wideVersion) {
-      wideVersion = false;
-      console.log('Wide version', wideVersion);
-    }
+    mobileVersion = window.innerWidth / window.innerHeight < 0.8 ? true : false;
+    console.log('Mobile version:', mobileVersion);
+    adjustParallaxHeight();
   });
 });

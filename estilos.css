@@ -53,6 +53,7 @@ body {
 }
 
 #parallax-container {
+  width: 100%;
   overflow: hidden;
   overflow-y: auto;
   height: 100vh; /* Este siempre deberia ser fijo en 100vh */
@@ -60,10 +61,16 @@ body {
 }
 
 #parallax-background {
+  /* height: SE AJUSTA DESDE JS*/
+  transform: translateZ(-10px) scale(2.4);
+
   background-image: url('parallax-bkg.webp');
-  transform: translateZ(-10px) scale(2.1);
-  background-size: cover;
-  height: 100vh; /* este deberia ser responsive */
+  background-size: cover 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  /* height: 100vh; este es responsive gracias a JS */
+  /* filter: blur(2px); */
 }
 
 #content {
