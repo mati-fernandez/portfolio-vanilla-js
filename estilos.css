@@ -49,7 +49,7 @@ body {
   user-select: none;
   scroll-behavior: smooth;
   overflow-y: auto;
-  background-color: var(--color1);
+  background-color: var(--color1); /* Se ven igual las burbujas */
 }
 
 #parallax-container {
@@ -63,14 +63,44 @@ body {
 #parallax-background {
   /* height: SE AJUSTA DESDE JS*/
   transform: translateZ(-10px) scale(2.4);
+  filter: blur(3px);
+  width: 100%;
+}
 
-  background-image: url('parallax-bkg.webp');
-  background-size: cover 100%;
-  background-repeat: no-repeat;
-  background-position: center;
+.shape {
+  position: absolute;
+  border-radius: 50%; /* Formas redondas, cambia según tu diseño */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Color de las formas, ajusta según tu diseño */
+  transform: translateZ(0); /* Para el efecto parallax */
+}
 
-  /* height: 100vh; este es responsive gracias a JS */
-  /* filter: blur(2px); */
+.shape1 {
+  width: 100px;
+  height: 100px;
+  top: 30%;
+  left: 10%;
+  background-color: red;
+}
+
+.shape2 {
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  left: 70%;
+  background-color: blue;
+}
+
+.shape3 {
+  width: 200px;
+  height: 200px;
+  top: 60%;
+  left: 20%;
+  background-color: green;
 }
 
 #content {
@@ -80,10 +110,6 @@ body {
   transform: translateZ(
     0
   ); /* creo que es similar a transform-style: preserve 3d */
-}
-
-body * {
-  background-color: transparent !important;
 }
 
 header {
@@ -101,7 +127,7 @@ header {
 section {
   position: relative;
   padding: 7vh 0;
-  background-color: var(--color1);
+  /* background-color: var(--color1); */
   & a {
     border: 1px solid var(--color3);
   }
@@ -214,7 +240,6 @@ img#profile-pic {
 /*****************************************************************/
 
 #seccion-skills {
-  background-color: var(--color1);
   color: var(--color3);
   display: flex;
   flex-direction: column;
@@ -383,11 +408,6 @@ footer {
 /*Solo MOBILE*/
 /******************** DEJAR ASI POR PANTALLA CUADRADA !!!!!!!*/
 @media (max-aspect-ratio: 0.8) {
-  /****** Parallax effect ******/
-  #parallax-background {
-    background-image: url('parallax-bkg-mobile.webp');
-  }
-
   body {
     font-size: var(--font-size-mobile);
   }

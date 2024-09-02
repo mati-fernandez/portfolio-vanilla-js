@@ -11,6 +11,21 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const content = document.getElementById('content');
   const parallaxBackground = document.getElementById('parallax-background');
 
+  // Efecto "Burbujas en el agua"
+  document.addEventListener('mousemove', (event) => {
+    const x = (event.clientX / window.innerWidth) * 2 - 1; // Coordenada X del ratón
+    const y = (event.clientY / window.innerHeight) * 2 - 1; // Coordenada Y del ratón
+
+    const shapes = document.querySelectorAll('.shape');
+
+    shapes.forEach((shape) => {
+      shape.style.transform = `translate(-50%, -50%) translate3d(${x * 10}px, ${
+        y * 10
+      }px, 0)`;
+    });
+  });
+
+  // Ajustar altura del parallax al total del content
   function adjustParallaxHeight() {
     const isFirefox = typeof InstallTrigger !== 'undefined';
     const contentHeight = content.offsetHeight;
