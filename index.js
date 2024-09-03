@@ -19,11 +19,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
     shape.style.height = shape.style.width;
 
     // Posición inicial dentro del rango visible
-    const top = 30 + Math.random() * 45; // Entre 30% y 60% de la altura de la pantalla
-    const left = 10 + Math.random() * 65; // Entre 10% y 20% del ancho de la pantalla
+    const top = 27 + Math.random() * 50;
+    const left = 10 + Math.random() * 65;
 
     shape.style.top = `${top}%`;
     shape.style.left = `${left}%`;
+
+    // Añadir un retraso aleatorio para el movimiento
+    shape.dataset.delay = Math.random() * 1000; // Retraso entre 0 y 1000 ms
   });
 
   // Variables para manejar el movimiento
@@ -57,7 +60,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   function adjustParallaxHeight() {
     const isFirefox = typeof InstallTrigger !== 'undefined';
     const contentHeight = content.offsetHeight;
-    console.log('Content Height:', contentHeight);
+    // console.log('Content Height:', contentHeight);
     if (isFirefox) {
       if (mobileVersion) {
         parallaxBackground.style.transform = 'translateZ(-10px) scale(2.1)';
@@ -130,7 +133,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
   window.addEventListener('resize', (e) => {
     mobileVersion = window.innerWidth / window.innerHeight < 0.8 ? true : false;
-    console.log('Mobile version:', mobileVersion);
+    // console.log('Mobile version:', mobileVersion);
     adjustParallaxHeight();
   });
 });
