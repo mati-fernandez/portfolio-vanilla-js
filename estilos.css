@@ -2,6 +2,8 @@
 *::before,
 *::after,
 html {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
   user-select: none; /* Estándar moderno */
   -webkit-user-select: none; /* Safari */
@@ -13,7 +15,8 @@ html {
 
 :root {
   --color1: #000000;
-  --color2: #070066;
+  --color2: #000730;
+  --color2-alpha: #00000096;
   --color3: #c3c3c3;
   --color4: #1c6fc2;
   --font-size-landscape: calc((1vw + 1vh) * 0.8);
@@ -33,10 +36,6 @@ html {
   background: #000000;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 @font-face {
   font-family: 'Bitstream Vera Sans Mono';
   src: url('VeraMono.ttf');
@@ -45,11 +44,53 @@ html {
 }
 
 body {
-  margin: 0;
   font-family: 'Bitstream Vera Sans Mono', monospace;
   font-size: var(--font-size-landscape);
   text-wrap: balance;
   user-select: none;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  background-color: var(--color2); /* Se ven igual las burbujas */
+}
+
+#parallax-container {
+  width: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  height: 100vh; /* Este siempre deberia ser fijo en 100vh */
+  perspective: 10px;
+}
+
+#parallax-background {
+  /* height: SE AJUSTA DESDE JS*/
+  transform: translateZ(-10px) scale(2.4);
+  filter: blur(3px);
+  width: 100%;
+}
+
+.shape {
+  opacity: 0.5;
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 25% 25%,
+    rgba(255, 255, 255, 0.404) 0%,
+    rgba(0, 255, 255, 0.113) 100%
+  );
+  box-shadow: inset -10px -10px 20px rgba(255, 255, 255, 0.5),
+    inset 10px 10px 20px rgba(0, 0, 0, 0.5);
+
+  animation: float 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+#content {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  transform: translateZ(
+    0
+  ); /* creo que es similar a transform-style: preserve 3d */
 }
 
 header {
@@ -67,7 +108,6 @@ header {
 section {
   position: relative;
   padding: 7vh 0;
-  background-color: var(--color1);
   & a {
     border: 1px solid var(--color3);
   }
@@ -75,12 +115,10 @@ section {
 
 h2 {
   margin: 0;
-  text-decoration: underline;
 }
 
 h4 {
   margin: 0;
-  text-decoration: underline;
 }
 
 div {
@@ -119,7 +157,7 @@ div {
   display: flex;
   flex-direction: row;
   z-index: 1;
-  background-color: var(--color1);
+  background-color: var(--color2-alpha);
   border-bottom: 1px solid var(--color3);
   border-top: 1px solid var(--color3);
 }
@@ -180,7 +218,6 @@ img#profile-pic {
 /*****************************************************************/
 
 #seccion-skills {
-  background-color: var(--color1);
   color: var(--color3);
   display: flex;
   flex-direction: column;
@@ -386,7 +423,7 @@ footer {
 
   #caja-fondo-mobile {
     display: block;
-    background-color: var(--color1);
+    background-color: var(--color2-alpha);
     position: absolute;
     justify-content: center;
     border-radius: 200px;

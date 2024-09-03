@@ -1,10 +1,80 @@
 //Establecer todo el js después de la carga del dom:
 document.addEventListener('DOMContentLoaded', (e) => {
+  // Selectores
   const $scrollToBottom = document.querySelector('#scroll-to-bottom');
+  const content = document.getElementById('content');
+  const parallaxBackground = document.getElementById('parallax-background');
 
   //Variables y constantes de uso global:
-  const wideVersionMinWidth = 800; // FALTA CORREGIR, VERI PROP WINDOW.ASPECTRATIO SI HAY
-  let wideVersion = window.innerWidth > wideVersionMinWidth ? true : false;
+  const mobileVersionMaxAspectRatio = 0.8;
+  let mobileVersion =
+    window.innerWidth / window.innerHeight < 0.8 ? true : false;
+
+  // Efecto "Burbujas en el agua"
+  const shapes = document.querySelectorAll('.shape');
+
+  // Configura las propiedades iniciales de las formas
+  shapes.forEach((shape, index) => {
+    shape.style.width = `${50 + Math.random() * 100}px`; // Tamaños aleatorios
+    shape.style.height = shape.style.width;
+
+    // Posición inicial dentro del rango visible
+    const top = 27 + Math.random() * 50;
+    const left = 10 + Math.random() * 65;
+
+    shape.style.top = `${top}%`;
+    shape.style.left = `${left}%`;
+
+    // Añadir un retraso aleatorio para el movimiento
+    shape.dataset.delay = Math.random() * 1000; // Retraso entre 0 y 1000 ms
+  });
+
+  // Variables para manejar el movimiento
+  let mouseX = 0;
+  let mouseY = 0;
+
+  // Escucha el movimiento del ratón
+  document.addEventListener('mousemove', (event) => {
+    mouseX = (event.clientX / window.innerWidth) * 20 - 10;
+    mouseY = (event.clientY / window.innerHeight) * 20 - 10;
+  });
+
+  // Función de animación
+  function animateShapes() {
+    shapes.forEach((shape, index) => {
+      const floatY = Math.sin(Date.now() / 1000 + index) * 20; // Animación flotante en Y
+
+      const x = parseFloat(shape.style.left) + mouseX;
+      const y = parseFloat(shape.style.top) + floatY;
+
+      shape.style.transform = `translate(${mouseX}px, ${floatY}px)`;
+    });
+
+    requestAnimationFrame(animateShapes); // Solicita el siguiente cuadro de animación
+  }
+
+  // Inicia la animación
+  animateShapes();
+
+  // Ajustar altura del parallax al total del content
+  function adjustParallaxHeight() {
+    const isFirefox = typeof InstallTrigger !== 'undefined';
+    const contentHeight = content.offsetHeight;
+    // console.log('Content Height:', contentHeight);
+    if (isFirefox) {
+      if (mobileVersion) {
+        parallaxBackground.style.transform = 'translateZ(-10px) scale(2.1)';
+        parallaxBackground.style.height = `${contentHeight * 0.67}px`;
+      } else {
+        parallaxBackground.style.height = `${contentHeight * 0.71}px`;
+        parallaxBackground.style.transform = 'translateZ(-10px) scale(2.1)';
+      }
+    } else {
+      parallaxBackground.style.height = `${contentHeight}px`;
+    }
+  }
+
+  adjustParallaxHeight();
 
   // Asignación de aspect ratio a imágenes de habilidades
   document.querySelectorAll('.skills-list img').forEach((img) => {
@@ -27,17 +97,20 @@ document.addEventListener('DOMContentLoaded', (e) => {
     //Scroll to top general
     if (e.target.matches('#scroll-to-top')) {
       $scrollToBottom.style.display = 'block';
-      window.scrollTo({
+      document.querySelector('#header').scrollIntoView({
         behavior: 'smooth',
-        top: 0,
+        block: 'start',
       });
     }
     //Scroll to bottom general
     if (e.target.matches('#scroll-to-bottom')) {
-      window.scrollTo({
-        behavior: 'smooth',
-        top: 50000,
-      });
+      const parallaxContainer = document.querySelector('#parallax-container');
+      if (parallaxContainer) {
+        parallaxContainer.scrollTo({
+          behavior: 'smooth',
+          top: parallaxContainer.scrollHeight,
+        });
+      }
     }
   });
 
@@ -52,36 +125,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
   });
 
-  //Manejo de eventos hover
-  document.addEventListener('mouseover', (e) => {
-    //Manejo del hover en profile-pic
-    // DESKTOP
-    if (window.innerWidth > wideVersionMinWidth) {
-      if (e.target.matches('#prof-pic-area')) {
-        console.log('Mouseover PC');
-        // MOBILE
-      } else {
-        if (e.target.matches('#caja-cara')) {
-          console.log('Mouseover MOBILE');
-        }
-      }
-    }
-  });
-
-  //Manejo de eventos mouseout
-  document.addEventListener('mouseout', (e) => {
-    //Manejo del mouseout en profile pic
-    if (window.innerWidth > wideVersionMinWidth) {
-      if (e.target.matches('#prof-pic-area')) {
-        console.log('mouseout PC');
-      }
-    } else {
-      if (e.target.matches('#caja-cara')) {
-        console.log('mouseout MOBILE');
-      }
-    }
-  });
-
   //Long press en mobile, click derecho en pc
   document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
@@ -92,13 +135,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
   });
 
   window.addEventListener('resize', (e) => {
-    // console.log('Resize event, window innerWidth', e.target.innerWidth);
-    if (e.target.innerWidth > wideVersionMinWidth && !wideVersion) {
-      wideVersion = true;
-      console.log('Wide version', wideVersion);
-    } else if (e.target.innerWidth <= wideVersionMinWidth && wideVersion) {
-      wideVersion = false;
-      console.log('Wide version', wideVersion);
-    }
+    mobileVersion = window.innerWidth / window.innerHeight < 0.8 ? true : false;
+    // console.log('Mobile version:', mobileVersion);
+    adjustParallaxHeight();
   });
 });
