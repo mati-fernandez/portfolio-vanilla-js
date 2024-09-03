@@ -97,17 +97,20 @@ document.addEventListener('DOMContentLoaded', (e) => {
     //Scroll to top general
     if (e.target.matches('#scroll-to-top')) {
       $scrollToBottom.style.display = 'block';
-      window.scrollTo({
+      document.querySelector('#header').scrollIntoView({
         behavior: 'smooth',
-        top: 0,
+        block: 'start',
       });
     }
     //Scroll to bottom general
     if (e.target.matches('#scroll-to-bottom')) {
-      window.scrollTo({
-        behavior: 'smooth',
-        top: 50000,
-      });
+      const parallaxContainer = document.querySelector('#parallax-container');
+      if (parallaxContainer) {
+        parallaxContainer.scrollTo({
+          behavior: 'smooth',
+          top: parallaxContainer.scrollHeight,
+        });
+      }
     }
   });
 
