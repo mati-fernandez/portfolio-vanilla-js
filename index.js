@@ -1,29 +1,60 @@
 //Establecer todo el js después de la carga del dom:
 document.addEventListener('DOMContentLoaded', (e) => {
+  // Selectores
   const $scrollToBottom = document.querySelector('#scroll-to-bottom');
+  const content = document.getElementById('content');
+  const parallaxBackground = document.getElementById('parallax-background');
 
   //Variables y constantes de uso global:
   const mobileVersionMaxAspectRatio = 0.8;
   let mobileVersion =
     window.innerWidth / window.innerHeight < 0.8 ? true : false;
 
-  // Parallax background height adjustment
-  const content = document.getElementById('content');
-  const parallaxBackground = document.getElementById('parallax-background');
-
   // Efecto "Burbujas en el agua"
-  document.addEventListener('mousemove', (event) => {
-    const x = (event.clientX / window.innerWidth) * 2 - 1; // Coordenada X del ratón
-    const y = (event.clientY / window.innerHeight) * 2 - 1; // Coordenada Y del ratón
+  const shapes = document.querySelectorAll('.shape');
 
-    const shapes = document.querySelectorAll('.shape');
+  // Configura las propiedades iniciales de las formas
+  shapes.forEach((shape, index) => {
+    shape.style.position = 'absolute';
+    shape.style.borderRadius = '50%';
+    shape.style.backgroundColor = `rgba(255, 255, 255, 0.5)`;
+    shape.style.width = `${50 + Math.random() * 100}px`; // Tamaños aleatorios
+    shape.style.height = shape.style.width;
 
-    shapes.forEach((shape) => {
-      shape.style.transform = `translate(-50%, -50%) translate3d(${x * 10}px, ${
-        y * 10
-      }px, 0)`;
-    });
+    // Posición inicial dentro del rango visible
+    const top = 30 + Math.random() * 45; // Entre 30% y 60% de la altura de la pantalla
+    const left = 10 + Math.random() * 65; // Entre 10% y 20% del ancho de la pantalla
+
+    shape.style.top = `${top}%`;
+    shape.style.left = `${left}%`;
   });
+
+  // Variables para manejar el movimiento
+  let mouseX = 0;
+  let mouseY = 0;
+
+  // Escucha el movimiento del ratón
+  document.addEventListener('mousemove', (event) => {
+    mouseX = (event.clientX / window.innerWidth) * 20 - 10;
+    mouseY = (event.clientY / window.innerHeight) * 20 - 10;
+  });
+
+  // Función de animación
+  function animateShapes() {
+    shapes.forEach((shape, index) => {
+      const floatY = Math.sin(Date.now() / 1000 + index) * 20; // Animación flotante en Y
+
+      const x = parseFloat(shape.style.left) + mouseX;
+      const y = parseFloat(shape.style.top) + floatY;
+
+      shape.style.transform = `translate(${mouseX}px, ${floatY}px)`;
+    });
+
+    requestAnimationFrame(animateShapes); // Solicita el siguiente cuadro de animación
+  }
+
+  // Inicia la animación
+  animateShapes();
 
   // Ajustar altura del parallax al total del content
   function adjustParallaxHeight() {
