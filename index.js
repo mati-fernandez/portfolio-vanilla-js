@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
     if (isFirefox) {
       if (mobileVersion) {
         parallaxBackground.style.transform = 'translateZ(-10px) scale(2.1)';
-        parallaxBackground.style.height = `${contentHeight * 0.69}px`;
+        parallaxBackground.style.height = `${contentHeight * 0.67}px`;
       } else {
-        parallaxBackground.style.height = `${contentHeight * 0.72}px`;
+        parallaxBackground.style.height = `${contentHeight * 0.71}px`;
         parallaxBackground.style.transform = 'translateZ(-10px) scale(2.1)';
       }
     } else {
