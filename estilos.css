@@ -64,7 +64,7 @@ body {
 #parallax-background {
   /* height: SE AJUSTA DESDE JS*/
   transform: translateZ(-10px) scale(2.4);
-  filter: blur(3px);
+  filter: blur(2.5px);
   width: 100%;
 }
 
@@ -74,12 +74,12 @@ body {
   border-radius: 50%;
   background: radial-gradient(
     circle at 25% 25%,
-    rgba(255, 255, 255, 0.404) 0%,
-    rgba(0, 255, 255, 0.113) 100%
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.4) 30%,
+    rgba(0, 255, 255, 0.2) 100%
   );
-  box-shadow: inset -10px -10px 20px rgba(255, 255, 255, 0.5),
+  box-shadow: inset -10px -10px 20px rgba(255, 255, 255, 0.6),
     inset 10px 10px 20px rgba(0, 0, 0, 0.5);
-
   animation: float 5s ease-in-out infinite;
   will-change: transform;
 }
