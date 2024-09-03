@@ -67,28 +67,19 @@ body {
   width: 100%;
 }
 
-.shape1 {
-  width: 100px;
-  height: 100px;
-  top: 30%;
-  left: 10%;
-  background-color: red;
-}
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 25% 25%,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(0, 255, 255, 0.2) 100%
+  );
+  box-shadow: inset -10px -10px 20px rgba(255, 255, 255, 0.5),
+    inset 10px 10px 20px rgba(0, 0, 0, 0.2);
 
-.shape2 {
-  width: 150px;
-  height: 150px;
-  top: 50%;
-  left: 70%;
-  background-color: blue;
-}
-
-.shape3 {
-  width: 200px;
-  height: 200px;
-  top: 60%;
-  left: 20%;
-  background-color: green;
+  animation: float 5s ease-in-out infinite;
+  will-change: transform;
 }
 
 #content {

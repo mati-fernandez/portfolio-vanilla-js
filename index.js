@@ -15,9 +15,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
   // Configura las propiedades iniciales de las formas
   shapes.forEach((shape, index) => {
-    shape.style.position = 'absolute';
-    shape.style.borderRadius = '50%';
-    shape.style.backgroundColor = `rgba(255, 255, 255, 0.5)`;
     shape.style.width = `${50 + Math.random() * 100}px`; // Tamaños aleatorios
     shape.style.height = shape.style.width;
 
