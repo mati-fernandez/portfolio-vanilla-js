@@ -333,6 +333,10 @@ img#profile-pic {
   text-decoration: none;
 }
 
+#mobile-rqm {
+  display: none;
+}
+
 .card a,
 footer a {
   color: var(--color3);
@@ -506,6 +510,16 @@ footer {
   .card {
     text-align: center;
     width: 100%;
+  }
+
+  #rqm {
+    display: none;
+  }
+
+  #mobile-rqm {
+    display: block;
+    max-height: 232px;
+    max-width: 90%;
   }
 
   #calc-img {

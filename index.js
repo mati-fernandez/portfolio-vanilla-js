@@ -12,47 +12,36 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
   // Efecto "Burbujas en el agua"
   const shapes = document.querySelectorAll('.shape');
-
   // Configura las propiedades iniciales de las formas
   shapes.forEach((shape, index) => {
     shape.style.width = `${50 + Math.random() * 100}px`; // Tamaños aleatorios
     shape.style.height = shape.style.width;
-
     // Posición inicial dentro del rango visible
     const top = 27 + Math.random() * 50;
     const left = 10 + Math.random() * 65;
-
     shape.style.top = `${top}%`;
     shape.style.left = `${left}%`;
-
     // Añadir un retraso aleatorio para el movimiento
     shape.dataset.delay = Math.random() * 1000; // Retraso entre 0 y 1000 ms
   });
-
   // Variables para manejar el movimiento
   let mouseX = 0;
   let mouseY = 0;
-
   // Escucha el movimiento del ratón
   document.addEventListener('mousemove', (event) => {
     mouseX = (event.clientX / window.innerWidth) * 20 - 10;
     mouseY = (event.clientY / window.innerHeight) * 20 - 10;
   });
-
   // Función de animación
   function animateShapes() {
     shapes.forEach((shape, index) => {
       const floatY = Math.sin(Date.now() / 1000 + index) * 20; // Animación flotante en Y
-
       const x = parseFloat(shape.style.left) + mouseX;
       const y = parseFloat(shape.style.top) + floatY;
-
       shape.style.transform = `translate(${mouseX}px, ${floatY}px)`;
     });
-
     requestAnimationFrame(animateShapes); // Solicita el siguiente cuadro de animación
   }
-
   // Inicia la animación
   animateShapes();
 
