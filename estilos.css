@@ -306,22 +306,19 @@ img#profile-pic {
 }
 
 .card {
-  display: flex;
-  flex-direction: column;
-  align-self: center;
-  grid-template-rows: 10% 80% 10%;
+  display: grid;
+  grid-template-rows: 3% 94% 3%;
+  aspect-ratio: 1;
   text-align: center;
   align-items: center;
   justify-items: center;
   width: 100%;
   border-radius: 10px;
-  gap: 3vh;
   margin: 6vh 0 0;
 }
 
 .card img {
-  width: 100%;
-  max-height: 300px;
+  width: 80%;
   object-fit: contain;
   aspect-ratio: 1;
 }
@@ -329,12 +326,12 @@ img#profile-pic {
 .card a {
   background-color: var(--color1);
   width: max-content;
-  padding: 3px 20px;
+  padding: 3px 10px;
   text-decoration: none;
 }
 
-#mobile-rqm {
-  display: none;
+#rqm {
+  width: 120%;
 }
 
 .card a,
@@ -343,11 +340,16 @@ footer a {
 }
 
 #seccion-certificaciones {
+  & .card {
+    grid-template-rows: 97% 3%;
+    margin: 3vh 0 6vh;
+    aspect-ratio: unset;
+  }
   & img {
     aspect-ratio: unset;
   }
-  & .card {
-    margin-top: 3vh;
+  & a {
+    margin-top: 20px;
   }
 }
 
@@ -504,26 +506,28 @@ footer {
     display: flex;
     flex-direction: column;
     padding: 10px 5px;
-    gap: 20px;
+    /* gap: 20px; */
   }
 
   .card {
+    display: flex;
+    flex-direction: column;
     text-align: center;
     width: 100%;
+    aspect-ratio: unset;
+  }
+
+  .card img {
+    margin: 2vh 0;
+    width: 90%;
   }
 
   #rqm {
-    display: none;
-  }
-
-  #mobile-rqm {
-    display: block;
-    max-height: 232px;
-    max-width: 90%;
+    width: 90%;
+    aspect-ratio: unset;
   }
 
   #calc-img {
-    max-height: 400px;
     aspect-ratio: unset;
   }
 
