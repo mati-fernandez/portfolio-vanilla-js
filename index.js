@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   function adjustParallaxHeight() {
     const isFirefox = typeof InstallTrigger !== 'undefined';
     const contentHeight = content.offsetHeight;
-      // console.log('Content Height:', contentHeight);
+    // console.log('Content Height:', contentHeight);
     if (isFirefox) {
       if (mobileVersion) {
         parallaxBackground.style.transform = 'translateZ(-10px) scale(2.1)';

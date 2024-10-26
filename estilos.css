@@ -345,10 +345,10 @@ footer a {
   color: var(--color3);
 }
 
+/*****************************************************/
+
 #seccion-certificaciones {
   & .card {
-    grid-template-rows: 97% 3%;
-    margin: 3vh 0 6vh;
     aspect-ratio: unset;
   }
   & img {
