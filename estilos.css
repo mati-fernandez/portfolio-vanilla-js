@@ -230,7 +230,7 @@ img#profile-pic {
 
 #seccion-skills h2 {
   position: absolute;
-  top: 7vh;
+  top: 5vh; /*revisar*/
 }
 
 .skills-list {
