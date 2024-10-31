@@ -21,6 +21,7 @@ html {
   --color4: #1c6fc2;
   --font-size-landscape: calc((1vw + 1vh) * 0.8);
   --font-size-portrait: calc((1vw + 1vh) * 1.2);
+  --font-size-portrait: calc((1vw + 1vh) * 1.2);
 }
 
 ::-webkit-scrollbar {
@@ -225,7 +226,6 @@ img#profile-pic {
   justify-content: center;
   z-index: 1;
   height: 100svh;
-  padding: 0 10vw;
 }
 
 #seccion-skills h2 {
@@ -234,17 +234,28 @@ img#profile-pic {
 }
 
 .skills-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: calc((1vw + 1vh));
   list-style: none;
   padding: 0;
   width: 80%;
   margin-bottom: 20px;
-  line-height: 2;
+  line-height: 6vh;
+  & img {
+    margin-right: 1vw;
+  }
+  & span {
+    margin-right: 0;
+  }
 }
 
 .skills-list li {
   display: flex;
   align-items: center;
   margin-bottom: 2vh;
+  justify-content: center;
+  transform: translateX(7%);
 }
 
 .skill-container {
@@ -252,10 +263,6 @@ img#profile-pic {
   width: 15%;
   justify-content: right;
   align-items: center;
-}
-
-.skills-list img {
-  margin-right: 15px;
 }
 
 .skills-list img.landscape {
@@ -279,8 +286,8 @@ img#profile-pic {
 
 .progress-bar {
   background-color: var(--color3);
-  width: 85%;
-  height: calc(var(--font-size-landscape) * 0.6);
+  width: 50%;
+  height: calc(var(--font-size-landscape) * 0.8);
   margin-left: 10px;
   overflow: hidden;
 }
@@ -339,10 +346,10 @@ footer a {
   color: var(--color3);
 }
 
+/*****************************************************/
+
 #seccion-certificaciones {
   & .card {
-    grid-template-rows: 97% 3%;
-    margin: 3vh 0 6vh;
     aspect-ratio: unset;
   }
   & img {
@@ -393,6 +400,7 @@ footer {
 /******************** DEJAR ASI POR PANTALLA CUADRADA !!!!!!!*/
 @media (max-aspect-ratio: 0.8) {
   body {
+    font-size: var(--font-size-portrait);
     font-size: var(--font-size-portrait);
   }
 
@@ -460,13 +468,17 @@ footer {
   /*******************************************************************/
 
   .skills-list {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
     width: 90%;
-    line-height: calc(var(--font-size-portrait) * 2.7);
-    transform: translateY(3%); /*Dejar asi por pantalla cuadrada*/
+    line-height: calc(var(--font-size-portrait) * 2);
+    transform: translateY(5%); /*Dejar asi por pantalla cuadrada*/
   }
 
   .skills-list li {
     justify-content: center;
+    transform: translateX(-6vw);
   }
 
   .skill-container {
@@ -487,8 +499,8 @@ footer {
 
   .progress-bar {
     width: 60%;
-    margin-right: 1vw;
-    height: var(--font-size-portrait);
+    /* margin-right: 1vw; */
+    height: calc(var(--font-size-portrait) * 0.6);
   }
 
   /********************************************************************/
