@@ -337,6 +337,22 @@ img#profile-pic {
   text-decoration: none;
 }
 
+.secondary {
+  display: none;
+}
+
+.view-more {
+  background: none;
+  border: none;
+  color: var(--color-claro);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+#view-less-cert {
+  display: none;
+}
+
 #rqm {
   width: 120%;
 }
@@ -527,6 +543,10 @@ footer {
     text-align: center;
     width: 100%;
     aspect-ratio: unset;
+  }
+
+  .secondary {
+    display: none;
   }
 
   .card img {
