@@ -115,7 +115,7 @@ section {
 }
 
 h2 {
-  margin: 0;
+  margin-bottom: 10px;
 }
 
 h4 {
@@ -321,7 +321,7 @@ img#profile-pic {
   justify-items: center;
   width: 100%;
   border-radius: 10px;
-  margin: 6vh 0 0;
+  margin: 6vh 0;
 }
 
 .card img {
