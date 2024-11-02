@@ -115,7 +115,7 @@ section {
 }
 
 h2 {
-  margin: 0;
+  margin-bottom: 10px;
 }
 
 h4 {
@@ -321,7 +321,7 @@ img#profile-pic {
   justify-items: center;
   width: 100%;
   border-radius: 10px;
-  margin: 6vh 0 0;
+  margin: 6vh 0;
 }
 
 .card img {
@@ -335,6 +335,22 @@ img#profile-pic {
   width: max-content;
   padding: 3px 10px;
   text-decoration: none;
+}
+
+.secondary {
+  display: none;
+}
+
+.view-more {
+  background: none;
+  border: none;
+  color: var(--color-claro);
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+#view-less-cert {
+  display: none;
 }
 
 #rqm {

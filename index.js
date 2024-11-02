@@ -10,6 +10,25 @@ document.addEventListener('DOMContentLoaded', (e) => {
   let mobileVersion =
     window.innerWidth / window.innerHeight < 0.8 ? true : false;
 
+  // View more
+  const $viewMoreCert = document.querySelector('#view-more-cert');
+  const $viewLessCert = document.querySelector('#view-less-cert');
+  const $secondaryCerts = document.querySelectorAll('.card.secondary');
+
+  $viewMoreCert.addEventListener('click', () => {
+    $viewMoreCert.style.display = 'none';
+    $viewLessCert.style.display = 'inline-block';
+    $secondaryCerts.forEach((card) => (card.style.display = 'grid'));
+    console.log($secondaryCerts);
+  });
+
+  $viewLessCert.addEventListener('click', () => {
+    $viewMoreCert.style.display = 'inline-block';
+    $viewLessCert.style.display = 'none';
+    $secondaryCerts.forEach((card) => (card.style.display = 'none'));
+    console.log($secondaryCerts);
+  });
+
   // Efecto "Burbujas en el agua"
   const shapes = document.querySelectorAll('.shape');
   // Configura las propiedades iniciales de las formas
