@@ -61,168 +61,28 @@
               <div id="caja-fondo-mobile"></div>
               <img
                 name="profile-pic"
-                src="profile-pic.png"
                 alt="Matias profile picture"
                 id="profile-pic"
+                src="avatar.png"
               />
             </div>
             <div id="caja-presentacion">
-              <p id="presentacion">
-                Estoy construyendo mi camino como desarrollador web, trabajando
-                con JavaScript y React mientras exploro nuevas tecnologías. Mis
-                bases en lógica de programación me permiten enfrentar desafíos
-                técnicos con confianza, siempre buscando mejorar y adaptarme a
-                las tendencias del mercado.
-              </p>
+              <p id="presentacion">Cargando...</p>
             </div>
           </div>
           <i class="fa fa-solid fa-chevron-down fa-bounce"></i>
         </section>
         <section id="seccion-skills" loading="lazy">
           <h2>Habilidades</h2>
-          <ul class="skills-list">
-            <li>
-              <div class="skill-container">
-                <img src="html-5.png" class="tech" alt="HTML 5" />
-                <span class="skill-name">HTML 5</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 55%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="css-3.png" class="tech" alt="CSS 3" />
-                <span class="skill-name">CSS 3</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 63%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="sass.png" class="tech" alt="Sass" />
-                <span class="skill-name">Sass</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 22%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img id="js-icon" src="js.png" class="tech" alt="JavaScript" />
-                <span class="skill-name">JavaScript</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 63%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img
-                  id="ts-icon"
-                  src="ts.png"
-                  className="tech"
-                  alt="TypeScript"
-                />
-                <span class="skill-name">TypeScript</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 11%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="git.png" class="tech" alt="Git" />
-                <span class="skill-name">Git</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 33%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="react.png" class="tech" alt="React JS" />
-                <span class="skill-name">React JS</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 60%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="nextjs.png" class="tech" alt="Inglés" />
-                <span class="skill-name">Next.js</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 11%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="prisma.png" className="tech" alt="Prisma" />
-                <span class="skill-name">Prisma</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 11%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="redux.png" class="tech" alt="Redux" />
-                <span class="skill-name">Redux</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 11%"></div>
-              </div>
-            </li>
-            <li>
-              <div id="router" class="skill-container">
-                <img
-                  src="react-router.png"
-                  class="tech"
-                  alt="React Router v6"
-                />
-                <span class="skill-name"> Router v6 </span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 33%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="figma.png" class="tech" alt="Figma" />
-                <span class="skill-name">Figma</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 52%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="english.png" class="tech english" alt="Inglés" />
-                <span class="skill-name">Inglés</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 65%"></div>
-              </div>
-            </li>
-            <li>
-              <div class="skill-container">
-                <img src="sql.png" class="tech" alt="Inglés" />
-                <span class="skill-name">SQL</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress" style="width: 11%"></div>
-              </div>
-            </li>
-          </ul>
+          <!-- Se cargan dinamicamente -->
+          <ul class="skills-list"></ul>
           <i class="fa fa-solid fa-chevron-down fa-bounce"></i>
         </section>
         <!---------------------------- PROYECTOS ---------------------------->
         <section id="seccion-proyectos" class="seccion-pec" loading="lazy">
           <h2>Proyectos</h2>
-          <div class="pec">
+          <div id="proyectos" class="pec">
+            <!-- Se cargan dinamicamente -->
             <div class="card">
               <h4>Máquina de citas aleatorias (React)</h4>
               <img
@@ -258,7 +118,11 @@
             </div>
             <div class="card">
               <h4>Calculadora (React)</h4>
-              <img id="calc-img" src="js-calculator.png" alt="JS Calculator" />
+              <img
+                id="calculator"
+                src="js-calculator.png"
+                alt="JS Calculator"
+              />
               <a
                 href="https://mati-fernandez.github.io/js-calculator/"
                 target="_blank"

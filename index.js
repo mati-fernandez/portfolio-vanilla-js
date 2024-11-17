@@ -1,5 +1,86 @@
+window.appData = null;
+window.appImages = null;
 //Establecer todo el js después de la carga del dom:
-document.addEventListener('DOMContentLoaded', (e) => {
+document.addEventListener('DOMContentLoaded', async (e) => {
+  // Carga de recursos
+  // Textos
+  try {
+    const response = await fetch('https://portfolio-4oh.pages.dev/es.json');
+    window.appData = await response.json();
+    document.querySelector('#presentacion').textContent =
+      window.appData.description;
+    // Agregar proyectos
+    let projectsCounter = 0;
+    Object.values(window.appData.projects).forEach((project) => {
+      const divCard = document.createElement('div');
+      divCard.classList.add('card');
+
+      const h4 = document.createElement('h4');
+      const anchor = document.createElement('a');
+      anchor.textContent = project.open;
+
+      const divSpace = document.createElement('div');
+      divSpace.classList.add('space');
+
+      // Crear la estructura
+      const divProyectos = document.querySelector('#proyectos');
+      divProyectos.appendChild(divCard);
+      divCard.appendChild(h4);
+      h4.textContent = project.title;
+      divCard.appendChild(anchor);
+      if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
+    });
+  } catch (error) {
+    console.log('Error al cargar el texto de la app');
+  }
+  // Imágenes (Skills están acá por ahora)
+  try {
+    const response = await fetch('https://portfolio-4oh.pages.dev/images.json');
+    window.appImages = await response.json();
+    // Agregar skills
+    Object.values(window.appImages.skills).forEach((skill) => {
+      const li = document.createElement('li');
+      const divContainer = document.createElement('div');
+      divContainer.classList.add('skill-container');
+
+      const img = document.createElement('img');
+      img.classList.add('tech');
+      img.src = skill.src;
+      img.alt = skill.alt;
+
+      const span = document.createElement('span');
+      span.classList.add('skill-name');
+      span.textContent = skill.alt;
+
+      const divProgressBar = document.createElement('div');
+      divProgressBar.classList.add('progress-bar');
+
+      const divProgress = document.createElement('div');
+      divProgress.classList.add('progress');
+      divProgress.style.width = skill.progress;
+
+      // Construir la estructura
+      const skills = document.querySelector('.skills-list');
+      skills.appendChild(li);
+      li.appendChild(divContainer);
+      divContainer.appendChild(img);
+      divContainer.appendChild(span);
+      li.appendChild(divProgressBar);
+      divProgressBar.appendChild(divProgress);
+    });
+    // Agregar imágenes y enlaces a proyectos
+    const proyectos = document.querySelectorAll('#proyectos .card');
+    console.log(proyectos);
+
+    Object.entries(window.appImages).forEach((project) => {});
+    const img = document.createElement('img');
+    img.id = anchor.href = project.link;
+
+    divCard.appendChild(img);
+  } catch (error) {
+    console.log('Error al cargar las imágenes de la app:', error);
+  }
+
   // Selectores
   const $scrollToBottom = document.querySelector('#scroll-to-bottom');
   const content = document.getElementById('content');
