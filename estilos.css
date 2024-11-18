@@ -1,3 +1,4 @@
+/*DESKTOP FIRST!!!*/
 *,
 *::before,
 *::after,
@@ -488,7 +489,7 @@ footer {
     flex-direction: column;
     align-content: center;
     width: 90%;
-    line-height: calc(var(--font-size-portrait) * 2);
+    line-height: calc(var(--font-size-portrait) * 1);
     transform: translateY(5%); /*Dejar asi por pantalla cuadrada*/
   }
 
