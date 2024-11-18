@@ -11,28 +11,31 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       window.appData.description;
     // Agregar proyectos
     let projectsCounter = 0;
-    Object.values(window.appData.projects.projectsList).forEach((project) => {
-      const divCard = document.createElement('div');
-      divCard.classList.add('card');
+    Object.entries(window.appData.projects.projectsList).forEach(
+      ([key, project]) => {
+        if (key === 'portfolioJS') return;
+        const divCard = document.createElement('div');
+        divCard.classList.add('card');
 
-      const h4 = document.createElement('h4');
-      const anchor = document.createElement('a');
-      anchor.textContent = project.open;
-      anchor.target = '_blank';
+        const h4 = document.createElement('h4');
+        const anchor = document.createElement('a');
+        anchor.textContent = project.open;
+        anchor.target = '_blank';
 
-      const divSpace = document.createElement('div');
-      divSpace.classList.add('space');
+        const divSpace = document.createElement('div');
+        divSpace.classList.add('space');
 
-      // Crear la estructura
-      const divProyectos = document.querySelector('#proyectos');
-      divProyectos.appendChild(divCard);
-      divCard.appendChild(h4);
-      h4.textContent = project.title;
-      divCard.appendChild(anchor);
-      projectsCounter++;
-      if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
-      console.log('projects counter', projectsCounter);
-    });
+        // Crear la estructura
+        const divProyectos = document.querySelector('#proyectos');
+        divProyectos.appendChild(divCard);
+        divCard.appendChild(h4);
+        h4.textContent = project.title;
+        divCard.appendChild(anchor);
+        projectsCounter++;
+        if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
+        console.log('projects counter', projectsCounter);
+      }
+    );
   } catch (error) {
     console.log('Error al cargar el texto de la app');
   }
@@ -71,21 +74,22 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       li.appendChild(divProgressBar);
       divProgressBar.appendChild(divProgress);
     });
+
     // Agregar imágenes y enlaces a proyectos
     const proyectos = document.querySelectorAll('#proyectos .card');
+    let projecCount = 0;
+    Object.entries(window.appImages.projects).forEach(([key, project]) => {
+      if (key === 'portfolioJS') return;
+      const img = document.createElement('img');
+      const h4 = proyectos[projecCount].querySelector('h4');
+      h4.insertAdjacentElement('afterend', img);
+      img.id = key;
+      img.src = project.src;
+      img.alt = project.link;
 
-    Object.entries(window.appImages.projects).forEach(
-      ([key, project], index) => {
-        const img = document.createElement('img');
-        const h4 = proyectos[index].querySelector('h4');
-        h4.insertAdjacentElement('afterend', img);
-        img.id = key;
-        img.src = project.src;
-        img.alt = project.link;
-
-        proyectos[index].querySelector('a').href = project.link;
-      }
-    );
+      proyectos[projecCount].querySelector('a').href = project.link;
+      projecCount++;
+    });
   } catch (error) {
     console.log('Error al cargar las imágenes de la app:', error);
   }
