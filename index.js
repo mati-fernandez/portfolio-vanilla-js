@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       window.appData.description;
     // Agregar proyectos
     let projectsCounter = 0;
-    Object.values(window.appData.projects).forEach((project) => {
+    Object.values(window.appData.projects.projectsList).forEach((project) => {
       const divCard = document.createElement('div');
       divCard.classList.add('card');
 
       const h4 = document.createElement('h4');
       const anchor = document.createElement('a');
       anchor.textContent = project.open;
+      anchor.target = '_blank';
 
       const divSpace = document.createElement('div');
       divSpace.classList.add('space');
@@ -28,7 +29,9 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       divCard.appendChild(h4);
       h4.textContent = project.title;
       divCard.appendChild(anchor);
+      projectsCounter++;
       if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
+      console.log('projects counter', projectsCounter);
     });
   } catch (error) {
     console.log('Error al cargar el texto de la app');
@@ -70,13 +73,19 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     });
     // Agregar imágenes y enlaces a proyectos
     const proyectos = document.querySelectorAll('#proyectos .card');
-    console.log(proyectos);
 
-    Object.entries(window.appImages).forEach((project) => {});
-    const img = document.createElement('img');
-    img.id = anchor.href = project.link;
+    Object.entries(window.appImages.projects).forEach(
+      ([key, project], index) => {
+        const img = document.createElement('img');
+        const h4 = proyectos[index].querySelector('h4');
+        h4.insertAdjacentElement('afterend', img);
+        img.id = key;
+        img.src = project.src;
+        img.alt = project.link;
 
-    divCard.appendChild(img);
+        proyectos[index].querySelector('a').href = project.link;
+      }
+    );
   } catch (error) {
     console.log('Error al cargar las imágenes de la app:', error);
   }
