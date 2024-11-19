@@ -331,6 +331,10 @@ img#profile-pic {
   aspect-ratio: 1;
 }
 
+.card img.landscape {
+  width: 100%;
+}
+
 .card a {
   background-color: var(--color1);
   width: max-content;
@@ -352,10 +356,6 @@ img#profile-pic {
 
 #view-less-cert {
   display: none;
-}
-
-#rqm {
-  width: 120%;
 }
 
 .card a,
@@ -552,16 +552,10 @@ footer {
 
   .card img {
     margin: 2vh 0;
-    width: 90%;
-  }
-
-  #rqm {
-    width: 90%;
     aspect-ratio: unset;
-  }
-
-  #calculator {
-    aspect-ratio: unset;
+    &.landscape {
+      width: 85%;
+    }
   }
 
   /************************* Contacto ************/

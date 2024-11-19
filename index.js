@@ -2,6 +2,46 @@ window.appData = null;
 window.appImages = null;
 //Establecer todo el js después de la carga del dom:
 document.addEventListener('DOMContentLoaded', async (e) => {
+  //Variables y constantes de uso global:
+  const mobileVersionMaxAspectRatio = 0.8;
+  let mobileVersion =
+    window.innerWidth / window.innerHeight < 0.8 ? true : false;
+
+  // Actualiza el modo actual del viewport
+  const updateViewportMode = () => {
+    const aspectRatio = window.innerWidth / window.innerHeight;
+    if (
+      e.target.innerWidth / e.target.innerHeight <
+      mobileVersionMaxAspectRatio
+    ) {
+      mobileVersion = true;
+      console.log('Mobile view', mobileVersion);
+    } else if (
+      e.target.innerWidth / e.target.innerHeight <=
+        mobileVersionMaxAspectRatio &&
+      mobileVersion
+    ) {
+      mobileVersion = false;
+      console.log('Mobile view', mobileVersion);
+    }
+  };
+
+  // Establecer aspect ratio de las img para aplicar estilo adecuado
+  const detectImgAspectRatio = (img) => {
+    img.addEventListener('load', () => {
+      if (img.naturalWidth > img.naturalHeight) {
+        img.classList.add('landscape');
+      } else {
+        img.classList.add('portrait');
+      }
+    });
+
+    // Si la imagen ya se cargó (para navegadores que no disparan 'load' en imágenes ya cargadas)
+    if (img.complete) {
+      img.dispatchEvent(new Event('load'));
+    }
+  };
+
   // Carga de recursos
   // Textos
   try {
@@ -104,6 +144,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       img.classList.add('tech');
       img.src = skill.src;
       img.alt = skill.alt;
+      detectImgAspectRatio(img);
 
       const span = document.createElement('span');
       span.classList.add('skill-name');
@@ -137,6 +178,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       img.id = key;
       img.src = project.src;
       img.alt = project.alt;
+      detectImgAspectRatio(img);
 
       proyectos[projecCount].querySelector('a').href = project.link;
       projecCount++;
@@ -151,6 +193,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
         img.id = key;
         img.src = exercise.src;
         img.alt = exercise.alt;
+        detectImgAspectRatio(img);
 
         ejercicios[index].querySelector('a').href = exercise.link;
       }
@@ -165,6 +208,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
         img.id = key;
         img.src = certification.src;
         img.alt = certification.alt;
+        detectImgAspectRatio(img);
 
         certificaciones[index].querySelector('a').href = certification.link;
 
@@ -180,11 +224,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
   const $scrollToBottom = document.querySelector('#scroll-to-bottom');
   const content = document.getElementById('content');
   const parallaxBackground = document.getElementById('parallax-background');
-
-  //Variables y constantes de uso global:
-  const mobileVersionMaxAspectRatio = 0.8;
-  let mobileVersion =
-    window.innerWidth / window.innerHeight < 0.8 ? true : false;
 
   // View more
   const $viewMoreCert = document.querySelector('#view-more-cert');
@@ -258,22 +297,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 
   adjustParallaxHeight();
 
-  // Asignación de aspect ratio a imágenes de habilidades
-  document.querySelectorAll('.skills-list img').forEach((img) => {
-    img.addEventListener('load', () => {
-      if (img.naturalWidth > img.naturalHeight) {
-        img.classList.add('landscape');
-      } else {
-        img.classList.add('portrait');
-      }
-    });
-
-    // Si la imagen ya se cargó (para navegadores que no disparan 'load' en imágenes ya cargadas)
-    if (img.complete) {
-      img.dispatchEvent(new Event('load'));
-    }
-  });
-
   //Manejo de eventos click
   document.addEventListener('click', (e) => {
     //Scroll to top general
@@ -316,9 +339,11 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     }
   });
 
+  // Reasignación del tipo de ventana durante evento resize
   window.addEventListener('resize', (e) => {
     mobileVersion = window.innerWidth / window.innerHeight < 0.8 ? true : false;
-    // console.log('Mobile version:', mobileVersion);
     adjustParallaxHeight();
+    updateViewportMode();
+    console.log('Mobile version:', mobileVersion);
   });
 });
