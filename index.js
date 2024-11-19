@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     window.appData = await response.json();
     document.querySelector('#presentacion').textContent =
       window.appData.description;
-    // Agregar proyectos
+    // Agregar textos de proyectos
     let projectsCounter = 0;
     Object.entries(window.appData.projects.projectsList).forEach(
       ([key, project]) => {
@@ -33,12 +33,63 @@ document.addEventListener('DOMContentLoaded', async (e) => {
         divCard.appendChild(anchor);
         projectsCounter++;
         if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
-        console.log('projects counter', projectsCounter);
+      }
+    );
+    // Agregar textos de ejercicios
+    let exercisesCounter = 0;
+    Object.values(window.appData.exercises.exercisesList).forEach(
+      (exercise) => {
+        const divCard = document.createElement('div');
+        divCard.classList.add('card');
+
+        const h4 = document.createElement('h4');
+        const anchor = document.createElement('a');
+        anchor.textContent = exercise.open;
+        anchor.target = '_blank';
+
+        const divSpace = document.createElement('div');
+        divSpace.classList.add('space');
+
+        // Crear la estructura
+        const divEjercicios = document.querySelector('#ejercicios');
+        divEjercicios.appendChild(divCard);
+        divCard.appendChild(h4);
+        h4.textContent = exercise.title;
+        divCard.appendChild(anchor);
+        exercisesCounter++;
+        if (exercisesCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
+      }
+    );
+    // Agregar textos de certificaciones
+    let certificationsCounter = 0;
+    Object.values(window.appData.certifications.certificationsList).forEach(
+      (certification) => {
+        const divCard = document.createElement('div');
+        divCard.classList.add('card');
+
+        const h4 = document.createElement('h4');
+        const anchor = document.createElement('a');
+        anchor.textContent = certification.open;
+        anchor.target = '_blank';
+
+        const divSpace = document.createElement('div');
+        divSpace.classList.add('space');
+
+        // Crear la estructura
+        const divCertificaciones = document.querySelector('#certificaciones');
+        divCertificaciones.appendChild(divCard);
+        divCard.appendChild(h4);
+        h4.textContent = certification.title;
+        divCard.appendChild(anchor);
+        certificationsCounter++;
+        if (certificationsCounter % 3 !== 0)
+          divCertificaciones.appendChild(divSpace);
       }
     );
   } catch (error) {
-    console.log('Error al cargar el texto de la app');
+    console.log('Error al cargar el texto de la app:', error);
   }
+  /*******************************************************************************/
   // Imágenes (Skills están acá por ahora)
   try {
     const response = await fetch('https://portfolio-4oh.pages.dev/images.json');
@@ -85,11 +136,42 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       h4.insertAdjacentElement('afterend', img);
       img.id = key;
       img.src = project.src;
-      img.alt = project.link;
+      img.alt = project.alt;
 
       proyectos[projecCount].querySelector('a').href = project.link;
       projecCount++;
     });
+    // Agregar imágenes y enlaces a ejercicios
+    const ejercicios = document.querySelectorAll('#ejercicios .card');
+    Object.entries(window.appImages.exercises).forEach(
+      ([key, exercise], index) => {
+        const img = document.createElement('img');
+        const h4 = ejercicios[index].querySelector('h4');
+        h4.insertAdjacentElement('afterend', img);
+        img.id = key;
+        img.src = exercise.src;
+        img.alt = exercise.alt;
+
+        ejercicios[index].querySelector('a').href = exercise.link;
+      }
+    );
+    // Agregar imágenes, enlaces y clases a certificaciones
+    const certificaciones = document.querySelectorAll('#certificaciones .card');
+    Object.entries(window.appImages.certifications).forEach(
+      ([key, certification], index) => {
+        const img = document.createElement('img');
+        const h4 = certificaciones[index].querySelector('h4');
+        h4.insertAdjacentElement('afterend', img);
+        img.id = key;
+        img.src = certification.src;
+        img.alt = certification.alt;
+
+        certificaciones[index].querySelector('a').href = certification.link;
+
+        if (certification.class === 'secondary')
+          certificaciones[index].classList.add('secondary');
+      }
+    );
   } catch (error) {
     console.log('Error al cargar las imágenes de la app:', error);
   }
@@ -113,14 +195,12 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     $viewMoreCert.style.display = 'none';
     $viewLessCert.style.display = 'inline-block';
     $secondaryCerts.forEach((card) => (card.style.display = 'grid'));
-    console.log($secondaryCerts);
   });
 
   $viewLessCert.addEventListener('click', () => {
     $viewMoreCert.style.display = 'inline-block';
     $viewLessCert.style.display = 'none';
     $secondaryCerts.forEach((card) => (card.style.display = 'none'));
-    console.log($secondaryCerts);
   });
 
   // Efecto "Burbujas en el agua"
