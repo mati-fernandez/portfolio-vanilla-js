@@ -166,6 +166,11 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       li.appendChild(divProgressBar);
       divProgressBar.appendChild(divProgress);
     });
+    // Retraso para que no se vea el destello de skills sombre home en mobile
+    const timeOutSkills = setTimeout(() => {
+      document.querySelector('#seccion-skills').style.visibility = 'visible';
+      clearTimeout(timeOutSkills);
+    }, 1000);
 
     // Agregar imágenes y enlaces a proyectos
     const proyectos = document.querySelectorAll('#proyectos .card');

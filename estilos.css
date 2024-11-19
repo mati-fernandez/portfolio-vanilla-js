@@ -227,6 +227,7 @@ img#profile-pic {
   justify-content: center;
   z-index: 1;
   height: 100svh;
+  visibility: hidden;
 }
 
 #seccion-skills h2 {
