@@ -267,12 +267,10 @@ img#profile-pic {
   align-items: center;
 }
 
-.skills-list img.landscape {
-  max-width: calc(var(--font-size-landscape) * 2);
-}
-
-.skills-list img.portrait {
-  max-height: calc(var(--font-size-landscape) * 1.8);
+.skills-list img {
+  margin-right: 0.5rem;
+  max-width: 1.5rem;
+  max-height: 1.5rem;
 }
 
 #js-icon {
@@ -499,16 +497,13 @@ footer {
     transform: translateX(-6vw);
   }
 
+  .skills-list img {
+    max-width: 1rem;
+    max-height: 1rem;
+  }
+
   .skill-container {
     width: 40%;
-  }
-
-  .skills-list img.landscape {
-    max-width: calc(var(--font-size-landscape) * 2.7);
-  }
-
-  .skills-list img.portrait {
-    max-height: calc(var(--font-size-landscape) * 2.5);
   }
 
   #js-icon {

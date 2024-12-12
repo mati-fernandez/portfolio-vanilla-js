@@ -26,22 +26,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
     }
   };
 
-  // Establecer aspect ratio de las img para aplicar estilo adecuado
-  const detectImgAspectRatio = (img) => {
-    img.addEventListener('load', () => {
-      if (img.naturalWidth > img.naturalHeight) {
-        img.classList.add('landscape');
-      } else {
-        img.classList.add('portrait');
-      }
-    });
-
-    // Si la imagen ya se cargó (para navegadores que no disparan 'load' en imágenes ya cargadas)
-    if (img.complete) {
-      img.dispatchEvent(new Event('load'));
-    }
-  };
-
   // Carga de recursos
   // Textos
   try {
@@ -144,7 +128,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       img.classList.add('tech');
       img.src = skill.src;
       img.alt = skill.alt;
-      detectImgAspectRatio(img);
 
       const span = document.createElement('span');
       span.classList.add('skill-name');
@@ -183,7 +166,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       img.id = key;
       img.src = project.src;
       img.alt = project.alt;
-      detectImgAspectRatio(img);
 
       proyectos[projecCount].querySelector('a').href = project.link;
       projecCount++;
@@ -198,7 +180,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
         img.id = key;
         img.src = exercise.src;
         img.alt = exercise.alt;
-        detectImgAspectRatio(img);
 
         ejercicios[index].querySelector('a').href = exercise.link;
       }
@@ -213,7 +194,6 @@ document.addEventListener('DOMContentLoaded', async (e) => {
         img.id = key;
         img.src = certification.src;
         img.alt = certification.alt;
-        detectImgAspectRatio(img);
 
         certificaciones[index].querySelector('a').href = certification.link;
 
