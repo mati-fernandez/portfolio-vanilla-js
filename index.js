@@ -6,10 +6,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const devMode =
     location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   console.log('Modo desarrollo:', devMode);
-  let endpointMode = 'build';
+  let runtimeMode = 'build';
   let mobileVersionMaxAspectRatio = 0.8;
   let mobileVersion =
     window.innerWidth / window.innerHeight < 0.8 ? true : false;
+  let $secondaryCerts = null;
 
   // Actualiza el modo actual del viewport
   const updateViewportMode = () => {
@@ -31,12 +32,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
   };
   // Carga de recursos
   const loadResources = async () => {
-    const contentDevPath = 'http://127.0.0.1:55069/';
-    const contentBuildPath = 'https://portfolio-4oh.pages.dev/';
     const translationsUrl =
-      endpointMode === 'build'
-        ? `${contentBuildPath}/es.json`
-        : `${contentDevPath}/es.json`;
+      runtimeMode === 'build'
+        ? 'https://portfolio-4oh.pages.dev/es.json'
+        : 'http://127.0.0.1:35383/es.json';
     // Textos
     try {
       const response = await fetch(translationsUrl);
@@ -122,22 +121,16 @@ document.addEventListener('DOMContentLoaded', (e) => {
       );
     } catch (error) {
       console.log('Error al cargar el texto de la app:', error);
-      const frontMsg = document.querySelector('#presentacion');
-      if (endpointMode === 'dev') {
-        frontMsg.textContent =
-          'Error de fecth al endpoint Dev, revisa si levantaste los JSON con live server o si cambió el puerto!';
-      } else {
-        frontMsg.textContent = 'Error de fetch al endpoint Build';
-      }
     }
     /*******************************************************************************/
     // Imágenes (Skills están acá por ahora)
-    const imagesUrl =
-      endpointMode === 'build'
-        ? `${contentBuildPath}images.json`
-        : `${contentDevPath}images.json`;
+    const imagesUrlBase =
+      runtimeMode === 'build'
+        ? 'https://portfolio-4oh.pages.dev/'
+        : 'http://127.0.0.1:35383/';
+    const imagesUrlEndpoint = 'images.json';
     try {
-      const response = await fetch(imagesUrl);
+      const response = await fetch(`${imagesUrlBase}/${imagesUrlEndpoint}`);
       window.appImages = await response.json();
       // Agregar skills
       Object.values(window.appImages.skills).forEach((skill) => {
@@ -147,7 +140,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         const img = document.createElement('img');
         img.classList.add('tech');
-        img.src = `${imagesUrl}${skill.src}`;
+        img.src = `${imagesUrlBase}/${skill.src}`;
         img.alt = skill.alt;
 
         const span = document.createElement('span');
@@ -186,7 +179,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         const h4 = proyectos[projecCount].querySelector('h4');
         h4.insertAdjacentElement('afterend', img);
         img.id = key;
-        img.src = `${imagesUrl}${project.src}`;
+        img.src = `${imagesUrlBase}/${project.src}`;
         img.alt = project.alt;
 
         proyectos[projecCount].querySelector('a').href = project.link;
@@ -200,7 +193,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
           const h4 = ejercicios[index].querySelector('h4');
           h4.insertAdjacentElement('afterend', img);
           img.id = key;
-          img.src = exercise.src;
+          img.src = `${imagesUrlBase}/${exercise.src}`;
           img.alt = exercise.alt;
 
           ejercicios[index].querySelector('a').href = exercise.link;
@@ -216,7 +209,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
           const h4 = certificaciones[index].querySelector('h4');
           h4.insertAdjacentElement('afterend', img);
           img.id = key;
-          img.src = certification.src;
+          img.src = `${imagesUrlBase}/${certification.src}`;
           img.alt = certification.alt;
 
           certificaciones[index].querySelector('a').href = certification.link;
@@ -225,6 +218,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
             certificaciones[index].classList.add('secondary');
         }
       );
+      $secondaryCerts = document.querySelectorAll('.card.secondary');
+      console.log($secondaryCerts);
     } catch (error) {
       console.log('Error al cargar las imágenes de la app:', error);
     }
@@ -245,7 +240,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // View more
   const $viewMoreCert = document.querySelector('#view-more-cert');
   const $viewLessCert = document.querySelector('#view-less-cert');
-  const $secondaryCerts = document.querySelectorAll('.card.secondary');
 
   $viewMoreCert.addEventListener('click', () => {
     $viewMoreCert.style.display = 'none';
