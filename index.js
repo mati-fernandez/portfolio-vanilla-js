@@ -1,9 +1,13 @@
 window.appData = null;
 window.appImages = null;
 //Establecer todo el js después de la carga del dom:
-document.addEventListener('DOMContentLoaded', async (e) => {
+document.addEventListener('DOMContentLoaded', (e) => {
   //Variables y constantes de uso global:
-  const mobileVersionMaxAspectRatio = 0.8;
+  const devMode =
+    location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  console.log('Modo desarrollo:', devMode);
+  let endpointMode = 'build';
+  let mobileVersionMaxAspectRatio = 0.8;
   let mobileVersion =
     window.innerWidth / window.innerHeight < 0.8 ? true : false;
 
@@ -25,190 +29,218 @@ document.addEventListener('DOMContentLoaded', async (e) => {
       console.log('Mobile view', mobileVersion);
     }
   };
-
   // Carga de recursos
-  // Textos
-  try {
-    const response = await fetch('https://portfolio-4oh.pages.dev/es.json');
-    window.appData = await response.json();
-    document.querySelector('#presentacion').textContent =
-      window.appData.description;
-    // Agregar textos de proyectos
-    let projectsCounter = 0;
-    Object.entries(window.appData.projects.projectsList).forEach(
-      ([key, project]) => {
+  const loadResources = async () => {
+    const contentDevPath = 'http://127.0.0.1:55069/';
+    const contentBuildPath = 'https://portfolio-4oh.pages.dev/';
+    const translationsUrl =
+      endpointMode === 'build'
+        ? `${contentBuildPath}/es.json`
+        : `${contentDevPath}/es.json`;
+    // Textos
+    try {
+      const response = await fetch(translationsUrl);
+      window.appData = await response.json();
+      document.querySelector('#presentacion').textContent =
+        window.appData.description;
+      // Agregar textos de proyectos
+      let projectsCounter = 0;
+      Object.entries(window.appData.projects.projectsList).forEach(
+        ([key, project]) => {
+          if (key === 'portfolioJS') return;
+          const divCard = document.createElement('div');
+          divCard.classList.add('card');
+
+          const h4 = document.createElement('h4');
+          const anchor = document.createElement('a');
+          anchor.textContent = project.open;
+          anchor.target = '_blank';
+
+          const divSpace = document.createElement('div');
+          divSpace.classList.add('space');
+
+          // Crear la estructura
+          const divProyectos = document.querySelector('#proyectos');
+          divProyectos.appendChild(divCard);
+          divCard.appendChild(h4);
+          h4.textContent = project.title;
+          divCard.appendChild(anchor);
+          projectsCounter++;
+          if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
+        }
+      );
+      // Agregar textos de ejercicios
+      let exercisesCounter = 0;
+      Object.values(window.appData.exercises.exercisesList).forEach(
+        (exercise) => {
+          const divCard = document.createElement('div');
+          divCard.classList.add('card');
+
+          const h4 = document.createElement('h4');
+          const anchor = document.createElement('a');
+          anchor.textContent = exercise.open;
+          anchor.target = '_blank';
+
+          const divSpace = document.createElement('div');
+          divSpace.classList.add('space');
+
+          // Crear la estructura
+          const divEjercicios = document.querySelector('#ejercicios');
+          divEjercicios.appendChild(divCard);
+          divCard.appendChild(h4);
+          h4.textContent = exercise.title;
+          divCard.appendChild(anchor);
+          exercisesCounter++;
+          if (exercisesCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
+        }
+      );
+      // Agregar textos de certificaciones
+      let certificationsCounter = 0;
+      Object.values(window.appData.certifications.certificationsList).forEach(
+        (certification) => {
+          const divCard = document.createElement('div');
+          divCard.classList.add('card');
+
+          const h4 = document.createElement('h4');
+          const anchor = document.createElement('a');
+          anchor.textContent = certification.open;
+          anchor.target = '_blank';
+
+          const divSpace = document.createElement('div');
+          divSpace.classList.add('space');
+
+          // Crear la estructura
+          const divCertificaciones = document.querySelector('#certificaciones');
+          divCertificaciones.appendChild(divCard);
+          divCard.appendChild(h4);
+          h4.textContent = certification.title;
+          divCard.appendChild(anchor);
+          certificationsCounter++;
+          if (certificationsCounter % 3 !== 0)
+            divCertificaciones.appendChild(divSpace);
+        }
+      );
+    } catch (error) {
+      console.log('Error al cargar el texto de la app:', error);
+      const frontMsg = document.querySelector('#presentacion');
+      if (endpointMode === 'dev') {
+        frontMsg.textContent =
+          'Error de fecth al endpoint Dev, revisa si levantaste los JSON con live server o si cambió el puerto!';
+      } else {
+        frontMsg.textContent = 'Error de fetch al endpoint Build';
+      }
+    }
+    /*******************************************************************************/
+    // Imágenes (Skills están acá por ahora)
+    const imagesUrl =
+      endpointMode === 'build'
+        ? `${contentBuildPath}images.json`
+        : `${contentDevPath}images.json`;
+    try {
+      const response = await fetch(imagesUrl);
+      window.appImages = await response.json();
+      // Agregar skills
+      Object.values(window.appImages.skills).forEach((skill) => {
+        const li = document.createElement('li');
+        const divContainer = document.createElement('div');
+        divContainer.classList.add('skill-container');
+
+        const img = document.createElement('img');
+        img.classList.add('tech');
+        img.src = `${imagesUrl}${skill.src}`;
+        img.alt = skill.alt;
+
+        const span = document.createElement('span');
+        span.classList.add('skill-name');
+        span.textContent = skill.alt;
+
+        const divProgressBar = document.createElement('div');
+        divProgressBar.classList.add('progress-bar');
+
+        const divProgress = document.createElement('div');
+        divProgress.classList.add('progress');
+        divProgress.style.width = skill.progress;
+
+        // Construir la estructura
+        const skills = document.querySelector('.skills-list');
+        skills.appendChild(li);
+        li.appendChild(divContainer);
+        divContainer.appendChild(img);
+        divContainer.appendChild(span);
+        li.appendChild(divProgressBar);
+        divProgressBar.appendChild(divProgress);
+      });
+
+      // Retraso para que no se vea el destello de skills sombre home en mobile
+      const timeOutSkills = setTimeout(() => {
+        document.querySelector('#seccion-skills').style.visibility = 'visible';
+        clearTimeout(timeOutSkills);
+      }, 1000);
+
+      // Agregar imágenes y enlaces a proyectos
+      const proyectos = document.querySelectorAll('#proyectos .card');
+      let projecCount = 0;
+      Object.entries(window.appImages.projects).forEach(([key, project]) => {
         if (key === 'portfolioJS') return;
-        const divCard = document.createElement('div');
-        divCard.classList.add('card');
-
-        const h4 = document.createElement('h4');
-        const anchor = document.createElement('a');
-        anchor.textContent = project.open;
-        anchor.target = '_blank';
-
-        const divSpace = document.createElement('div');
-        divSpace.classList.add('space');
-
-        // Crear la estructura
-        const divProyectos = document.querySelector('#proyectos');
-        divProyectos.appendChild(divCard);
-        divCard.appendChild(h4);
-        h4.textContent = project.title;
-        divCard.appendChild(anchor);
-        projectsCounter++;
-        if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
-      }
-    );
-    // Agregar textos de ejercicios
-    let exercisesCounter = 0;
-    Object.values(window.appData.exercises.exercisesList).forEach(
-      (exercise) => {
-        const divCard = document.createElement('div');
-        divCard.classList.add('card');
-
-        const h4 = document.createElement('h4');
-        const anchor = document.createElement('a');
-        anchor.textContent = exercise.open;
-        anchor.target = '_blank';
-
-        const divSpace = document.createElement('div');
-        divSpace.classList.add('space');
-
-        // Crear la estructura
-        const divEjercicios = document.querySelector('#ejercicios');
-        divEjercicios.appendChild(divCard);
-        divCard.appendChild(h4);
-        h4.textContent = exercise.title;
-        divCard.appendChild(anchor);
-        exercisesCounter++;
-        if (exercisesCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
-      }
-    );
-    // Agregar textos de certificaciones
-    let certificationsCounter = 0;
-    Object.values(window.appData.certifications.certificationsList).forEach(
-      (certification) => {
-        const divCard = document.createElement('div');
-        divCard.classList.add('card');
-
-        const h4 = document.createElement('h4');
-        const anchor = document.createElement('a');
-        anchor.textContent = certification.open;
-        anchor.target = '_blank';
-
-        const divSpace = document.createElement('div');
-        divSpace.classList.add('space');
-
-        // Crear la estructura
-        const divCertificaciones = document.querySelector('#certificaciones');
-        divCertificaciones.appendChild(divCard);
-        divCard.appendChild(h4);
-        h4.textContent = certification.title;
-        divCard.appendChild(anchor);
-        certificationsCounter++;
-        if (certificationsCounter % 3 !== 0)
-          divCertificaciones.appendChild(divSpace);
-      }
-    );
-  } catch (error) {
-    console.log('Error al cargar el texto de la app:', error);
-  }
-  /*******************************************************************************/
-  // Imágenes (Skills están acá por ahora)
-  try {
-    const response = await fetch('https://portfolio-4oh.pages.dev/images.json');
-    window.appImages = await response.json();
-    // Agregar skills
-    Object.values(window.appImages.skills).forEach((skill) => {
-      const li = document.createElement('li');
-      const divContainer = document.createElement('div');
-      divContainer.classList.add('skill-container');
-
-      const img = document.createElement('img');
-      img.classList.add('tech');
-      img.src = skill.src;
-      img.alt = skill.alt;
-
-      const span = document.createElement('span');
-      span.classList.add('skill-name');
-      span.textContent = skill.alt;
-
-      const divProgressBar = document.createElement('div');
-      divProgressBar.classList.add('progress-bar');
-
-      const divProgress = document.createElement('div');
-      divProgress.classList.add('progress');
-      divProgress.style.width = skill.progress;
-
-      // Construir la estructura
-      const skills = document.querySelector('.skills-list');
-      skills.appendChild(li);
-      li.appendChild(divContainer);
-      divContainer.appendChild(img);
-      divContainer.appendChild(span);
-      li.appendChild(divProgressBar);
-      divProgressBar.appendChild(divProgress);
-    });
-    // Retraso para que no se vea el destello de skills sombre home en mobile
-    const timeOutSkills = setTimeout(() => {
-      document.querySelector('#seccion-skills').style.visibility = 'visible';
-      clearTimeout(timeOutSkills);
-    }, 1000);
-
-    // Agregar imágenes y enlaces a proyectos
-    const proyectos = document.querySelectorAll('#proyectos .card');
-    let projecCount = 0;
-    Object.entries(window.appImages.projects).forEach(([key, project]) => {
-      if (key === 'portfolioJS') return;
-      const img = document.createElement('img');
-      const h4 = proyectos[projecCount].querySelector('h4');
-      h4.insertAdjacentElement('afterend', img);
-      img.id = key;
-      img.src = project.src;
-      img.alt = project.alt;
-
-      proyectos[projecCount].querySelector('a').href = project.link;
-      projecCount++;
-    });
-    // Agregar imágenes y enlaces a ejercicios
-    const ejercicios = document.querySelectorAll('#ejercicios .card');
-    Object.entries(window.appImages.exercises).forEach(
-      ([key, exercise], index) => {
         const img = document.createElement('img');
-        const h4 = ejercicios[index].querySelector('h4');
+        const h4 = proyectos[projecCount].querySelector('h4');
         h4.insertAdjacentElement('afterend', img);
         img.id = key;
-        img.src = exercise.src;
-        img.alt = exercise.alt;
+        img.src = `${imagesUrl}${project.src}`;
+        img.alt = project.alt;
 
-        ejercicios[index].querySelector('a').href = exercise.link;
-      }
-    );
-    // Agregar imágenes, enlaces y clases a certificaciones
-    const certificaciones = document.querySelectorAll('#certificaciones .card');
-    Object.entries(window.appImages.certifications).forEach(
-      ([key, certification], index) => {
-        const img = document.createElement('img');
-        const h4 = certificaciones[index].querySelector('h4');
-        h4.insertAdjacentElement('afterend', img);
-        img.id = key;
-        img.src = certification.src;
-        img.alt = certification.alt;
+        proyectos[projecCount].querySelector('a').href = project.link;
+        projecCount++;
+      });
+      // Agregar imágenes y enlaces a ejercicios
+      const ejercicios = document.querySelectorAll('#ejercicios .card');
+      Object.entries(window.appImages.exercises).forEach(
+        ([key, exercise], index) => {
+          const img = document.createElement('img');
+          const h4 = ejercicios[index].querySelector('h4');
+          h4.insertAdjacentElement('afterend', img);
+          img.id = key;
+          img.src = exercise.src;
+          img.alt = exercise.alt;
 
-        certificaciones[index].querySelector('a').href = certification.link;
+          ejercicios[index].querySelector('a').href = exercise.link;
+        }
+      );
+      // Agregar imágenes, enlaces y clases a certificaciones
+      const certificaciones = document.querySelectorAll(
+        '#certificaciones .card'
+      );
+      Object.entries(window.appImages.certifications).forEach(
+        ([key, certification], index) => {
+          const img = document.createElement('img');
+          const h4 = certificaciones[index].querySelector('h4');
+          h4.insertAdjacentElement('afterend', img);
+          img.id = key;
+          img.src = certification.src;
+          img.alt = certification.alt;
 
-        if (certification.class === 'secondary')
-          certificaciones[index].classList.add('secondary');
-      }
-    );
-  } catch (error) {
-    console.log('Error al cargar las imágenes de la app:', error);
-  }
+          certificaciones[index].querySelector('a').href = certification.link;
+
+          if (certification.class === 'secondary')
+            certificaciones[index].classList.add('secondary');
+        }
+      );
+    } catch (error) {
+      console.log('Error al cargar las imágenes de la app:', error);
+    }
+  };
+  loadResources();
 
   // Selectores
   const $scrollToBottom = document.querySelector('#scroll-to-bottom');
   const content = document.getElementById('content');
   const parallaxBackground = document.getElementById('parallax-background');
+  const $devModeBtn = document.querySelector('#dev-mode-btn');
+
+  // Estilos condicionados
+  devMode === true
+    ? ($devModeBtn.style.display = 'block')
+    : ($devModeBtn.style.display = 'none');
 
   // View more
   const $viewMoreCert = document.querySelector('#view-more-cert');
@@ -284,6 +316,20 @@ document.addEventListener('DOMContentLoaded', async (e) => {
 
   //Manejo de eventos click
   document.addEventListener('click', (e) => {
+    //Dev mode btn
+    if (e.target.matches('#dev-mode-btn')) {
+      if ($devModeBtn.textContent.includes('Build')) {
+        $devModeBtn.innerHTML = 'Dev <br/> Endpoint';
+        $devModeBtn.classList.add('danger-btn');
+        endpointMode = 'Dev';
+        loadResources();
+      } else {
+        $devModeBtn.innerHTML = 'Build <br/> Endpoint';
+        $devModeBtn.classList.remove('danger-btn');
+        endpointMode = 'Build';
+        loadResources();
+      }
+    }
     //Scroll to top general
     if (e.target.matches('#scroll-to-top')) {
       $scrollToBottom.style.display = 'block';
