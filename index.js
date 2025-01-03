@@ -1,3 +1,4 @@
+import { modalHandler } from './modalHandler.js';
 window.appData = null;
 window.appImages = null;
 //Establecer todo el js después de la carga del dom:
@@ -40,8 +41,27 @@ document.addEventListener('DOMContentLoaded', (e) => {
     try {
       const response = await fetch(translationsUrl);
       window.appData = await response.json();
+
+      // Crear elemento info
+      const $info = document.createElement('p');
+      $info.textContent = 'i';
+      $info.classList.add('info');
+
+      // Declarar variables
+      let title = '';
+      let clone = null;
+
+      // Agregar titulo e info a proyectos
       document.querySelector('#presentacion').textContent =
         window.appData.description;
+      const divProyectos = document.querySelector('#proyectos');
+      title = document.createElement('h2');
+      title.textContent = `${window.appData.menu.projects}`;
+      divProyectos.insertAdjacentElement('beforebegin', title);
+      clone = $info.cloneNode(true);
+      title.insertAdjacentElement('afterend', clone);
+      clone.addEventListener('click', () => modalHandler('projects'));
+
       // Agregar textos de proyectos
       let projectsCounter = 0;
       Object.entries(window.appData.projects.projectsList).forEach(
@@ -59,7 +79,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
           divSpace.classList.add('space');
 
           // Crear la estructura
-          const divProyectos = document.querySelector('#proyectos');
           divProyectos.appendChild(divCard);
           divCard.appendChild(h4);
           h4.textContent = project.title;
@@ -68,6 +87,16 @@ document.addEventListener('DOMContentLoaded', (e) => {
           if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
         }
       );
+
+      // Agregar título e info a ejercicios
+      const divEjercicios = document.querySelector('#ejercicios');
+      title = document.createElement('h2');
+      title.textContent = `${window.appData.menu.exercises}`;
+      divEjercicios.insertAdjacentElement('beforebegin', title);
+      clone = $info.cloneNode(true);
+      title.insertAdjacentElement('afterend', clone);
+      clone.addEventListener('click', () => modalHandler('exercises'));
+
       // Agregar textos de ejercicios
       let exercisesCounter = 0;
       Object.values(window.appData.exercises.exercisesList).forEach(
@@ -84,7 +113,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
           divSpace.classList.add('space');
 
           // Crear la estructura
-          const divEjercicios = document.querySelector('#ejercicios');
           divEjercicios.appendChild(divCard);
           divCard.appendChild(h4);
           h4.textContent = exercise.title;
@@ -93,6 +121,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
           if (exercisesCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
         }
       );
+
+      // Agregar título e info a certificaciones
+      const divCertificaciones = document.querySelector('#certificaciones');
+      title = document.createElement('h2');
+      title.textContent = `${window.appData.menu.certifications}`;
+      divCertificaciones.insertAdjacentElement('beforebegin', title);
+      clone = $info.cloneNode(true);
+      console.log(clone);
+      title.insertAdjacentElement('afterend', $info);
+      clone.addEventListener('click', () => modalHandler('certifications'));
+
       // Agregar textos de certificaciones
       let certificationsCounter = 0;
       Object.values(window.appData.certifications.certificationsList).forEach(
@@ -109,7 +148,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
           divSpace.classList.add('space');
 
           // Crear la estructura
-          const divCertificaciones = document.querySelector('#certificaciones');
           divCertificaciones.appendChild(divCard);
           divCard.appendChild(h4);
           h4.textContent = certification.title;
@@ -123,7 +161,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
       console.log('Error al cargar el texto de la app:', error);
     }
     /*******************************************************************************/
-    // Imágenes (Skills están acá por ahora)
+    /****************** Imágenes (Skills están acá por ahora) **********************/
+    /*******************************************************************************/
     const imagesUrlBase =
       runtimeMode === 'build'
         ? 'https://portfolio-4oh.pages.dev/'
@@ -132,6 +171,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
     try {
       const response = await fetch(`${imagesUrlBase}/${imagesUrlEndpoint}`);
       window.appImages = await response.json();
+      const skills = document.querySelector('.skills-list');
+      const title = document.createElement('h2');
+      title.textContent = `${window.appData.menu.skills}`;
+      skills.insertAdjacentElement('beforebegin', title);
       // Agregar skills
       Object.values(window.appImages.skills).forEach((skill) => {
         const li = document.createElement('li');
@@ -155,7 +198,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
         divProgress.style.width = skill.progress;
 
         // Construir la estructura
-        const skills = document.querySelector('.skills-list');
         skills.appendChild(li);
         li.appendChild(divContainer);
         divContainer.appendChild(img);
