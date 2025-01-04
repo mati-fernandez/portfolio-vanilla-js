@@ -24,8 +24,16 @@ function blockScroll(e) {
 
 closeBtn.addEventListener('click', handleClose);
 modalContainer.addEventListener('click', handleClose);
+modal.addEventListener('click', (e) => {
+  e.stopPropagation();
+});
+window.addEventListener('popstate', (e) => {
+  e.preventDefault();
+  handleClose();
+});
 
 export const modalHandler = (id) => {
+  history.pushState({ modalOpen: true }, '', window.location.href);
   scrollContainer.style.pointerEvents = 'none';
   modalContainer.style.pointerEvents = 'auto';
   const scrollY = scrollContainer.scrollTop;
