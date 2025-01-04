@@ -39,6 +39,11 @@ export const modalHandler = (id) => {
   const scrollY = scrollContainer.scrollTop;
   modalContainer.style.display = 'block';
   modal.style.top = `${scrollY + window.innerHeight / 2}px`;
+  //   if (!mobileVersion) {
+  //     modal.style.top = `${scrollY + window.innerHeight / 2}px`;
+  //   } else {
+  //     modal.style.top = `${scrollY + window.innerHeight / 4}px`;
+  //   }
   content.textContent = window.appData[id].info.text;
   title.textContent = window.appData[id].info.title;
   document.addEventListener('wheel', blockScroll, { passive: false }); // Bloquea el scroll con la rueda del mouse

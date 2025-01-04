@@ -523,6 +523,14 @@ footer {
     font-size: var(--font-size-portrait);
   }
 
+  .info:hover {
+    background-color: transparent;
+  }
+
+  #modal-close-btn:hover {
+    border: none;
+  }
+
   #modal {
     width: 90vw;
     height: max-content;
