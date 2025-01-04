@@ -5,8 +5,15 @@ const closeBtn = document.querySelector('#modal-close-btn');
 const title = document.querySelector('#modal-title');
 const content = document.querySelector('#modal-content');
 
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    handleClose();
+  }
+});
+
 const handleClose = () => {
   modalContainer.style.display = 'none';
+  scrollContainer.style.pointerEvents = 'auto';
   document.removeEventListener('wheel', blockScroll);
   document.removeEventListener('touchmove', blockScroll);
 };
@@ -16,8 +23,11 @@ function blockScroll(e) {
 }
 
 closeBtn.addEventListener('click', handleClose);
+modalContainer.addEventListener('click', handleClose);
 
 export const modalHandler = (id) => {
+  scrollContainer.style.pointerEvents = 'none';
+  modalContainer.style.pointerEvents = 'auto';
   const scrollY = scrollContainer.scrollTop;
   modalContainer.style.display = 'block';
   modal.style.top = `${scrollY + window.innerHeight / 2}px`;

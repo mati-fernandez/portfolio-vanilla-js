@@ -158,7 +158,7 @@ section {
   align-items: center;
   width: 75vw;
   height: 75vh;
-  overflow: auto;
+  overflow: hidden;
   border: 1px solid var(--color3);
 }
 
@@ -497,6 +497,7 @@ footer {
   padding: 6vh 0;
   position: relative;
   z-index: 1;
+  margin-top: 7vh;
 }
 
 #contacto-links {
@@ -520,6 +521,20 @@ footer {
   body {
     font-size: var(--font-size-portrait);
     font-size: var(--font-size-portrait);
+  }
+
+  #modal {
+    width: 90vw;
+    height: max-content;
+    padding: 100px 10px;
+  }
+
+  #modal-title {
+    font-size: 2rem;
+  }
+
+  #modal-content {
+    font-size: 1rem;
   }
 
   #seccion-presentacion {
@@ -633,7 +648,6 @@ footer {
     display: flex;
     flex-direction: column;
     padding: 10px 5px;
-    /* gap: 20px; */
   }
 
   .card {

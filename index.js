@@ -48,18 +48,22 @@ document.addEventListener('DOMContentLoaded', (e) => {
       $info.classList.add('info');
 
       // Declarar variables
-      let title = '';
+      let title = null;
       let clone = null;
+      let titleContainer = null;
 
       // Agregar titulo e info a proyectos
       document.querySelector('#presentacion').textContent =
         window.appData.description;
       const divProyectos = document.querySelector('#proyectos');
+      titleContainer = document.createElement('div');
+      titleContainer.classList.add('title-container');
+      divProyectos.insertAdjacentElement('beforebegin', titleContainer);
       title = document.createElement('h2');
       title.textContent = `${window.appData.menu.projects}`;
-      divProyectos.insertAdjacentElement('beforebegin', title);
+      titleContainer.appendChild(title);
       clone = $info.cloneNode(true);
-      title.insertAdjacentElement('afterend', clone);
+      titleContainer.appendChild(clone);
       clone.addEventListener('click', () => modalHandler('projects'));
 
       // Agregar textos de proyectos
@@ -93,8 +97,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
       title = document.createElement('h2');
       title.textContent = `${window.appData.menu.exercises}`;
       divEjercicios.insertAdjacentElement('beforebegin', title);
+      titleContainer = document.createElement('div');
+      titleContainer.classList.add('title-container');
+      divEjercicios.insertAdjacentElement('beforebegin', titleContainer);
+      titleContainer.appendChild(title);
       clone = $info.cloneNode(true);
-      title.insertAdjacentElement('afterend', clone);
+      titleContainer.appendChild(clone);
       clone.addEventListener('click', () => modalHandler('exercises'));
 
       // Agregar textos de ejercicios
@@ -124,11 +132,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
       // Agregar título e info a certificaciones
       const divCertificaciones = document.querySelector('#certificaciones');
+      titleContainer = document.createElement('div');
+      titleContainer.classList.add('title-container');
+      divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
       title = document.createElement('h2');
       title.textContent = `${window.appData.menu.certifications}`;
-      divCertificaciones.insertAdjacentElement('beforebegin', title);
+      divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
+      titleContainer.appendChild(title);
       clone = $info.cloneNode(true);
-      console.log(clone);
       title.insertAdjacentElement('afterend', $info);
       clone.addEventListener('click', () => modalHandler('certifications'));
 
