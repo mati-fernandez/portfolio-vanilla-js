@@ -11,17 +11,7 @@ const handleClose = (fromNavigation) => {
   document.removeEventListener('wheel', blockScroll);
   document.removeEventListener('touchmove', blockScroll);
   if (!fromNavigation) {
-    // Navega hacia atrás si el cierre no fue por navegación
     history.back();
-    console.log('back');
-    // Usa un timeout para eliminar el estado después de retroceder
-    // setTimeout(() => {
-    history.replaceState(null, '', window.location.href);
-    console.log('history state removed');
-    //   const currentState = history.state;
-    //   if (currentState && currentState.modalOpen) {
-    //   }
-    // }, 100);
   }
 };
 
@@ -53,12 +43,13 @@ export const modalHandler = (id) => {
   modalContainer.style.pointerEvents = 'auto';
   const scrollY = scrollContainer.scrollTop;
   modalContainer.style.display = 'block';
-  modal.style.top = `${scrollY + window.innerHeight / 2}px`;
-  //   if (!mobileVersion) {
-  //     modal.style.top = `${scrollY + window.innerHeight / 2}px`;
-  //   } else {
-  //     modal.style.top = `${scrollY + window.innerHeight / 4}px`;
-  //   }
+  if (window.innerHeight < window.outerHeight) {
+    // Si es desktop
+    modal.style.top = `${scrollY + window.innerHeight / 2}px`;
+  } else {
+    // Si es mobile
+    modal.style.top = `${scrollY + window.innerHeight / 2.2}px`;
+  }
   content.textContent = window.appData[id].info.text;
   title.textContent = window.appData[id].info.title;
   document.addEventListener('wheel', blockScroll, { passive: false }); // Bloquea el scroll con la rueda del mouse
