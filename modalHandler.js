@@ -43,7 +43,7 @@ export const modalHandler = (id) => {
   modalContainer.style.pointerEvents = 'auto';
   const scrollY = scrollContainer.scrollTop;
   modalContainer.style.display = 'block';
-  if (window.innerHeight < window.outerHeight) {
+  if (!window.mobileVersion) {
     // Si es desktop
     modal.style.top = `${scrollY + window.innerHeight / 2}px`;
   } else {

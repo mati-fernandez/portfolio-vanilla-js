@@ -1,6 +1,11 @@
 import { modalHandler } from './modalHandler.js';
 window.appData = null;
 window.appImages = null;
+let mobileVersionMaxAspectRatio = 0.8;
+window.mobileVersion =
+  window.innerWidth / window.innerHeight < mobileVersionMaxAspectRatio
+    ? true
+    : false;
 //Establecer todo el js después de la carga del dom:
 document.addEventListener('DOMContentLoaded', (e) => {
   //Variables y constantes de uso global:
@@ -8,9 +13,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   console.log('Modo desarrollo:', devMode);
   let runtimeMode = 'build';
-  let mobileVersionMaxAspectRatio = 0.8;
-  let mobileVersion =
-    window.innerWidth / window.innerHeight < 0.8 ? true : false;
   let $secondaryCerts = null;
 
   // Actualiza el modo actual del viewport
@@ -20,14 +22,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
       e.target.innerWidth / e.target.innerHeight <
       mobileVersionMaxAspectRatio
     ) {
-      mobileVersion = true;
+      window.mobileVersion = true;
       console.log('Mobile view', mobileVersion);
     } else if (
       e.target.innerWidth / e.target.innerHeight <=
         mobileVersionMaxAspectRatio &&
       mobileVersion
     ) {
-      mobileVersion = false;
+      window.mobileVersion = false;
       console.log('Mobile view', mobileVersion);
     }
   };
@@ -140,7 +142,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
       divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
       titleContainer.appendChild(title);
       clone = $info.cloneNode(true);
-      title.insertAdjacentElement('afterend', $info);
+      titleContainer.appendChild(clone);
       clone.addEventListener('click', () => modalHandler('certifications'));
 
       // Agregar textos de certificaciones
