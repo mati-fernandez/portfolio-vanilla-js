@@ -5,33 +5,48 @@ const closeBtn = document.querySelector('#modal-close-btn');
 const title = document.querySelector('#modal-title');
 const content = document.querySelector('#modal-content');
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    handleClose();
-  }
-});
-
-const handleClose = () => {
+const handleClose = (fromNavigation) => {
   modalContainer.style.display = 'none';
   scrollContainer.style.pointerEvents = 'auto';
   document.removeEventListener('wheel', blockScroll);
   document.removeEventListener('touchmove', blockScroll);
+  if (!fromNavigation) {
+    // Navega hacia atrás si el cierre no fue por navegación
+    history.back();
+    console.log('back');
+    // Usa un timeout para eliminar el estado después de retroceder
+    // setTimeout(() => {
+    history.replaceState(null, '', window.location.href);
+    console.log('history state removed');
+    //   const currentState = history.state;
+    //   if (currentState && currentState.modalOpen) {
+    //   }
+    // }, 100);
+  }
 };
 
 function blockScroll(e) {
   e.preventDefault();
 }
 
-closeBtn.addEventListener('click', handleClose);
-modalContainer.addEventListener('click', handleClose);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    handleClose(false);
+  }
+});
+
+closeBtn.addEventListener('click', () => handleClose(false));
+modalContainer.addEventListener('click', () => handleClose(false));
 modal.addEventListener('click', (e) => {
   e.stopPropagation();
 });
+
 window.addEventListener('popstate', (e) => {
   e.preventDefault();
-  handleClose();
+  handleClose(true);
 });
 
+// Llamada a la función que abre el modal:
 export const modalHandler = (id) => {
   history.pushState({ modalOpen: true }, '', window.location.href);
   scrollContainer.style.pointerEvents = 'none';
