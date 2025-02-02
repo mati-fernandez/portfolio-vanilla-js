@@ -25,7 +25,7 @@
     />
     <title>Fernández Portfolio</title>
     <link rel="stylesheet" href="estilos.css" />
-    <script src="index.js"></script>
+    <script src="index.js" type="module"></script>
   </head>
   <body>
     <div id="parallax-container">
@@ -48,7 +48,14 @@
         <div class="shape"></div>
       </div>
       <div id="content">
-        <button id="dev-mode-btn">Build <br />Mode</button>
+        <div id="modal-bkg">
+          <div id="modal">
+            <p id="modal-close-btn">X</p>
+            <h2 id="modal-title"></h2>
+            <p id="modal-content">Cargando...</p>
+          </div>
+        </div>
+        <button id="dev-mode-btn">Build <br />Endpoint</button>
         <header id="header">
           <h2>Fenandez Matias</h2>
         </header>
@@ -71,20 +78,17 @@
           <i class="fa fa-solid fa-chevron-down fa-bounce"></i>
         </section>
         <section id="seccion-skills" loading="lazy">
-          <h2>Habilidades</h2>
           <!-- Se cargan dinamicamente -->
           <ul class="skills-list"></ul>
           <i class="fa fa-solid fa-chevron-down fa-bounce"></i>
         </section>
         <!---------------------------- PROYECTOS ---------------------------->
         <section id="seccion-proyectos" class="seccion-pec" loading="lazy">
-          <h2>Proyectos</h2>
           <!-- Se cargan dinamicamente -->
           <div id="proyectos" class="pec"></div>
         </section>
         <section id="seccion-ejercicios" class="seccion-pec" loading="lazy">
           <!-- EJERCICIOS -->
-          <h2>Ejercicios</h2>
           <!-- Se cargan dinamicamente -->
           <div id="ejercicios" class="pec"></div>
         </section>
@@ -94,7 +98,6 @@
           loading="lazy"
         >
           <!-- CERTIFICACIONES -->
-          <h2>Certificaciones</h2>
           <!-- Se cargan dinamicamente -->
           <div id="certificaciones" class="pec"></div>
           <button id="view-more-cert" class="view-more">

@@ -1,5 +1,11 @@
+import { modalHandler } from './modalHandler.js';
 window.appData = null;
 window.appImages = null;
+let mobileVersionMaxAspectRatio = 0.8;
+window.mobileVersion =
+  window.innerWidth / window.innerHeight < mobileVersionMaxAspectRatio
+    ? true
+    : false;
 //Establecer todo el js después de la carga del dom:
 document.addEventListener('DOMContentLoaded', (e) => {
   //Variables y constantes de uso global:
@@ -7,9 +13,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   console.log('Modo desarrollo:', devMode);
   let runtimeMode = 'build';
-  let mobileVersionMaxAspectRatio = 0.8;
-  let mobileVersion =
-    window.innerWidth / window.innerHeight < 0.8 ? true : false;
   let $secondaryCerts = null;
 
   // Actualiza el modo actual del viewport
@@ -19,14 +22,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
       e.target.innerWidth / e.target.innerHeight <
       mobileVersionMaxAspectRatio
     ) {
-      mobileVersion = true;
+      window.mobileVersion = true;
       console.log('Mobile view', mobileVersion);
     } else if (
       e.target.innerWidth / e.target.innerHeight <=
         mobileVersionMaxAspectRatio &&
       mobileVersion
     ) {
-      mobileVersion = false;
+      window.mobileVersion = false;
       console.log('Mobile view', mobileVersion);
     }
   };
@@ -40,8 +43,31 @@ document.addEventListener('DOMContentLoaded', (e) => {
     try {
       const response = await fetch(translationsUrl);
       window.appData = await response.json();
+
+      // Crear elemento info
+      const $info = document.createElement('p');
+      $info.textContent = 'i';
+      $info.classList.add('info');
+
+      // Declarar variables
+      let title = null;
+      let clone = null;
+      let titleContainer = null;
+
+      // Agregar titulo e info a proyectos
       document.querySelector('#presentacion').textContent =
         window.appData.description;
+      const divProyectos = document.querySelector('#proyectos');
+      titleContainer = document.createElement('div');
+      titleContainer.classList.add('title-container');
+      divProyectos.insertAdjacentElement('beforebegin', titleContainer);
+      title = document.createElement('h2');
+      title.textContent = `${window.appData.menu.projects}`;
+      titleContainer.appendChild(title);
+      clone = $info.cloneNode(true);
+      titleContainer.appendChild(clone);
+      clone.addEventListener('click', () => modalHandler('projects'));
+
       // Agregar textos de proyectos
       let projectsCounter = 0;
       Object.entries(window.appData.projects.projectsList).forEach(
@@ -59,7 +85,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
           divSpace.classList.add('space');
 
           // Crear la estructura
-          const divProyectos = document.querySelector('#proyectos');
           divProyectos.appendChild(divCard);
           divCard.appendChild(h4);
           h4.textContent = project.title;
@@ -68,6 +93,20 @@ document.addEventListener('DOMContentLoaded', (e) => {
           if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
         }
       );
+
+      // Agregar título e info a ejercicios
+      const divEjercicios = document.querySelector('#ejercicios');
+      title = document.createElement('h2');
+      title.textContent = `${window.appData.menu.exercises}`;
+      divEjercicios.insertAdjacentElement('beforebegin', title);
+      titleContainer = document.createElement('div');
+      titleContainer.classList.add('title-container');
+      divEjercicios.insertAdjacentElement('beforebegin', titleContainer);
+      titleContainer.appendChild(title);
+      clone = $info.cloneNode(true);
+      titleContainer.appendChild(clone);
+      clone.addEventListener('click', () => modalHandler('exercises'));
+
       // Agregar textos de ejercicios
       let odysseyCounter = 0;
       Object.values(window.appData.odyssey.odysseyList).forEach((exercise) => {
@@ -83,14 +122,27 @@ document.addEventListener('DOMContentLoaded', (e) => {
         divSpace.classList.add('space');
 
         // Crear la estructura
-        const divEjercicios = document.querySelector('#ejercicios');
         divEjercicios.appendChild(divCard);
         divCard.appendChild(h4);
         h4.textContent = exercise.title;
         divCard.appendChild(anchor);
-        odysseyCounter++;
-        if (odysseyCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
+        exercisesCounter++;
+        if (exercisesCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
       });
+
+      // Agregar título e info a certificaciones
+      const divCertificaciones = document.querySelector('#certificaciones');
+      titleContainer = document.createElement('div');
+      titleContainer.classList.add('title-container');
+      divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
+      title = document.createElement('h2');
+      title.textContent = `${window.appData.menu.certifications}`;
+      divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
+      titleContainer.appendChild(title);
+      clone = $info.cloneNode(true);
+      titleContainer.appendChild(clone);
+      clone.addEventListener('click', () => modalHandler('certifications'));
+
       // Agregar textos de certificaciones
       let certificationsCounter = 0;
       Object.values(window.appData.certifications.certificationsList).forEach(
@@ -107,7 +159,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
           divSpace.classList.add('space');
 
           // Crear la estructura
-          const divCertificaciones = document.querySelector('#certificaciones');
           divCertificaciones.appendChild(divCard);
           divCard.appendChild(h4);
           h4.textContent = certification.title;
@@ -121,7 +172,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
       console.log('Error al cargar el texto de la app:', error);
     }
     /*******************************************************************************/
-    // Imágenes (Skills están acá por ahora)
+    /****************** Imágenes (Skills están acá por ahora) **********************/
+    /*******************************************************************************/
     const imagesUrlBase =
       runtimeMode === 'build'
         ? 'https://portfolio-4oh.pages.dev/'
@@ -130,6 +182,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
     try {
       const response = await fetch(`${imagesUrlBase}/${imagesUrlEndpoint}`);
       window.appImages = await response.json();
+      const skills = document.querySelector('.skills-list');
+      const title = document.createElement('h2');
+      title.textContent = `${window.appData.menu.skills}`;
+      skills.insertAdjacentElement('beforebegin', title);
       // Agregar skills
       Object.values(window.appImages.skills).forEach((skill) => {
         const li = document.createElement('li');
@@ -153,7 +209,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
         divProgress.style.width = skill.progress;
 
         // Construir la estructura
-        const skills = document.querySelector('.skills-list');
         skills.appendChild(li);
         li.appendChild(divContainer);
         divContainer.appendChild(img);
@@ -311,12 +366,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
     //Dev mode btn
     if (e.target.matches('#dev-mode-btn')) {
       if ($devModeBtn.textContent.includes('Build')) {
-        $devModeBtn.innerHTML = 'Dev <br/> Mode';
+        $devModeBtn.innerHTML = 'Dev <br/> Endpoint';
         $devModeBtn.classList.add('danger-btn');
         endpointMode = 'Dev';
         loadResources();
       } else {
-        $devModeBtn.innerHTML = 'Build <br/> Mode';
+        $devModeBtn.innerHTML = 'Build <br/> Endpoint';
         $devModeBtn.classList.remove('danger-btn');
         endpointMode = 'Build';
         loadResources();
