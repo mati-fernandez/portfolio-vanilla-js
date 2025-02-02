@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     const translationsUrl =
       runtimeMode === 'build'
         ? 'https://portfolio-4oh.pages.dev/es.json'
-        : 'http://127.0.0.1:35383/es.json';
+        : 'http://127.0.0.1:5500/es.json';
     // Textos
     try {
       const response = await fetch(translationsUrl);
@@ -69,30 +69,28 @@ document.addEventListener('DOMContentLoaded', (e) => {
         }
       );
       // Agregar textos de ejercicios
-      let exercisesCounter = 0;
-      Object.values(window.appData.exercises.exercisesList).forEach(
-        (exercise) => {
-          const divCard = document.createElement('div');
-          divCard.classList.add('card');
+      let odysseyCounter = 0;
+      Object.values(window.appData.odyssey.odysseyList).forEach((exercise) => {
+        const divCard = document.createElement('div');
+        divCard.classList.add('card');
 
-          const h4 = document.createElement('h4');
-          const anchor = document.createElement('a');
-          anchor.textContent = exercise.open;
-          anchor.target = '_blank';
+        const h4 = document.createElement('h4');
+        const anchor = document.createElement('a');
+        anchor.textContent = exercise.open;
+        anchor.target = '_blank';
 
-          const divSpace = document.createElement('div');
-          divSpace.classList.add('space');
+        const divSpace = document.createElement('div');
+        divSpace.classList.add('space');
 
-          // Crear la estructura
-          const divEjercicios = document.querySelector('#ejercicios');
-          divEjercicios.appendChild(divCard);
-          divCard.appendChild(h4);
-          h4.textContent = exercise.title;
-          divCard.appendChild(anchor);
-          exercisesCounter++;
-          if (exercisesCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
-        }
-      );
+        // Crear la estructura
+        const divEjercicios = document.querySelector('#ejercicios');
+        divEjercicios.appendChild(divCard);
+        divCard.appendChild(h4);
+        h4.textContent = exercise.title;
+        divCard.appendChild(anchor);
+        odysseyCounter++;
+        if (odysseyCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
+      });
       // Agregar textos de certificaciones
       let certificationsCounter = 0;
       Object.values(window.appData.certifications.certificationsList).forEach(
@@ -187,7 +185,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
       });
       // Agregar imágenes y enlaces a ejercicios
       const ejercicios = document.querySelectorAll('#ejercicios .card');
-      Object.entries(window.appImages.exercises).forEach(
+      Object.entries(window.appImages.odyssey).forEach(
         ([key, exercise], index) => {
           const img = document.createElement('img');
           const h4 = ejercicios[index].querySelector('h4');
