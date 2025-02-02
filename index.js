@@ -94,20 +94,20 @@ document.addEventListener('DOMContentLoaded', (e) => {
         }
       );
 
-      // Agregar título e info a ejercicios
-      const divEjercicios = document.querySelector('#ejercicios');
+      // Agregar título e info a odyssey
+      const divOdyssey = document.querySelector('#odyssey');
       title = document.createElement('h2');
       title.textContent = `${window.appData.menu.exercises}`;
-      divEjercicios.insertAdjacentElement('beforebegin', title);
+      divOdyssey.insertAdjacentElement('beforebegin', title);
       titleContainer = document.createElement('div');
       titleContainer.classList.add('title-container');
-      divEjercicios.insertAdjacentElement('beforebegin', titleContainer);
+      divOdyssey.insertAdjacentElement('beforebegin', titleContainer);
       titleContainer.appendChild(title);
       clone = $info.cloneNode(true);
       titleContainer.appendChild(clone);
       clone.addEventListener('click', () => modalHandler('exercises'));
 
-      // Agregar textos de ejercicios
+      // Agregar textos de odyssey
       let odysseyCounter = 0;
       Object.values(window.appData.odyssey.odysseyList).forEach((exercise) => {
         const divCard = document.createElement('div');
@@ -122,12 +122,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
         divSpace.classList.add('space');
 
         // Crear la estructura
-        divEjercicios.appendChild(divCard);
+        divOdyssey.appendChild(divCard);
         divCard.appendChild(h4);
         h4.textContent = exercise.title;
         divCard.appendChild(anchor);
         exercisesCounter++;
-        if (exercisesCounter % 3 !== 0) divEjercicios.appendChild(divSpace);
+        if (exercisesCounter % 3 !== 0) divOdyssey.appendChild(divSpace);
       });
 
       // Agregar título e info a certificaciones
@@ -238,18 +238,18 @@ document.addEventListener('DOMContentLoaded', (e) => {
         proyectos[projecCount].querySelector('a').href = project.link;
         projecCount++;
       });
-      // Agregar imágenes y enlaces a ejercicios
-      const ejercicios = document.querySelectorAll('#ejercicios .card');
+      // Agregar imágenes y enlaces a odyssey
+      const odyssey = document.querySelectorAll('#odyssey .card');
       Object.entries(window.appImages.odyssey).forEach(
         ([key, exercise], index) => {
           const img = document.createElement('img');
-          const h4 = ejercicios[index].querySelector('h4');
+          const h4 = odyssey[index].querySelector('h4');
           h4.insertAdjacentElement('afterend', img);
           img.id = key;
           img.src = `${imagesUrlBase}/${exercise.src}`;
           img.alt = exercise.alt;
 
-          ejercicios[index].querySelector('a').href = exercise.link;
+          odyssey[index].querySelector('a').href = exercise.link;
         }
       );
       // Agregar imágenes, enlaces y clases a certificaciones
