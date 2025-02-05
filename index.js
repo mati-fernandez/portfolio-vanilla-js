@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const devMode =
     location.hostname === 'localhost' || location.hostname === '127.0.0.1';
   console.log('Modo desarrollo:', devMode);
-  let runtimeMode = 'build';
+  let endpointMode = 'build';
   let $secondaryCerts = null;
 
   // Actualiza el modo actual del viewport
@@ -36,9 +36,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // Carga de recursos
   const loadResources = async () => {
     const translationsUrl =
-      runtimeMode === 'build'
+      endpointMode === 'build'
         ? 'https://portfolio-4oh.pages.dev/es.json'
-        : 'http://127.0.0.1:35383/es.json';
+        : 'http://127.0.0.1:5500/es.json';
     // Textos
     try {
       const response = await fetch(translationsUrl);
@@ -177,9 +177,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
     /****************** Imágenes (Skills están acá por ahora) **********************/
     /*******************************************************************************/
     const imagesUrlBase =
-      runtimeMode === 'build'
+      endpointMode === 'build'
         ? 'https://portfolio-4oh.pages.dev/'
-        : 'http://127.0.0.1:35383/';
+        : 'http://127.0.0.1:5500/';
     const imagesUrlEndpoint = 'images.json';
     try {
       const response = await fetch(`${imagesUrlBase}/${imagesUrlEndpoint}`);
