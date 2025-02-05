@@ -459,6 +459,10 @@ img#profile-pic {
   display: none;
 }
 
+#view-less-odysseys {
+  display: none;
+}
+
 .card a,
 footer a {
   color: var(--color3);
