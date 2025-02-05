@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
         divCard.appendChild(h4);
         h4.textContent = exercise.title;
         divCard.appendChild(anchor);
-        exercisesCounter++;
-        if (exercisesCounter % 3 !== 0) divOdyssey.appendChild(divSpace);
+        odysseyCounter++;
+        if (odysseyCounter % 3 !== 0) divOdyssey.appendChild(divSpace);
       });
 
       // Agregar título e info a certificaciones
