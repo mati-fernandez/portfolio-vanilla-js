@@ -57,6 +57,17 @@ export const loadResources = async () => {
     let clone = null;
     let titleContainer = null;
 
+    // Texto de botones de vista
+    const $viewMoreCert = document.querySelector('#view-more-cert');
+    const $viewLessCert = document.querySelector('#view-less-cert');
+    const $viewMoreOdysseys = document.querySelector('#view-more-odysseys');
+    const $viewLessOdysseys = document.querySelector('#view-less-odysseys');
+
+    $viewMoreCert.textContent = window.appData.certifications.buttons.viewMore;
+    $viewLessCert.textContent = window.appData.certifications.buttons.viewLess;
+    $viewMoreOdysseys.textContent = window.appData.odyssey.buttons.viewMore;
+    $viewLessOdysseys.textContent = window.appData.odyssey.buttons.viewLess;
+
     // Agregar titulo e info a proyectos
     document.querySelector('#presentacion').textContent =
       window.appData.description;
