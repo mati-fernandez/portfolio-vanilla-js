@@ -170,6 +170,7 @@ section {
   height: 75vh;
   overflow: hidden;
   border: 1px solid var(--color3);
+  gap: 33px;
 }
 
 #modal-bkg {
@@ -198,10 +199,20 @@ section {
   border: 1px solid var(--color3);
   position: relative;
   top: -2px;
+  z-index: 999;
 }
 
 .info:hover {
   background-color: #fff;
+}
+
+#seccion-presentacion .info {
+  display: block;
+  margin: 0 auto;
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+  color: var(--color3);
 }
 
 h2 {
@@ -528,8 +539,9 @@ footer {
 }
 
 /*************************************************************/
+/******************** MOBILE MOBILE MOBILE MOBILE ************/
+/*************************************************************/
 
-/*Solo MOBILE*/
 /******************** DEJAR ASI POR PANTALLA CUADRADA !!!!!!!*/
 @media (max-aspect-ratio: 0.8) {
   body {
@@ -541,6 +553,10 @@ footer {
     background-color: transparent;
   }
 
+  #seccion-presentacion .info {
+    right: 5vw;
+  }
+
   #modal-close-btn:hover {
     border: none;
   }
@@ -548,7 +564,8 @@ footer {
   #modal {
     width: 90vw;
     height: max-content;
-    padding: 100px 10px;
+    padding: 100px 20px;
+    line-height: 1.5;
   }
 
   #modal-title {

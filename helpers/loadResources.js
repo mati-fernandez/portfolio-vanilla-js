@@ -57,6 +57,20 @@ export const loadResources = async () => {
     let clone = null;
     let titleContainer = null;
 
+    // Info de la sección presentación
+    const $seccionPresentacion = document.querySelector(
+      '#seccion-presentacion'
+    );
+    clone = $info.cloneNode(true);
+    $seccionPresentacion.appendChild(clone);
+    const presentacionModalTitle =
+      window.appData.projects.projectsList.portfolioJS.title;
+    const presentacionModalText =
+      window.appData.projects.projectsList.portfolioJS.description;
+    clone.addEventListener('click', () =>
+      modalHandler(presentacionModalTitle, presentacionModalText)
+    );
+
     // Texto de botones de vista
     const $viewMoreCert = document.querySelector('#view-more-cert');
     const $viewLessCert = document.querySelector('#view-less-cert');
