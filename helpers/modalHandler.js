@@ -37,7 +37,7 @@ window.addEventListener('popstate', (e) => {
 });
 
 // Llamada a la función que abre el modal:
-export const modalHandler = (id) => {
+export const modalHandler = (modalTitle, modalText) => {
   history.pushState({ modalOpen: true }, '', window.location.href);
   scrollContainer.style.pointerEvents = 'none';
   modalContainer.style.pointerEvents = 'auto';
@@ -50,8 +50,9 @@ export const modalHandler = (id) => {
     // Si es mobile
     modal.style.top = `${scrollY + window.innerHeight / 2.2}px`;
   }
-  content.textContent = window.appData[id].info.text;
-  title.textContent = window.appData[id].info.title;
+  title.textContent = modalTitle;
+  content.textContent = modalText;
+
   document.addEventListener('wheel', blockScroll, { passive: false }); // Bloquea el scroll con la rueda del mouse
   document.addEventListener('touchmove', blockScroll, { passive: false }); // Bloquea el scroll en dispositivos táctiles
 };

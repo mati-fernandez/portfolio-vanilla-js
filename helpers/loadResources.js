@@ -80,7 +80,13 @@ export const loadResources = async () => {
     titleContainer.appendChild(title);
     clone = $info.cloneNode(true);
     titleContainer.appendChild(clone);
-    clone.addEventListener('click', () => modalHandler('projects'));
+
+    // Agregar evento al botón de info de las secciones
+    const projectsModalTitle = window.appData.projects.info.title;
+    const projectsModalText = window.appData.projects.info.text;
+    clone.addEventListener('click', () =>
+      modalHandler(projectsModalTitle, projectsModalText)
+    );
 
     // Agregar textos de proyectos
     let projectsCounter = 0;
@@ -94,6 +100,14 @@ export const loadResources = async () => {
         const anchor = document.createElement('a');
         anchor.textContent = project.open;
         anchor.target = '_blank';
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.classList.add('buttons');
+        const moreInfo = document.createElement('a');
+        moreInfo.textContent = '+Info';
+        moreInfo.classList.add('more-info');
+        moreInfo.addEventListener('click', () =>
+          modalHandler(project.title, project.description)
+        );
 
         const divSpace = document.createElement('div');
         divSpace.classList.add('space');
@@ -102,7 +116,9 @@ export const loadResources = async () => {
         divProyectos.appendChild(divCard);
         divCard.appendChild(h4);
         h4.textContent = project.title;
-        divCard.appendChild(anchor);
+        divCard.appendChild(buttonsDiv);
+        buttonsDiv.appendChild(anchor);
+        buttonsDiv.appendChild(moreInfo);
         projectsCounter++;
         if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
       }
@@ -119,7 +135,13 @@ export const loadResources = async () => {
     titleContainer.appendChild(title);
     clone = $info.cloneNode(true);
     titleContainer.appendChild(clone);
-    clone.addEventListener('click', () => modalHandler('odyssey'));
+
+    // Agregar evento al botón de info de las secciones
+    const odyssseyModalTitle = window.appData.odyssey.info.title;
+    const odysseyModalText = window.appData.odyssey.info.text;
+    clone.addEventListener('click', () =>
+      modalHandler(odyssseyModalTitle, odysseyModalText)
+    );
 
     // Agregar textos de odyssey
     let odysseyCounter = 0;
@@ -131,6 +153,14 @@ export const loadResources = async () => {
       const anchor = document.createElement('a');
       anchor.textContent = exercise.open;
       anchor.target = '_blank';
+      const buttonsDiv = document.createElement('div');
+      buttonsDiv.classList.add('buttons');
+      const moreInfo = document.createElement('a');
+      moreInfo.textContent = '+Info';
+      moreInfo.classList.add('more-info');
+      moreInfo.addEventListener('click', () =>
+        modalHandler(exercise.title, exercise.description)
+      );
 
       const divSpace = document.createElement('div');
       divSpace.classList.add('space');
@@ -139,7 +169,9 @@ export const loadResources = async () => {
       divOdyssey.appendChild(divCard);
       divCard.appendChild(h4);
       h4.textContent = exercise.title;
-      divCard.appendChild(anchor);
+      divCard.appendChild(buttonsDiv);
+      buttonsDiv.appendChild(anchor);
+      buttonsDiv.appendChild(moreInfo);
       odysseyCounter++;
       if (odysseyCounter % 3 !== 0) divOdyssey.appendChild(divSpace);
     });
@@ -155,7 +187,7 @@ export const loadResources = async () => {
     titleContainer.appendChild(title);
     clone = $info.cloneNode(true);
     titleContainer.appendChild(clone);
-    clone.addEventListener('click', () => modalHandler('certifications'));
+    clone.addEventListener('click', () => modalHandler('certifications', true));
 
     // Agregar textos de certificaciones
     let certificationsCounter = 0;
@@ -168,6 +200,14 @@ export const loadResources = async () => {
         const anchor = document.createElement('a');
         anchor.textContent = certification.open;
         anchor.target = '_blank';
+        const buttonsDiv = document.createElement('div');
+        buttonsDiv.classList.add('buttons');
+        const moreInfo = document.createElement('a');
+        moreInfo.textContent = '+Info';
+        moreInfo.classList.add('more-info');
+        moreInfo.addEventListener('click', () =>
+          modalHandler(certification.title, certification.description)
+        );
 
         const divSpace = document.createElement('div');
         divSpace.classList.add('space');
@@ -176,7 +216,9 @@ export const loadResources = async () => {
         divCertificaciones.appendChild(divCard);
         divCard.appendChild(h4);
         h4.textContent = certification.title;
-        divCard.appendChild(anchor);
+        divCard.appendChild(buttonsDiv);
+        buttonsDiv.appendChild(anchor);
+        buttonsDiv.appendChild(moreInfo);
         certificationsCounter++;
         if (certificationsCounter % 3 !== 0)
           divCertificaciones.appendChild(divSpace);
@@ -186,7 +228,7 @@ export const loadResources = async () => {
     console.log('Error al cargar el texto de la app:', error);
   }
   /*******************************************************************************/
-  /****************** Imágenes (Skills están acá por ahora) **********************/
+  /****************** Imágenes y enlaces (Skills están acá por ahora) ************/
   /*******************************************************************************/
   const imagesUrlBase =
     endpointMode === 'build'

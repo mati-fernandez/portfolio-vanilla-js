@@ -115,6 +115,16 @@ section {
   }
 }
 
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.more-info {
+  cursor: pointer;
+}
+
 #modal-close-btn {
   font-size: larger;
   color: var(--color3);
@@ -132,13 +142,13 @@ section {
 }
 
 #modal-title {
-  font-size: 3rem;
+  font-size: 2rem;
   color: var(--color3);
   text-align: center;
 }
 
 #modal-content {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--color3);
   text-align: center;
 }
@@ -147,7 +157,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 50px;
-  padding-bottom: 35px;
+  padding: 0 33px 35px;
   background-color: var(--color1);
   position: fixed;
   left: 50vw;
