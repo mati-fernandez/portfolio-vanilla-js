@@ -241,9 +241,11 @@ export const loadResources = async () => {
   } catch (error) {
     console.log('Error al cargar el texto de la app:', error);
   }
+
   /*******************************************************************************/
   /****************** Imágenes y enlaces (Skills están acá por ahora) ************/
   /*******************************************************************************/
+
   const imagesUrlBase =
     endpointMode === 'build'
       ? 'https://portfolio-4oh.pages.dev/'
@@ -257,7 +259,7 @@ export const loadResources = async () => {
     title.textContent = `${window.appData.menu.skills}`;
     skills.insertAdjacentElement('beforebegin', title);
     // Agregar skills
-    Object.values(window.appImages.skills).forEach((skill) => {
+    Object.entries(window.appImages.skills).forEach(([key, skill]) => {
       const li = document.createElement('li');
       const divContainer = document.createElement('div');
       divContainer.classList.add('skill-container');
@@ -265,11 +267,11 @@ export const loadResources = async () => {
       const img = document.createElement('img');
       img.classList.add('tech');
       img.src = `${imagesUrlBase}/${skill.src}`;
-      img.alt = skill.alt;
+      img.alt = window.appData.skills[key].title;
 
       const span = document.createElement('span');
       span.classList.add('skill-name');
-      span.textContent = skill.alt;
+      span.textContent = window.appData.skills[key].title;
 
       const divProgressBar = document.createElement('div');
       divProgressBar.classList.add('progress-bar');
@@ -303,7 +305,7 @@ export const loadResources = async () => {
       h4.insertAdjacentElement('afterend', img);
       img.id = key;
       img.src = `${imagesUrlBase}/${project.src}`;
-      img.alt = project.alt;
+      img.alt = window.appData.projects.projectsList[key].title;
 
       proyectos[projecCount].querySelector('a').href = project.link;
       projecCount++;
@@ -318,7 +320,7 @@ export const loadResources = async () => {
         h4.insertAdjacentElement('afterend', img);
         img.id = key;
         img.src = `${imagesUrlBase}/${odyssey.src}`;
-        img.alt = odyssey.alt;
+        img.alt = window.appData.odyssey.odysseyList[key].title;
 
         odysseys[index].querySelector('a').href = odyssey.link;
 
@@ -339,7 +341,7 @@ export const loadResources = async () => {
         h4.insertAdjacentElement('afterend', img);
         img.id = key;
         img.src = `${imagesUrlBase}/${certification.src}`;
-        img.alt = certification.alt;
+        img.alt = window.appData.certifications.certificationsList[key].title;
 
         certificaciones[index].querySelector('a').href = certification.link;
 
