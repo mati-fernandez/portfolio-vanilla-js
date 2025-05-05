@@ -468,7 +468,7 @@ img#profile-pic {
   display: none;
 }
 
-.view-more {
+.view-button {
   background: none;
   border: none;
   color: var(--color-claro);
@@ -476,11 +476,15 @@ img#profile-pic {
   opacity: 0.5;
 }
 
-#view-less-cert {
+#view-less-projects {
   display: none;
 }
 
 #view-less-odysseys {
+  display: none;
+}
+
+#view-less-cert {
   display: none;
 }
 

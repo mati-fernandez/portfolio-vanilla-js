@@ -2,6 +2,7 @@ import { modalHandler } from './modalHandler.js';
 
 window.appData = null;
 window.appImages = null;
+window.$secondaryProjects = null;
 window.$secondaryOdysseys = null;
 window.$secondaryCerts = null;
 
@@ -10,6 +11,9 @@ let endpointMode = 'build';
 //Dev mode btn
 const $devModeBtn = document.querySelector('#dev-mode-btn');
 $devModeBtn.addEventListener('click', (e) => {
+  //Primero limpia los nodos dinámicos por si tenían algo
+  const nodes = document.querySelectorAll('.pec');
+  nodes.forEach((node) => (node.innerHTML = ''));
   if ($devModeBtn.textContent.includes('Build')) {
     $devModeBtn.innerHTML = 'Dev <br/> Endpoint';
     $devModeBtn.classList.add('danger-btn');
@@ -41,7 +45,7 @@ export const loadResources = async () => {
   const translationsUrl =
     endpointMode === 'build'
       ? 'https://portfolio-4oh.pages.dev/es.json'
-      : 'http://127.0.0.1:5500/es.json';
+      : 'http://127.0.0.1:51887/es.json';
   // Textos
   try {
     const response = await fetch(translationsUrl);
@@ -72,15 +76,19 @@ export const loadResources = async () => {
     );
 
     // Texto de botones de vista
-    const $viewMoreCert = document.querySelector('#view-more-cert');
-    const $viewLessCert = document.querySelector('#view-less-cert');
+    const $viewMoreProjects = document.querySelector('#view-more-projects');
+    const $viewLessProjects = document.querySelector('#view-less-projects');
     const $viewMoreOdysseys = document.querySelector('#view-more-odysseys');
     const $viewLessOdysseys = document.querySelector('#view-less-odysseys');
+    const $viewMoreCert = document.querySelector('#view-more-cert');
+    const $viewLessCert = document.querySelector('#view-less-cert');
 
-    $viewMoreCert.textContent = window.appData.certifications.buttons.viewMore;
-    $viewLessCert.textContent = window.appData.certifications.buttons.viewLess;
+    $viewMoreProjects.textContent = window.appData.projects.buttons.viewMore;
+    $viewLessProjects.textContent = window.appData.projects.buttons.viewLess;
     $viewMoreOdysseys.textContent = window.appData.odyssey.buttons.viewMore;
     $viewLessOdysseys.textContent = window.appData.odyssey.buttons.viewLess;
+    $viewMoreCert.textContent = window.appData.certifications.buttons.viewMore;
+    $viewLessCert.textContent = window.appData.certifications.buttons.viewLess;
 
     // Agregar titulo e info a proyectos
     document.querySelector('#presentacion').textContent =
@@ -249,7 +257,7 @@ export const loadResources = async () => {
   const imagesUrlBase =
     endpointMode === 'build'
       ? 'https://portfolio-4oh.pages.dev/'
-      : 'http://127.0.0.1:5500/';
+      : 'http://127.0.0.1:51887/';
   const imagesUrlEndpoint = 'images.json';
   try {
     const response = await fetch(`${imagesUrlBase}/${imagesUrlEndpoint}`);
@@ -297,19 +305,26 @@ export const loadResources = async () => {
 
     // Agregar imágenes y enlaces a proyectos
     const proyectos = document.querySelectorAll('#proyectos .card');
-    let projecCount = 0;
+    let projectsCount = 0; // Creo que acá no usé index porque estoy sacando un proyecto (Portfolio actual)
     Object.entries(window.appImages.projects).forEach(([key, project]) => {
       if (key === 'portfolioJS') return;
       const img = document.createElement('img');
-      const h4 = proyectos[projecCount].querySelector('h4');
+      const h4 = proyectos[projectsCount].querySelector('h4');
       h4.insertAdjacentElement('afterend', img);
       img.id = key;
       img.src = `${imagesUrlBase}/${project.src}`;
       img.alt = window.appData.projects.projectsList[key].title;
 
-      proyectos[projecCount].querySelector('a').href = project.link;
-      projecCount++;
+      proyectos[projectsCount].querySelector('a').href = project.link;
+
+      if (project.class === 'secondary')
+        proyectos[projectsCount].classList.add('secondary');
+
+      projectsCount++;
     });
+    window.$secondaryProjects = document.querySelectorAll(
+      '#proyectos > .card.secondary'
+    );
 
     // Agregar imágenes y enlaces a odysseys
     const odysseys = document.querySelectorAll('#odysseys .card');

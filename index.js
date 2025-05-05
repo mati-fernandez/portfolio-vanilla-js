@@ -46,10 +46,34 @@ document.addEventListener('DOMContentLoaded', (e) => {
     : ($devModeBtn.style.display = 'none');
 
   // View more
-  const $viewMoreCert = document.querySelector('#view-more-cert');
-  const $viewLessCert = document.querySelector('#view-less-cert');
+  const $viewMoreProjects = document.querySelector('#view-more-projects');
+  const $viewLessProjects = document.querySelector('#view-less-projects');
   const $viewMoreOdysseys = document.querySelector('#view-more-odysseys');
   const $viewLessOdysseys = document.querySelector('#view-less-odysseys');
+  const $viewMoreCert = document.querySelector('#view-more-cert');
+  const $viewLessCert = document.querySelector('#view-less-cert');
+
+  $viewMoreProjects.addEventListener('click', () => {
+    $viewMoreProjects.style.display = 'none';
+    $viewLessProjects.style.display = 'inline-block';
+    window.$secondaryProjects.forEach((card) => (card.style.display = 'grid'));
+  });
+  $viewLessProjects.addEventListener('click', () => {
+    $viewMoreProjects.style.display = 'inline-block';
+    $viewLessProjects.style.display = 'none';
+    window.$secondaryProjects.forEach((card) => (card.style.display = 'none'));
+  });
+
+  $viewMoreOdysseys.addEventListener('click', () => {
+    $viewMoreOdysseys.style.display = 'none';
+    $viewLessOdysseys.style.display = 'inline-block';
+    window.$secondaryOdysseys.forEach((card) => (card.style.display = 'grid'));
+  });
+  $viewLessOdysseys.addEventListener('click', () => {
+    $viewMoreOdysseys.style.display = 'inline-block';
+    $viewLessOdysseys.style.display = 'none';
+    window.$secondaryOdysseys.forEach((card) => (card.style.display = 'none'));
+  });
 
   $viewMoreCert.addEventListener('click', () => {
     $viewMoreCert.style.display = 'none';
@@ -61,18 +85,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     $viewMoreCert.style.display = 'inline-block';
     $viewLessCert.style.display = 'none';
     window.$secondaryCerts.forEach((card) => (card.style.display = 'none'));
-  });
-
-  $viewMoreOdysseys.addEventListener('click', () => {
-    $viewMoreOdysseys.style.display = 'none';
-    $viewLessOdysseys.style.display = 'inline-block';
-    window.$secondaryOdysseys.forEach((card) => (card.style.display = 'grid'));
-  });
-
-  $viewLessOdysseys.addEventListener('click', () => {
-    $viewMoreOdysseys.style.display = 'inline-block';
-    $viewLessOdysseys.style.display = 'none';
-    window.$secondaryOdysseys.forEach((card) => (card.style.display = 'none'));
   });
 
   // Efecto "Burbujas en el agua"
