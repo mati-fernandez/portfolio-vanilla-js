@@ -41,7 +41,7 @@ export const loadResources = async () => {
   const translationsUrl =
     endpointMode === 'build'
       ? 'https://portfolio-4oh.pages.dev/es.json'
-      : 'http://127.0.0.1:5500/es.json';
+      : 'http://127.0.0.1:51887/es.json';
   // Textos
   try {
     const response = await fetch(translationsUrl);
@@ -249,7 +249,7 @@ export const loadResources = async () => {
   const imagesUrlBase =
     endpointMode === 'build'
       ? 'https://portfolio-4oh.pages.dev/'
-      : 'http://127.0.0.1:5500/';
+      : 'http://127.0.0.1:51887/';
   const imagesUrlEndpoint = 'images.json';
   try {
     const response = await fetch(`${imagesUrlBase}/${imagesUrlEndpoint}`);
