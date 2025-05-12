@@ -429,32 +429,32 @@ img#profile-pic {
 }
 
 .pec {
-  width: 90%;
-  display: grid;
-  grid-template-columns: 10fr 1fr 10fr 1fr 10fr;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   margin: auto;
 }
 
 .card {
-  display: grid;
-  grid-template-rows: 3% 94% 3%;
-  aspect-ratio: 1;
+  width: 25%;
+  height: 45vh;
+  display: flex;
+  flex-direction: column;
   text-align: center;
   align-items: center;
+  justify-content: space-between;
   justify-items: center;
-  width: 100%;
   border-radius: 10px;
-  margin: 6vh 0;
+  margin: 6vh 3vw;
+  position: relative;
 }
 
 .card img {
-  width: 80%;
   object-fit: contain;
-  aspect-ratio: 1;
-}
-
-.card img.landscape {
-  width: 100%;
+  max-width: 30vw;
+  height: 30vh;
+  margin: 2vh 0;
 }
 
 .card a {
@@ -466,6 +466,13 @@ img#profile-pic {
 
 .secondary {
   display: none;
+  opacity: 60%;
+}
+
+.secondary h4::after {
+  content: '[Secundarie]';
+  display: block;
+  z-index: 3;
 }
 
 .view-button {
@@ -494,18 +501,6 @@ footer a {
 }
 
 /*****************************************************/
-
-#seccion-certificaciones {
-  & .card {
-    aspect-ratio: unset;
-  }
-  & img {
-    aspect-ratio: unset;
-  }
-  & a {
-    margin-top: 20px;
-  }
-}
 
 footer a {
   line-height: 0;
@@ -699,23 +694,19 @@ footer {
   }
 
   .card {
-    display: flex;
     flex-direction: column;
     text-align: center;
     width: 100%;
+    height: unset;
     aspect-ratio: unset;
-  }
-
-  .secondary {
-    display: none;
+    margin: 6vh 0;
   }
 
   .card img {
-    margin: 2vh 0;
-    aspect-ratio: unset;
-    &.landscape {
-      width: 85%;
-    }
+    max-width: 90vw;
+    max-height: 100vh;
+    height: auto;
+    width: 80vw;
   }
 
   /************************* Contacto ************/

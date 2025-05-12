@@ -45,7 +45,7 @@ export const loadResources = async () => {
   const translationsUrl =
     endpointMode === 'build'
       ? 'https://portfolio-4oh.pages.dev/es.json'
-      : 'http://127.0.0.1:5500/es.json';
+      : 'http://192.168.68.103:5500/es.json'; // El 103 podría ser dinamico y probar cual responde. Esto lo cambie para poder usar en cel. Igual no anda por alguna razon
   // Textos
   try {
     const response = await fetch(translationsUrl);
@@ -111,7 +111,6 @@ export const loadResources = async () => {
     );
 
     // Agregar textos de proyectos
-    let projectsCounter = 0;
     Object.entries(window.appData.projects.projectsList).forEach(
       ([key, project]) => {
         if (key === 'portfolioJS') return;
@@ -131,9 +130,6 @@ export const loadResources = async () => {
           modalHandler(project.title, project.description)
         );
 
-        const divSpace = document.createElement('div');
-        divSpace.classList.add('space');
-
         // Crear la estructura
         divProyectos.appendChild(divCard);
         divCard.appendChild(h4);
@@ -141,8 +137,6 @@ export const loadResources = async () => {
         divCard.appendChild(buttonsDiv);
         buttonsDiv.appendChild(anchor);
         buttonsDiv.appendChild(moreInfo);
-        projectsCounter++;
-        if (projectsCounter % 3 !== 0) divProyectos.appendChild(divSpace);
       }
     );
 
@@ -166,7 +160,6 @@ export const loadResources = async () => {
     );
 
     // Agregar textos de odyssey
-    let odysseyCounter = 0;
     Object.values(window.appData.odyssey.odysseyList).forEach((exercise) => {
       const divCard = document.createElement('div');
       divCard.classList.add('card');
@@ -184,9 +177,6 @@ export const loadResources = async () => {
         modalHandler(exercise.title, exercise.description)
       );
 
-      const divSpace = document.createElement('div');
-      divSpace.classList.add('space');
-
       // Crear la estructura
       divOdyssey.appendChild(divCard);
       divCard.appendChild(h4);
@@ -194,8 +184,6 @@ export const loadResources = async () => {
       divCard.appendChild(buttonsDiv);
       buttonsDiv.appendChild(anchor);
       buttonsDiv.appendChild(moreInfo);
-      odysseyCounter++;
-      if (odysseyCounter % 3 !== 0) divOdyssey.appendChild(divSpace);
     });
 
     // Agregar título e info a certificaciones
@@ -212,7 +200,6 @@ export const loadResources = async () => {
     clone.addEventListener('click', () => modalHandler('certifications', true));
 
     // Agregar textos de certificaciones
-    let certificationsCounter = 0;
     Object.values(window.appData.certifications.certificationsList).forEach(
       (certification) => {
         const divCard = document.createElement('div');
@@ -231,9 +218,6 @@ export const loadResources = async () => {
           modalHandler(certification.title, certification.description)
         );
 
-        const divSpace = document.createElement('div');
-        divSpace.classList.add('space');
-
         // Crear la estructura
         divCertificaciones.appendChild(divCard);
         divCard.appendChild(h4);
@@ -241,9 +225,6 @@ export const loadResources = async () => {
         divCard.appendChild(buttonsDiv);
         buttonsDiv.appendChild(anchor);
         buttonsDiv.appendChild(moreInfo);
-        certificationsCounter++;
-        if (certificationsCounter % 3 !== 0)
-          divCertificaciones.appendChild(divSpace);
       }
     );
   } catch (error) {

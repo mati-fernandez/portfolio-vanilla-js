@@ -9,7 +9,9 @@ window.mobileVersion =
 document.addEventListener('DOMContentLoaded', (e) => {
   //Variables y constantes de uso global:
   const devMode =
-    location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    location.hostname === 'localhost' ||
+    location.hostname === '127.0.0.1' ||
+    location.hostname.includes('192.168');
   console.log('Modo desarrollo:', devMode);
 
   // Actualiza el modo actual del viewport
@@ -56,7 +58,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   $viewMoreProjects.addEventListener('click', () => {
     $viewMoreProjects.style.display = 'none';
     $viewLessProjects.style.display = 'inline-block';
-    window.$secondaryProjects.forEach((card) => (card.style.display = 'grid'));
+    window.$secondaryProjects.forEach((card) => (card.style.display = 'flex'));
   });
   $viewLessProjects.addEventListener('click', () => {
     $viewMoreProjects.style.display = 'inline-block';
@@ -67,7 +69,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   $viewMoreOdysseys.addEventListener('click', () => {
     $viewMoreOdysseys.style.display = 'none';
     $viewLessOdysseys.style.display = 'inline-block';
-    window.$secondaryOdysseys.forEach((card) => (card.style.display = 'grid'));
+    window.$secondaryOdysseys.forEach((card) => (card.style.display = 'flex'));
   });
   $viewLessOdysseys.addEventListener('click', () => {
     $viewMoreOdysseys.style.display = 'inline-block';
@@ -78,7 +80,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   $viewMoreCert.addEventListener('click', () => {
     $viewMoreCert.style.display = 'none';
     $viewLessCert.style.display = 'inline-block';
-    window.$secondaryCerts.forEach((card) => (card.style.display = 'grid'));
+    window.$secondaryCerts.forEach((card) => (card.style.display = 'flex'));
   });
 
   $viewLessCert.addEventListener('click', () => {
