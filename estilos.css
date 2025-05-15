@@ -128,17 +128,19 @@ section {
 #modal-close-btn {
   font-size: larger;
   color: var(--color3);
-  position: absolute;
-  top: 30px;
-  right: 30px;
+  background-color: var(--color1);
+  position: fixed;
+  top: -10px;
+  right: -10px;
   cursor: pointer;
   border-radius: 50px;
   padding: 5px 8px 5px 7px;
-  border: 1px solid black;
+  border: 1px solid var(--color3);
+  z-index: 11;
 }
 
 #modal-close-btn:hover {
-  border: 1px solid var(--color3);
+  background-color: white;
 }
 
 #modal-title {
@@ -150,27 +152,29 @@ section {
 #modal-content {
   font-size: 1.2rem;
   color: var(--color3);
-  text-align: center;
+  white-space: pre-wrap;
+  text-align: justify;
+  hyphens: auto;
+  text-wrap: pretty;
 }
 
 #modal {
   display: flex;
   flex-direction: column;
-  gap: 50px;
-  padding: 0 33px 35px;
+  padding: 33px 35px;
   background-color: var(--color1);
   position: fixed;
-  left: 50vw;
+  left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 75vw;
-  height: 75vh;
-  overflow: hidden;
+  height: fit-content;
+  min-width: 60vw;
+  min-height: 60vh;
   border: 1px solid var(--color3);
-  gap: 33px;
+  gap: 20px;
 }
 
 #modal-bkg {
@@ -567,8 +571,7 @@ footer {
 
   #modal {
     width: 90vw;
-    height: max-content;
-    padding: 100px 20px;
+    max-height: 90vh;
     line-height: 1.5;
   }
 

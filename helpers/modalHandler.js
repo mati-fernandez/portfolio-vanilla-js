@@ -43,13 +43,9 @@ export const modalHandler = (modalTitle, modalText) => {
   modalContainer.style.pointerEvents = 'auto';
   const scrollY = scrollContainer.scrollTop;
   modalContainer.style.display = 'block';
-  if (!window.mobileVersion) {
-    // Si es desktop
-    modal.style.top = `${scrollY + window.innerHeight / 2}px`;
-  } else {
-    // Si es mobile
-    modal.style.top = `${scrollY + window.innerHeight / 2.2}px`;
-  }
+
+  modal.style.top = `${scrollY + window.innerHeight / 2}px`;
+
   title.textContent = modalTitle;
   content.textContent = modalText;
 
