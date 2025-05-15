@@ -689,24 +689,29 @@ footer {
   .pec {
     width: 100%;
     display: flex;
-    flex-direction: column;
     padding: 10px 5px;
   }
 
   .card {
     flex-direction: column;
     text-align: center;
-    width: 100%;
+    width: 45%;
     height: unset;
     aspect-ratio: unset;
     margin: 6vh 0;
   }
 
   .card img {
-    max-width: 90vw;
+    max-width: 33vw;
     max-height: 100vh;
     height: auto;
     width: 80vw;
+  }
+
+  .buttons {
+    align-items: center;
+    font-size: small;
+    flex-direction: column;
   }
 
   /************************* Contacto ************/
