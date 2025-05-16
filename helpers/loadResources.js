@@ -22,7 +22,7 @@ $devModeBtn.addEventListener('click', (e) => {
   } else {
     $devModeBtn.innerHTML = 'Build <br/> Endpoint';
     $devModeBtn.classList.remove('danger-btn');
-    endpointMode = 'Build';
+    endpointMode = 'build';
     loadResources();
   }
   console.log('Endpoint Mode:', endpointMode);
@@ -42,191 +42,30 @@ const clearSectionContent = () => {
 
 export const loadResources = async () => {
   clearSectionContent();
-  const translationsUrl =
+
+  const baseUrl =
     endpointMode === 'build'
-      ? 'https://portfolio-4oh.pages.dev/es.json'
-      : 'http://192.168.68.103:5500/es.json'; // El 103 podría ser dinamico y probar cual responde. Esto lo cambie para poder usar en cel. Igual no anda por alguna razon
+      ? 'https://portfolio-4oh.pages.dev/'
+      : 'http://192.168.68.103:5500/'; // El 103 podría ser dinamico y probar cual responde. Esto lo cambie para poder usar en cel. Igual no anda por alguna razon
+  const imagesEndpoint = `${baseUrl}/images.json`;
+  const textsEndpoint = `${baseUrl}/es.json`;
+
+  // Imágenes
+  try {
+    const response = await fetch(imagesEndpoint);
+    window.appImages = await response.json();
+  } catch (error) {
+    console.log(
+      'Error al cargar las imágenes de la app:',
+      error,
+      '\n\nREVISASTE PUERTO PARA IMAGENES???\n\n'
+    );
+  }
+
   // Textos
   try {
-    const response = await fetch(translationsUrl);
+    const response = await fetch(textsEndpoint);
     window.appData = await response.json();
-
-    // Crear elemento info
-    const $info = document.createElement('p');
-    $info.textContent = 'i';
-    $info.classList.add('info');
-
-    // Declarar variables
-    let title = null;
-    let clone = null;
-    let titleContainer = null;
-
-    // Info de la sección presentación
-    const $seccionPresentacion = document.querySelector(
-      '#seccion-presentacion'
-    );
-    clone = $info.cloneNode(true);
-    $seccionPresentacion.appendChild(clone);
-    const presentacionModalTitle =
-      window.appData.projects.projectsList.portfolioJS.title;
-    const presentacionModalText =
-      window.appData.projects.projectsList.portfolioJS.description;
-    clone.addEventListener('click', () =>
-      modalHandler(presentacionModalTitle, presentacionModalText)
-    );
-
-    // Texto de botones de vista
-    const $viewMoreProjects = document.querySelector('#view-more-projects');
-    const $viewLessProjects = document.querySelector('#view-less-projects');
-    const $viewMoreOdysseys = document.querySelector('#view-more-odysseys');
-    const $viewLessOdysseys = document.querySelector('#view-less-odysseys');
-    const $viewMoreCert = document.querySelector('#view-more-cert');
-    const $viewLessCert = document.querySelector('#view-less-cert');
-
-    $viewMoreProjects.textContent = window.appData.projects.buttons.viewMore;
-    $viewLessProjects.textContent = window.appData.projects.buttons.viewLess;
-    $viewMoreOdysseys.textContent = window.appData.odyssey.buttons.viewMore;
-    $viewLessOdysseys.textContent = window.appData.odyssey.buttons.viewLess;
-    $viewMoreCert.textContent = window.appData.certifications.buttons.viewMore;
-    $viewLessCert.textContent = window.appData.certifications.buttons.viewLess;
-
-    // Agregar titulo e info a proyectos
-    document.querySelector('#presentacion').textContent =
-      window.appData.description;
-    const divProyectos = document.querySelector('#proyectos');
-    titleContainer = document.createElement('div');
-    titleContainer.classList.add('title-container');
-    divProyectos.insertAdjacentElement('beforebegin', titleContainer);
-    title = document.createElement('h2');
-    title.textContent = `${window.appData.menu.projects}`;
-    titleContainer.appendChild(title);
-    clone = $info.cloneNode(true);
-    titleContainer.appendChild(clone);
-
-    // Agregar evento al botón de info de las secciones
-    const projectsModalTitle = window.appData.projects.info.title;
-    const projectsModalText = window.appData.projects.info.text;
-    clone.addEventListener('click', () =>
-      modalHandler(projectsModalTitle, projectsModalText)
-    );
-
-    // Agregar textos de proyectos
-    Object.entries(window.appData.projects.projectsList).forEach(
-      ([key, project]) => {
-        if (key === 'portfolioJS') return;
-        const divCard = document.createElement('div');
-        divCard.classList.add('card');
-
-        const h4 = document.createElement('h4');
-        const anchor = document.createElement('a');
-        anchor.textContent = project.open;
-        anchor.target = '_blank';
-        const buttonsDiv = document.createElement('div');
-        buttonsDiv.classList.add('buttons');
-        const moreInfo = document.createElement('a');
-        moreInfo.textContent = '+Info';
-        moreInfo.classList.add('more-info');
-        moreInfo.addEventListener('click', () =>
-          modalHandler(project.title, project.description)
-        );
-
-        // Crear la estructura
-        divProyectos.appendChild(divCard);
-        divCard.appendChild(h4);
-        h4.textContent = project.title;
-        divCard.appendChild(buttonsDiv);
-        buttonsDiv.appendChild(anchor);
-        buttonsDiv.appendChild(moreInfo);
-      }
-    );
-
-    // Agregar título e info a odyssey
-    const divOdyssey = document.querySelector('#odysseys');
-    title = document.createElement('h2');
-    title.textContent = `${window.appData.menu.odyssey}`;
-    divOdyssey.insertAdjacentElement('beforebegin', title);
-    titleContainer = document.createElement('div');
-    titleContainer.classList.add('title-container');
-    divOdyssey.insertAdjacentElement('beforebegin', titleContainer);
-    titleContainer.appendChild(title);
-    clone = $info.cloneNode(true);
-    titleContainer.appendChild(clone);
-
-    // Agregar evento al botón de info de las secciones
-    const odyssseyModalTitle = window.appData.odyssey.info.title;
-    const odysseyModalText = window.appData.odyssey.info.text;
-    clone.addEventListener('click', () =>
-      modalHandler(odyssseyModalTitle, odysseyModalText)
-    );
-
-    // Agregar textos de odyssey
-    Object.values(window.appData.odyssey.odysseyList).forEach((exercise) => {
-      const divCard = document.createElement('div');
-      divCard.classList.add('card');
-
-      const h4 = document.createElement('h4');
-      const anchor = document.createElement('a');
-      anchor.textContent = exercise.open;
-      anchor.target = '_blank';
-      const buttonsDiv = document.createElement('div');
-      buttonsDiv.classList.add('buttons');
-      const moreInfo = document.createElement('a');
-      moreInfo.textContent = '+Info';
-      moreInfo.classList.add('more-info');
-      moreInfo.addEventListener('click', () =>
-        modalHandler(exercise.title, exercise.description)
-      );
-
-      // Crear la estructura
-      divOdyssey.appendChild(divCard);
-      divCard.appendChild(h4);
-      h4.textContent = exercise.title;
-      divCard.appendChild(buttonsDiv);
-      buttonsDiv.appendChild(anchor);
-      buttonsDiv.appendChild(moreInfo);
-    });
-
-    // Agregar título e info a certificaciones
-    const divCertificaciones = document.querySelector('#certificaciones');
-    titleContainer = document.createElement('div');
-    titleContainer.classList.add('title-container');
-    divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
-    title = document.createElement('h2');
-    title.textContent = `${window.appData.menu.certifications}`;
-    divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
-    titleContainer.appendChild(title);
-    clone = $info.cloneNode(true);
-    titleContainer.appendChild(clone);
-    clone.addEventListener('click', () => modalHandler('certifications', true));
-
-    // Agregar textos de certificaciones
-    Object.values(window.appData.certifications.certificationsList).forEach(
-      (certification) => {
-        const divCard = document.createElement('div');
-        divCard.classList.add('card');
-
-        const h4 = document.createElement('h4');
-        const anchor = document.createElement('a');
-        anchor.textContent = certification.open;
-        anchor.target = '_blank';
-        const buttonsDiv = document.createElement('div');
-        buttonsDiv.classList.add('buttons');
-        const moreInfo = document.createElement('a');
-        moreInfo.textContent = '+Info';
-        moreInfo.classList.add('more-info');
-        moreInfo.addEventListener('click', () =>
-          modalHandler(certification.title, certification.description)
-        );
-
-        // Crear la estructura
-        divCertificaciones.appendChild(divCard);
-        divCard.appendChild(h4);
-        h4.textContent = certification.title;
-        divCard.appendChild(buttonsDiv);
-        buttonsDiv.appendChild(anchor);
-        buttonsDiv.appendChild(moreInfo);
-      }
-    );
   } catch (error) {
     console.log(
       'Error al cargar el texto de la app:',
@@ -235,128 +74,321 @@ export const loadResources = async () => {
     );
   }
 
+  // Crear elemento info
+  const $info = document.createElement('p');
+  $info.textContent = 'i';
+  $info.classList.add('info');
+
+  // Declarar variables
+  let title = null;
+  let clone = null;
+  let titleContainer = null;
+
+  // Info de la sección presentación
+  const $seccionPresentacion = document.querySelector('#seccion-presentacion');
+  clone = $info.cloneNode(true);
+  $seccionPresentacion.appendChild(clone);
+  const presentacionModalTitle =
+    window.appData.projects.projectsList.portfolioJS.title;
+  const presentacionModalText =
+    window.appData.projects.projectsList.portfolioJS.description;
+  clone.addEventListener('click', () =>
+    modalHandler(presentacionModalTitle, presentacionModalText)
+  );
+
+  // Texto de botones de vista
+  const $viewMoreProjects = document.querySelector('#view-more-projects');
+  const $viewLessProjects = document.querySelector('#view-less-projects');
+  const $viewMoreOdysseys = document.querySelector('#view-more-odysseys');
+  const $viewLessOdysseys = document.querySelector('#view-less-odysseys');
+  const $viewMoreCert = document.querySelector('#view-more-cert');
+  const $viewLessCert = document.querySelector('#view-less-cert');
+
+  $viewMoreProjects.textContent = window.appData.projects.buttons.viewMore;
+  $viewLessProjects.textContent = window.appData.projects.buttons.viewLess;
+  $viewMoreOdysseys.textContent = window.appData.odyssey.buttons.viewMore;
+  $viewLessOdysseys.textContent = window.appData.odyssey.buttons.viewLess;
+  $viewMoreCert.textContent = window.appData.certifications.buttons.viewMore;
+  $viewLessCert.textContent = window.appData.certifications.buttons.viewLess;
+
+  // Agregar titulo e info a proyectos
+  document.querySelector('#presentacion').textContent =
+    window.appData.description;
+  const divProyectos = document.querySelector('#proyectos');
+  titleContainer = document.createElement('div');
+  titleContainer.classList.add('title-container');
+  divProyectos.insertAdjacentElement('beforebegin', titleContainer);
+  title = document.createElement('h2');
+  title.textContent = `${window.appData.menu.projects}`;
+  titleContainer.appendChild(title);
+  clone = $info.cloneNode(true);
+  titleContainer.appendChild(clone);
+
+  // Agregar evento al botón de info de las secciones
+  const projectsModalTitle = window.appData.projects.info.title;
+  const projectsModalText = window.appData.projects.info.text;
+  clone.addEventListener('click', () =>
+    modalHandler(projectsModalTitle, projectsModalText)
+  );
+
+  // Agregar textos de proyectos
+  const secondaryProjects = [];
+  Object.entries(window.appData.projects.projectsList).forEach(
+    ([key, project]) => {
+      if (key === 'portfolioJS') return;
+      const divCard = document.createElement('div');
+      divCard.classList.add('card');
+
+      const h4 = document.createElement('h4');
+      const anchor = document.createElement('a');
+      anchor.textContent = project.open;
+      anchor.target = '_blank';
+      const buttonsDiv = document.createElement('div');
+      buttonsDiv.classList.add('buttons');
+      const moreInfo = document.createElement('a');
+      moreInfo.textContent = '+Info';
+      moreInfo.classList.add('more-info');
+      moreInfo.addEventListener('click', () =>
+        modalHandler(project.title, project.description)
+      );
+
+      // Crear la estructura
+      divCard.appendChild(h4);
+      h4.textContent = project.title;
+      divCard.appendChild(buttonsDiv);
+      buttonsDiv.appendChild(anchor);
+      buttonsDiv.appendChild(moreInfo);
+
+      if (window.appImages.projects[key].class === 'secondary') {
+        secondaryProjects.push(divCard);
+      } else {
+        divProyectos.appendChild(divCard);
+      }
+    }
+  );
+
+  secondaryProjects.forEach((card) => divProyectos.appendChild(card));
+
+  // Agregar título e info a odyssey
+  const divOdyssey = document.querySelector('#odysseys');
+  title = document.createElement('h2');
+  title.textContent = `${window.appData.menu.odyssey}`;
+  divOdyssey.insertAdjacentElement('beforebegin', title);
+  titleContainer = document.createElement('div');
+  titleContainer.classList.add('title-container');
+  divOdyssey.insertAdjacentElement('beforebegin', titleContainer);
+  titleContainer.appendChild(title);
+  clone = $info.cloneNode(true);
+  titleContainer.appendChild(clone);
+
+  // Agregar evento al botón de info de las secciones
+  const odyssseyModalTitle = window.appData.odyssey.info.title;
+  const odysseyModalText = window.appData.odyssey.info.text;
+  clone.addEventListener('click', () =>
+    modalHandler(odyssseyModalTitle, odysseyModalText)
+  );
+
+  // Agregar textos de odyssey
+  Object.values(window.appData.odyssey.odysseyList).forEach((exercise) => {
+    const divCard = document.createElement('div');
+    divCard.classList.add('card');
+
+    const h4 = document.createElement('h4');
+    const anchor = document.createElement('a');
+    anchor.textContent = exercise.open;
+    anchor.target = '_blank';
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.classList.add('buttons');
+    const moreInfo = document.createElement('a');
+    moreInfo.textContent = '+Info';
+    moreInfo.classList.add('more-info');
+    moreInfo.addEventListener('click', () =>
+      modalHandler(exercise.title, exercise.description)
+    );
+
+    // Crear la estructura
+    divOdyssey.appendChild(divCard);
+    divCard.appendChild(h4);
+    h4.textContent = exercise.title;
+    divCard.appendChild(buttonsDiv);
+    buttonsDiv.appendChild(anchor);
+    buttonsDiv.appendChild(moreInfo);
+  });
+
+  // Agregar título e info a certificaciones
+  const divCertificaciones = document.querySelector('#certificaciones');
+  titleContainer = document.createElement('div');
+  titleContainer.classList.add('title-container');
+  divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
+  title = document.createElement('h2');
+  title.textContent = `${window.appData.menu.certifications}`;
+  divCertificaciones.insertAdjacentElement('beforebegin', titleContainer);
+  titleContainer.appendChild(title);
+  clone = $info.cloneNode(true);
+  titleContainer.appendChild(clone);
+  clone.addEventListener('click', () => modalHandler('certifications', true));
+
+  // Agregar textos de certificaciones
+  Object.values(window.appData.certifications.certificationsList).forEach(
+    (certification) => {
+      const divCard = document.createElement('div');
+      divCard.classList.add('card');
+
+      const h4 = document.createElement('h4');
+      const anchor = document.createElement('a');
+      anchor.textContent = certification.open;
+      anchor.target = '_blank';
+      const buttonsDiv = document.createElement('div');
+      buttonsDiv.classList.add('buttons');
+      const moreInfo = document.createElement('a');
+      moreInfo.textContent = '+Info';
+      moreInfo.classList.add('more-info');
+      moreInfo.addEventListener('click', () =>
+        modalHandler(certification.title, certification.description)
+      );
+
+      // Crear la estructura
+      divCertificaciones.appendChild(divCard);
+      divCard.appendChild(h4);
+      h4.textContent = certification.title;
+      divCard.appendChild(buttonsDiv);
+      buttonsDiv.appendChild(anchor);
+      buttonsDiv.appendChild(moreInfo);
+    }
+  );
+
   /*******************************************************************************/
   /****************** Imágenes y enlaces (Skills están acá por ahora) ************/
   /*******************************************************************************/
 
-  const imagesUrlBase =
-    endpointMode === 'build'
-      ? 'https://portfolio-4oh.pages.dev/'
-      : 'http://127.0.0.1:5500/';
-  const imagesUrlEndpoint = 'images.json';
-  try {
-    const response = await fetch(`${imagesUrlBase}/${imagesUrlEndpoint}`);
-    window.appImages = await response.json();
-    const skills = document.querySelector('.skills-list');
-    const title = document.createElement('h2');
-    title.textContent = `${window.appData.menu.skills}`;
-    skills.insertAdjacentElement('beforebegin', title);
-    // Agregar skills
-    Object.entries(window.appImages.skills).forEach(([key, skill]) => {
-      const li = document.createElement('li');
-      const divContainer = document.createElement('div');
-      divContainer.classList.add('skill-container');
+  const skills = document.querySelector('.skills-list');
+  const skillsTitle = document.createElement('h2');
+  skillsTitle.textContent = `${window.appData.menu.skills}`;
+  skills.insertAdjacentElement('beforebegin', title);
+  // Agregar skills
+  Object.entries(window.appImages.skills).forEach(([key, skill]) => {
+    const li = document.createElement('li');
+    const divContainer = document.createElement('div');
+    divContainer.classList.add('skill-container');
 
-      const img = document.createElement('img');
-      img.classList.add('tech');
-      img.src = `${imagesUrlBase}/${skill.src}`;
-      img.alt = window.appData.skills[key].title;
+    const img = document.createElement('img');
+    img.classList.add('tech');
+    img.src = `${baseUrl}/${skill.src}`;
+    img.alt = window.appData.skills[key].title;
 
-      const span = document.createElement('span');
-      span.classList.add('skill-name');
-      span.textContent = window.appData.skills[key].title;
+    const span = document.createElement('span');
+    span.classList.add('skill-name');
+    span.textContent = window.appData.skills[key].title;
 
-      const divProgressBar = document.createElement('div');
-      divProgressBar.classList.add('progress-bar');
+    const divProgressBar = document.createElement('div');
+    divProgressBar.classList.add('progress-bar');
 
-      const divProgress = document.createElement('div');
-      divProgress.classList.add('progress');
-      divProgress.style.width = skill.progress;
+    const divProgress = document.createElement('div');
+    divProgress.classList.add('progress');
+    divProgress.style.width = skill.progress;
 
-      // Construir la estructura
-      skills.appendChild(li);
-      li.appendChild(divContainer);
-      divContainer.appendChild(img);
-      divContainer.appendChild(span);
-      li.appendChild(divProgressBar);
-      divProgressBar.appendChild(divProgress);
-    });
+    // Construir la estructura
+    skills.appendChild(li);
+    li.appendChild(divContainer);
+    divContainer.appendChild(img);
+    divContainer.appendChild(span);
+    li.appendChild(divProgressBar);
+    divProgressBar.appendChild(divProgress);
+  });
 
-    // Retraso para que no se vea el destello de skills sombre home en mobile
-    const timeOutSkills = setTimeout(() => {
-      document.querySelector('#seccion-skills').style.visibility = 'visible';
-      clearTimeout(timeOutSkills);
-    }, 1000);
+  // Retraso para que no se vea el destello de skills sombre home en mobile
+  const timeOutSkills = setTimeout(() => {
+    document.querySelector('#seccion-skills').style.visibility = 'visible';
+    clearTimeout(timeOutSkills);
+  }, 1000);
 
-    // Agregar imágenes y enlaces a proyectos
-    const proyectos = document.querySelectorAll('#proyectos .card');
-    let projectsCount = 0; // Creo que acá no usé index porque estoy sacando un proyecto (Portfolio actual)
-    Object.entries(window.appImages.projects).forEach(([key, project]) => {
-      if (key === 'portfolioJS') return;
-      const img = document.createElement('img');
-      const h4 = proyectos[projectsCount].querySelector('h4');
-      h4.insertAdjacentElement('afterend', img);
-      img.id = key;
-      img.src = `${imagesUrlBase}/${project.src}`;
-      img.alt = window.appData.projects.projectsList[key].title;
-
-      proyectos[projectsCount].querySelector('a').href = project.link;
-
-      if (project.class === 'secondary')
-        proyectos[projectsCount].classList.add('secondary');
-
-      projectsCount++;
-    });
-    window.$secondaryProjects = document.querySelectorAll(
-      '#proyectos > .card.secondary'
-    );
-
-    // Agregar imágenes y enlaces a odysseys
-    const odysseys = document.querySelectorAll('#odysseys .card');
-    Object.entries(window.appImages.odyssey).forEach(
-      ([key, odyssey], index) => {
-        const img = document.createElement('img');
-        const h4 = odysseys[index].querySelector('h4');
-        h4.insertAdjacentElement('afterend', img);
-        img.id = key;
-        img.src = `${imagesUrlBase}/${odyssey.src}`;
-        img.alt = window.appData.odyssey.odysseyList[key].title;
-
-        odysseys[index].querySelector('a').href = odyssey.link;
-
-        if (odyssey.class === 'secondary')
-          odysseys[index].classList.add('secondary');
-      }
-    );
-    window.$secondaryOdysseys = document.querySelectorAll(
-      '#odysseys > .card.secondary'
-    );
-
-    // Agregar imágenes, enlaces y clases a certificaciones
-    const certificaciones = document.querySelectorAll('#certificaciones .card');
-    Object.entries(window.appImages.certifications).forEach(
-      ([key, certification], index) => {
-        const img = document.createElement('img');
-        const h4 = certificaciones[index].querySelector('h4');
-        h4.insertAdjacentElement('afterend', img);
-        img.id = key;
-        img.src = `${imagesUrlBase}/${certification.src}`;
-        img.alt = window.appData.certifications.certificationsList[key].title;
-
-        certificaciones[index].querySelector('a').href = certification.link;
-
-        if (certification.class === 'secondary')
-          certificaciones[index].classList.add('secondary');
-      }
-    );
-    $secondaryCerts = document.querySelectorAll(
-      '#certificaciones > .card.secondary'
-    );
-  } catch (error) {
-    console.log(
-      'Error al cargar las imágenes de la app:',
-      error,
-      '\n\nREVISASTE PUERTO PARA IMAGENES???\n\n'
-    );
+  function applyImg(key, $item, $section, index, sectionKey) {
+    let path = '';
+    switch (sectionKey) {
+      case 'projects':
+        path = 'appData.projects.projectsList';
+        break;
+      case 'odyssey':
+        path = 'appData.odyssey.odysseyList';
+        break;
+      case 'certifications':
+        path = 'appData.certification.certificationList';
+        break;
+    }
+    const img = document.createElement('img');
+    const h4 = $section[index].querySelector('h4');
+    h4.insertAdjacentElement('afterend', img);
+    img.id = key;
+    img.src = `${baseUrl}${window.appImages[sectionKey][key].src}`;
+    const obj = path.split('.').reduce((acc, key) => acc?.[key], globalThis);
+    img.alt = obj?.[key].title;
+    $section[index].querySelector('a').href = $item.link;
   }
+
+  // Agregar imágenes y enlaces a proyectos
+  const proyectos = document.querySelectorAll('#proyectos .card');
+  let projectsCount = 0; // Creo que acá no usé index porque estoy sacando un proyecto (Portfolio actual)
+  const secondaryProjectsImg = [];
+
+  Object.entries(window.appImages.projects).forEach(([key, project]) => {
+    if (key === 'portfolioJS') return;
+    if (project.class === 'secondary') {
+      secondaryProjectsImg.push([key, project]);
+    } else {
+      applyImg(key, project, proyectos, projectsCount, 'projects');
+      projectsCount++;
+    }
+  });
+  secondaryProjectsImg.forEach(([key, project]) => {
+    proyectos[projectsCount].classList.add('secondary');
+    applyImg(key, project, proyectos, projectsCount, 'projects');
+    projectsCount++;
+  });
+  window.$secondaryProjects = document.querySelectorAll(
+    '#proyectos > .card.secondary'
+  );
+
+  // Agregar imágenes y enlaces a odysseys
+  const odysseys = document.querySelectorAll('#odysseys .card');
+  let odysseysCount = 0;
+  const secondaryOdysseysImg = [];
+
+  Object.entries(window.appImages.odyssey).forEach(([key, odyssey]) => {
+    if (odyssey.class === 'secondary') {
+      secondaryOdysseysImg.push([key, odyssey]);
+    } else {
+      applyImg(key, odyssey, odysseys, odysseysCount, 'odyssey');
+      odysseysCount++;
+    }
+  });
+  secondaryOdysseysImg.forEach(([key, odyssey]) => {
+    odysseys[odysseysCount].classList.add('secondary');
+    applyImg(key, odyssey, odysseys, odysseysCount, 'odyssey');
+    odysseysCount++;
+  });
+  window.$secondaryOdysseys = document.querySelectorAll(
+    '#odysseys > .card.secondary'
+  );
+
+  // Agregar imágenes, enlaces y clases a certificaciones
+  const certs = document.querySelectorAll('#certificaciones .card');
+  let certCount = 0;
+  const secondaryCertsImg = [];
+
+  Object.entries(window.appImages.certifications).forEach(([key, cert]) => {
+    if (cert.class === 'secondary') {
+      secondaryCertsImg.push([key, cert]);
+    } else {
+      applyImg(key, cert, certs, certCount, 'certifications');
+      certCount++;
+    }
+  });
+  secondaryCertsImg.forEach(([key, cert]) => {
+    certs[certCount].classList.add('secondary');
+    applyImg(key, cert, certs, certCount, 'certifications');
+    certCount++;
+  });
+  window.$secondaryCerts = document.querySelectorAll(
+    '#certificaciones > .card.secondary'
+  );
 };
