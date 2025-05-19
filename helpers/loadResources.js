@@ -46,9 +46,9 @@ export const loadResources = async () => {
   const baseUrl =
     endpointMode === 'build'
       ? 'https://portfolio-4oh.pages.dev/'
-      : 'http://192.168.68.103:5500/'; // El 103 podría ser dinamico y probar cual responde. Esto lo cambie para poder usar en cel. Igual no anda por alguna razon
-  const imagesEndpoint = `${baseUrl}/images.json`;
-  const textsEndpoint = `${baseUrl}/es.json`;
+      : 'http://localhost:5500/'; // El 103 podría ser dinamico y probar cual responde. Esto lo cambie para poder usar en cel. Igual no anda por alguna razon
+  const imagesEndpoint = `${baseUrl}images.json`;
+  const textsEndpoint = `${baseUrl}es.json`;
 
   // Imágenes
   try {
@@ -132,7 +132,6 @@ export const loadResources = async () => {
   );
 
   // Agregar textos de proyectos
-  const secondaryProjects = [];
   Object.entries(window.appData.projects.projectsList).forEach(
     ([key, project]) => {
       if (key === 'portfolioJS') return;
@@ -158,16 +157,9 @@ export const loadResources = async () => {
       divCard.appendChild(buttonsDiv);
       buttonsDiv.appendChild(anchor);
       buttonsDiv.appendChild(moreInfo);
-
-      if (window.appImages.projects[key].class === 'secondary') {
-        secondaryProjects.push(divCard);
-      } else {
-        divProyectos.appendChild(divCard);
-      }
+      divProyectos.appendChild(divCard);
     }
   );
-
-  secondaryProjects.forEach((card) => divProyectos.appendChild(card));
 
   // Agregar título e info a odyssey
   const divOdyssey = document.querySelector('#odysseys');
@@ -323,24 +315,17 @@ export const loadResources = async () => {
     const obj = path.split('.').reduce((acc, key) => acc?.[key], globalThis);
     img.alt = obj?.[key].title;
     $section[index].querySelector('a').href = $item.link;
+
+    if (window.appImages[sectionKey][key].class === 'secondary')
+      $section[index].classList.add('secondary');
   }
 
   // Agregar imágenes y enlaces a proyectos
   const proyectos = document.querySelectorAll('#proyectos .card');
-  let projectsCount = 0; // Creo que acá no usé index porque estoy sacando un proyecto (Portfolio actual)
-  const secondaryProjectsImg = [];
+  let projectsCount = 0; // Acá no usé index porque estoy sacando un proyecto (Portfolio actual)
 
   Object.entries(window.appImages.projects).forEach(([key, project]) => {
     if (key === 'portfolioJS') return;
-    if (project.class === 'secondary') {
-      secondaryProjectsImg.push([key, project]);
-    } else {
-      applyImg(key, project, proyectos, projectsCount, 'projects');
-      projectsCount++;
-    }
-  });
-  secondaryProjectsImg.forEach(([key, project]) => {
-    proyectos[projectsCount].classList.add('secondary');
     applyImg(key, project, proyectos, projectsCount, 'projects');
     projectsCount++;
   });
@@ -350,21 +335,9 @@ export const loadResources = async () => {
 
   // Agregar imágenes y enlaces a odysseys
   const odysseys = document.querySelectorAll('#odysseys .card');
-  let odysseysCount = 0;
-  const secondaryOdysseysImg = [];
 
-  Object.entries(window.appImages.odyssey).forEach(([key, odyssey]) => {
-    if (odyssey.class === 'secondary') {
-      secondaryOdysseysImg.push([key, odyssey]);
-    } else {
-      applyImg(key, odyssey, odysseys, odysseysCount, 'odyssey');
-      odysseysCount++;
-    }
-  });
-  secondaryOdysseysImg.forEach(([key, odyssey]) => {
-    odysseys[odysseysCount].classList.add('secondary');
-    applyImg(key, odyssey, odysseys, odysseysCount, 'odyssey');
-    odysseysCount++;
+  Object.entries(window.appImages.odyssey).forEach(([key, odyssey], index) => {
+    applyImg(key, odyssey, odysseys, index, 'odyssey');
   });
   window.$secondaryOdysseys = document.querySelectorAll(
     '#odysseys > .card.secondary'
@@ -372,22 +345,12 @@ export const loadResources = async () => {
 
   // Agregar imágenes, enlaces y clases a certificaciones
   const certs = document.querySelectorAll('#certificaciones .card');
-  let certCount = 0;
-  const secondaryCertsImg = [];
 
-  Object.entries(window.appImages.certifications).forEach(([key, cert]) => {
-    if (cert.class === 'secondary') {
-      secondaryCertsImg.push([key, cert]);
-    } else {
-      applyImg(key, cert, certs, certCount, 'certifications');
-      certCount++;
+  Object.entries(window.appImages.certifications).forEach(
+    ([key, cert], index) => {
+      applyImg(key, cert, certs, index, 'certifications');
     }
-  });
-  secondaryCertsImg.forEach(([key, cert]) => {
-    certs[certCount].classList.add('secondary');
-    applyImg(key, cert, certs, certCount, 'certifications');
-    certCount++;
-  });
+  );
   window.$secondaryCerts = document.querySelectorAll(
     '#certificaciones > .card.secondary'
   );

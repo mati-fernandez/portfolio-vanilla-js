@@ -470,11 +470,12 @@ img#profile-pic {
 
 .secondary {
   display: none;
-  opacity: 60%;
+  opacity: 75%;
+  order: 1;
 }
 
 .secondary h4::after {
-  content: '[Secundarie]';
+  content: '[Secundari@]';
   display: block;
   z-index: 3;
 }
