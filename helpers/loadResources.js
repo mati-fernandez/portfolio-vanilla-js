@@ -111,9 +111,10 @@ export const loadResources = async () => {
   $viewMoreCert.textContent = window.appData.certifications.buttons.viewMore;
   $viewLessCert.textContent = window.appData.certifications.buttons.viewLess;
 
-  // Agregar titulo e info a proyectos
   document.querySelector('#presentacion').textContent =
     window.appData.description;
+
+  // Agregar titulo e info a proyectos
   const divProyectos = document.querySelector('#proyectos');
   titleContainer = document.createElement('div');
   titleContainer.classList.add('title-container');
@@ -218,7 +219,13 @@ export const loadResources = async () => {
   titleContainer.appendChild(title);
   clone = $info.cloneNode(true);
   titleContainer.appendChild(clone);
-  clone.addEventListener('click', () => modalHandler('certifications', true));
+
+  // Agregar evento al botón de info de las secciones
+  const certsModalTitle = window.appData.certifications.info.title;
+  const certsModalText = window.appData.certifications.info.text;
+  clone.addEventListener('click', () =>
+    modalHandler(certsModalTitle, certsModalText)
+  );
 
   // Agregar textos de certificaciones
   Object.values(window.appData.certifications.certificationsList).forEach(
@@ -254,8 +261,8 @@ export const loadResources = async () => {
   /*******************************************************************************/
 
   const skills = document.querySelector('.skills-list');
-  const skillsTitle = document.createElement('h2');
-  skillsTitle.textContent = `${window.appData.menu.skills}`;
+  title = document.createElement('h2');
+  title.textContent = `${window.appData.menu.skills}`;
   skills.insertAdjacentElement('beforebegin', title);
   // Agregar skills
   Object.entries(window.appImages.skills).forEach(([key, skill]) => {
