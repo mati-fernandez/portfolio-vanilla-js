@@ -153,9 +153,7 @@ section {
   font-size: 1.2rem;
   color: var(--color3);
   white-space: pre-wrap;
-  text-align: justify;
-  hyphens: auto;
-  text-wrap: pretty;
+  text-align: center;
 }
 
 #modal {
