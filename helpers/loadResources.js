@@ -321,7 +321,12 @@ export const loadResources = async () => {
     img.src = `${baseUrl}${window.appImages[sectionKey][key].src}`;
     const obj = path.split('.').reduce((acc, key) => acc?.[key], globalThis);
     img.alt = obj?.[key].title;
-    $section[index].querySelector('a').href = $item.link;
+
+    // Enlace condicional para certificados que no están en la nube
+    const link = $item.link;
+    console.log('actual path', baseUrl);
+    const realLink = link.includes('images') ? `${baseUrl}${link}` : link;
+    $section[index].querySelector('a').href = realLink;
 
     if (window.appImages[sectionKey][key].class === 'secondary')
       $section[index].classList.add('secondary');
