@@ -367,7 +367,7 @@ img#profile-pic {
   font-size: 1rem;
   list-style: none;
   padding: 0;
-  width: 80%;
+  width: 70%;
   margin-bottom: 20px;
   /* line-height: ; */
   & img {
@@ -383,7 +383,7 @@ img#profile-pic {
   align-items: center;
   margin-bottom: 2vh;
   justify-content: center;
-  transform: translateX(7%);
+  transform: translateX(23%);
 }
 
 .skill-container {
@@ -411,15 +411,15 @@ img#profile-pic {
 }
 
 .progress-bar {
-  background-color: var(--color3);
-  width: 50%;
+  /* background-color: var(--color3); */
+  width: 60%;
   height: calc(var(--font-size-landscape) * 0.5);
   margin-left: 10px;
   overflow: hidden;
 }
 
 .progress {
-  background-color: var(--color4);
+  background-color: var(--color3);
   height: 100%;
 }
 
@@ -658,7 +658,7 @@ footer {
 
   .skills-list li {
     justify-content: center;
-    transform: translateX(-6vw);
+    transform: translateX(-1vw);
     margin-bottom: 1vh;
   }
 
