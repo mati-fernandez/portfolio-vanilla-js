@@ -406,7 +406,7 @@ img#profile-pic {
 .skill-name {
   font-weight: bold;
   margin-right: 10px;
-  white-space: nowrap;
+  white-space: pre;
   text-overflow: clip;
 }
 
