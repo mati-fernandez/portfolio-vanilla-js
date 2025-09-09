@@ -93,6 +93,7 @@ body {
   transform: translateZ(
     0
   ); /* creo que es similar a transform-style: preserve 3d */
+  /* height: 100vh; */
 }
 
 header {
@@ -406,7 +407,7 @@ img#profile-pic {
 .skill-name {
   font-weight: bold;
   margin-right: 10px;
-  white-space: nowrap;
+  white-space: pre;
   text-overflow: clip;
 }
 
