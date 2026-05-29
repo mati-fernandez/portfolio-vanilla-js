@@ -33,9 +33,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
   };
 
-  // Carga de recursos
-  loadResources();
-
   // Selectores
   const $scrollToBottom = document.querySelector('#scroll-to-bottom');
   const content = document.getElementById('content');
@@ -58,36 +55,59 @@ document.addEventListener('DOMContentLoaded', (e) => {
   $viewMoreProjects.addEventListener('click', () => {
     $viewMoreProjects.style.display = 'none';
     $viewLessProjects.style.display = 'inline-block';
-    window.$secondaryProjects.forEach((card) => (card.style.display = 'flex'));
+    window.$secondaryProjects?.forEach((card) => (card.style.display = 'flex'));
+    refreshParallaxHeight();
   });
   $viewLessProjects.addEventListener('click', () => {
     $viewMoreProjects.style.display = 'inline-block';
     $viewLessProjects.style.display = 'none';
-    window.$secondaryProjects.forEach((card) => (card.style.display = 'none'));
+    window.$secondaryProjects?.forEach((card) => (card.style.display = 'none'));
+    refreshParallaxHeight();
   });
 
   $viewMoreOdysseys.addEventListener('click', () => {
     $viewMoreOdysseys.style.display = 'none';
     $viewLessOdysseys.style.display = 'inline-block';
-    window.$secondaryOdysseys.forEach((card) => (card.style.display = 'flex'));
+    window.$secondaryOdysseys?.forEach((card) => (card.style.display = 'flex'));
+    refreshParallaxHeight();
   });
   $viewLessOdysseys.addEventListener('click', () => {
     $viewMoreOdysseys.style.display = 'inline-block';
     $viewLessOdysseys.style.display = 'none';
-    window.$secondaryOdysseys.forEach((card) => (card.style.display = 'none'));
+    window.$secondaryOdysseys?.forEach((card) => (card.style.display = 'none'));
+    refreshParallaxHeight();
   });
 
   $viewMoreCert.addEventListener('click', () => {
     $viewMoreCert.style.display = 'none';
     $viewLessCert.style.display = 'inline-block';
-    window.$secondaryCerts.forEach((card) => (card.style.display = 'flex'));
+    window.$secondaryCerts?.forEach((card) => (card.style.display = 'flex'));
+    refreshParallaxHeight();
   });
 
   $viewLessCert.addEventListener('click', () => {
     $viewMoreCert.style.display = 'inline-block';
     $viewLessCert.style.display = 'none';
-    window.$secondaryCerts.forEach((card) => (card.style.display = 'none'));
+    window.$secondaryCerts?.forEach((card) => (card.style.display = 'none'));
+    refreshParallaxHeight();
   });
+
+  document
+    .querySelector('#seccion-certificaciones')
+    .addEventListener('click', (e) => {
+      if (!e.target.matches('.cert-category-tab')) return;
+      const selectedCategory = e.target.dataset.category;
+
+      document.querySelectorAll('.cert-category-tab').forEach((tab) => {
+        tab.classList.toggle('active', tab === e.target);
+      });
+
+      document.querySelectorAll('.cert-category-group').forEach((group) => {
+        group.hidden = group.dataset.category !== selectedCategory;
+      });
+
+      refreshParallaxHeight();
+    });
 
   // Efecto "Burbujas en el agua"
   const shapes = document.querySelectorAll('.shape');
@@ -127,7 +147,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // Ajustar altura del parallax al total del content
   function adjustParallaxHeight() {
     const isFirefox = typeof InstallTrigger !== 'undefined';
-    const contentHeight = content.offsetHeight;
+    const contentHeight = content.scrollHeight;
     // console.log('Content Height:', contentHeight);
     if (isFirefox) {
       if (mobileVersion) {
@@ -142,7 +162,22 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
   }
 
-  adjustParallaxHeight();
+  function refreshParallaxHeight() {
+    void content.offsetHeight;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(adjustParallaxHeight);
+    });
+  }
+
+  window.addEventListener('resourcesLoaded', refreshParallaxHeight);
+
+  if ('ResizeObserver' in window) {
+    const contentResizeObserver = new ResizeObserver(refreshParallaxHeight);
+    contentResizeObserver.observe(content);
+  }
+
+  // Carga de recursos
+  loadResources().then(refreshParallaxHeight);
 
   //Manejo de eventos click
   document.addEventListener('click', (e) => {

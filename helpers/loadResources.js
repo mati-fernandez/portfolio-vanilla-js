@@ -6,6 +6,14 @@ window.$secondaryProjects = null;
 window.$secondaryOdysseys = null;
 window.$secondaryCerts = null;
 
+const CERTIFICATION_CATEGORIES = [
+  { id: 'frontendMobile', title: 'Frontend & Mobile' },
+  { id: 'backendArchitecture', title: 'Backend & Architecture' },
+  { id: 'devopsInfrastructure', title: 'DevOps & Infrastructure' },
+  { id: 'dataAi', title: 'Data Science & AI' },
+  { id: 'other', title: 'Other' },
+];
+
 let endpointMode = 'build';
 
 //Dev mode btn
@@ -36,6 +44,9 @@ const clearSectionContent = () => {
     }
   });
   document.querySelectorAll('.title-container').forEach((el) => {
+    el.remove();
+  });
+  document.querySelectorAll('.cert-category-tabs').forEach((el) => {
     el.remove();
   });
 };
@@ -227,11 +238,45 @@ export const loadResources = async () => {
     modalHandler(certsModalTitle, certsModalText)
   );
 
+  const certCategoryTabs = document.createElement('div');
+  certCategoryTabs.classList.add('cert-category-tabs');
+  divCertificaciones.insertAdjacentElement('beforebegin', certCategoryTabs);
+
+  CERTIFICATION_CATEGORIES.forEach((category, index) => {
+    const categoryButton = document.createElement('button');
+    categoryButton.type = 'button';
+    categoryButton.classList.add('cert-category-tab');
+    categoryButton.dataset.category = category.id;
+    categoryButton.textContent = category.title;
+    if (index === 0) categoryButton.classList.add('active');
+    certCategoryTabs.appendChild(categoryButton);
+
+    const categoryGroup = document.createElement('div');
+    categoryGroup.classList.add('cert-category-group');
+    categoryGroup.dataset.category = category.id;
+    if (index !== 0) categoryGroup.hidden = true;
+
+    const categoryTitle = document.createElement('h3');
+    categoryTitle.textContent = category.title;
+    categoryGroup.appendChild(categoryTitle);
+    divCertificaciones.appendChild(categoryGroup);
+  });
+
   // Agregar textos de certificaciones
-  Object.values(window.appData.certifications.certificationsList).forEach(
-    (certification) => {
+  Object.entries(window.appData.certifications.certificationsList).forEach(
+    ([key, certification]) => {
+      const certificationImage = window.appImages.certifications[key];
+      const categoryId = certificationImage?.category ?? 'other';
+      const categoryGroup =
+        divCertificaciones.querySelector(
+          `.cert-category-group[data-category="${categoryId}"]`
+        ) ??
+        divCertificaciones.querySelector(
+          '.cert-category-group[data-category="other"]'
+        );
       const divCard = document.createElement('div');
       divCard.classList.add('card');
+      divCard.dataset.certification = key;
 
       const h4 = document.createElement('h4');
       const anchor = document.createElement('a');
@@ -247,7 +292,7 @@ export const loadResources = async () => {
       );
 
       // Crear la estructura
-      divCertificaciones.appendChild(divCard);
+      categoryGroup.appendChild(divCard);
       divCard.appendChild(h4);
       h4.textContent = certification.title;
       divCard.appendChild(buttonsDiv);
@@ -311,7 +356,7 @@ export const loadResources = async () => {
         path = 'appData.odyssey.odysseyList';
         break;
       case 'certifications':
-        path = 'appData.certification.certificationList';
+        path = 'appData.certifications.certificationsList';
         break;
     }
     const img = document.createElement('img');
@@ -328,7 +373,9 @@ export const loadResources = async () => {
     const realLink = link.includes('images') ? `${baseUrl}${link}` : link;
     $section[index].querySelector('a').href = realLink;
 
-    if (window.appImages[sectionKey][key].class === 'secondary')
+    const { level } = window.appImages[sectionKey][key];
+
+    if (level === 'secondary')
       $section[index].classList.add('secondary');
   }
 
@@ -356,14 +403,15 @@ export const loadResources = async () => {
   );
 
   // Agregar imágenes, enlaces y clases a certificaciones
-  const certs = document.querySelectorAll('#certificaciones .card');
-
-  Object.entries(window.appImages.certifications).forEach(
-    ([key, cert], index) => {
-      applyImg(key, cert, certs, index, 'certifications');
-    }
-  );
+  Object.entries(window.appImages.certifications).forEach(([key, cert]) => {
+    const certCard = document.querySelector(
+      `#certificaciones .card[data-certification="${CSS.escape(key)}"]`
+    );
+    if (!certCard) return;
+    applyImg(key, cert, [certCard], 0, 'certifications');
+  });
   window.$secondaryCerts = document.querySelectorAll(
-    '#certificaciones > .card.secondary'
+    '#certificaciones .card.secondary'
   );
+  window.dispatchEvent(new Event('resourcesLoaded'));
 };
