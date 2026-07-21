@@ -1,18 +1,10 @@
 import { modalHandler } from './modalHandler.js';
 
 window.appData = null;
-window.appImages = null;
+window.appIndex = null;
 window.$secondaryProjects = null;
 window.$secondaryOdysseys = null;
 window.$secondaryCerts = null;
-
-const CERTIFICATION_CATEGORIES = [
-  { id: 'frontendMobile', title: 'Frontend & Mobile' },
-  { id: 'backendArchitecture', title: 'Backend & Architecture' },
-  { id: 'devopsInfrastructure', title: 'DevOps & Infrastructure' },
-  { id: 'dataAi', title: 'Data Science & AI' },
-  { id: 'other', title: 'Other' },
-];
 
 let endpointMode = 'build';
 
@@ -58,18 +50,18 @@ export const loadResources = async () => {
     endpointMode === 'build'
       ? 'https://portfolio-4oh.pages.dev/'
       : 'http://localhost:5500/'; // El 103 podría ser dinamico y probar cual responde. Esto lo cambie para poder usar en cel. Igual no anda por alguna razon
-  const imagesEndpoint = `${baseUrl}images.json`;
+  const indexEndpoint = `${baseUrl}index.json`;
   const textsEndpoint = `${baseUrl}es.json`;
 
-  // Imágenes
+  // Índices
   try {
-    const response = await fetch(imagesEndpoint);
-    window.appImages = await response.json();
+    const response = await fetch(indexEndpoint);
+    window.appIndex = await response.json();
   } catch (error) {
     console.log(
-      'Error al cargar las imágenes de la app:',
+      'Error al cargar los índices de la app:',
       error,
-      '\n\nREVISASTE PUERTO PARA IMAGENES???\n\n'
+      '\n\nREVISASTE PUERTO PARA INDICES???\n\n',
     );
   }
 
@@ -81,7 +73,7 @@ export const loadResources = async () => {
     console.log(
       'Error al cargar el texto de la app:',
       error,
-      '\n\nREVISASTE PUERTO PARA TEXTOS???\n\n'
+      '\n\nREVISASTE PUERTO PARA TEXTOS???\n\n',
     );
   }
 
@@ -100,11 +92,11 @@ export const loadResources = async () => {
   clone = $info.cloneNode(true);
   $seccionPresentacion.appendChild(clone);
   const presentacionModalTitle =
-    window.appData.projects.projectsList.portfolioJS.title;
+    window.appData.projects.items.portfolioJS.title;
   const presentacionModalText =
-    window.appData.projects.projectsList.portfolioJS.description;
+    window.appData.projects.items.portfolioJS.description;
   clone.addEventListener('click', () =>
-    modalHandler(presentacionModalTitle, presentacionModalText)
+    modalHandler(presentacionModalTitle, presentacionModalText),
   );
 
   // Texto de botones de vista
@@ -140,38 +132,36 @@ export const loadResources = async () => {
   const projectsModalTitle = window.appData.projects.info.title;
   const projectsModalText = window.appData.projects.info.text;
   clone.addEventListener('click', () =>
-    modalHandler(projectsModalTitle, projectsModalText)
+    modalHandler(projectsModalTitle, projectsModalText),
   );
 
   // Agregar textos de proyectos
-  Object.entries(window.appData.projects.projectsList).forEach(
-    ([key, project]) => {
-      if (key === 'portfolioJS') return;
-      const divCard = document.createElement('div');
-      divCard.classList.add('card');
+  Object.entries(window.appData.projects.items).forEach(([key, project]) => {
+    if (key === 'portfolioJS') return;
+    const divCard = document.createElement('div');
+    divCard.classList.add('card');
 
-      const h4 = document.createElement('h4');
-      const anchor = document.createElement('a');
-      anchor.textContent = project.open;
-      anchor.target = '_blank';
-      const buttonsDiv = document.createElement('div');
-      buttonsDiv.classList.add('buttons');
-      const moreInfo = document.createElement('a');
-      moreInfo.textContent = '+Info';
-      moreInfo.classList.add('more-info');
-      moreInfo.addEventListener('click', () =>
-        modalHandler(project.title, project.description)
-      );
+    const h4 = document.createElement('h4');
+    const anchor = document.createElement('a');
+    anchor.textContent = window.appData.projects.buttons.open;
+    anchor.target = '_blank';
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.classList.add('buttons');
+    const moreInfo = document.createElement('a');
+    moreInfo.textContent = '+Info';
+    moreInfo.classList.add('more-info');
+    moreInfo.addEventListener('click', () =>
+      modalHandler(project.title, project.description),
+    );
 
-      // Crear la estructura
-      divCard.appendChild(h4);
-      h4.textContent = project.title;
-      divCard.appendChild(buttonsDiv);
-      buttonsDiv.appendChild(anchor);
-      buttonsDiv.appendChild(moreInfo);
-      divProyectos.appendChild(divCard);
-    }
-  );
+    // Crear la estructura
+    divCard.appendChild(h4);
+    h4.textContent = project.title;
+    divCard.appendChild(buttonsDiv);
+    buttonsDiv.appendChild(anchor);
+    buttonsDiv.appendChild(moreInfo);
+    divProyectos.appendChild(divCard);
+  });
 
   // Agregar título e info a odyssey
   const divOdyssey = document.querySelector('#odysseys');
@@ -189,17 +179,17 @@ export const loadResources = async () => {
   const odyssseyModalTitle = window.appData.odyssey.info.title;
   const odysseyModalText = window.appData.odyssey.info.text;
   clone.addEventListener('click', () =>
-    modalHandler(odyssseyModalTitle, odysseyModalText)
+    modalHandler(odyssseyModalTitle, odysseyModalText),
   );
 
   // Agregar textos de odyssey
-  Object.values(window.appData.odyssey.odysseyList).forEach((exercise) => {
+  Object.values(window.appData.odyssey.items).forEach((exercise) => {
     const divCard = document.createElement('div');
     divCard.classList.add('card');
 
     const h4 = document.createElement('h4');
     const anchor = document.createElement('a');
-    anchor.textContent = exercise.open;
+    anchor.textContent = window.appData.odyssey.buttons.open;
     anchor.target = '_blank';
     const buttonsDiv = document.createElement('div');
     buttonsDiv.classList.add('buttons');
@@ -207,7 +197,7 @@ export const loadResources = async () => {
     moreInfo.textContent = '+Info';
     moreInfo.classList.add('more-info');
     moreInfo.addEventListener('click', () =>
-      modalHandler(exercise.title, exercise.description)
+      modalHandler(exercise.title, exercise.description),
     );
 
     // Crear la estructura
@@ -235,74 +225,105 @@ export const loadResources = async () => {
   const certsModalTitle = window.appData.certifications.info.title;
   const certsModalText = window.appData.certifications.info.text;
   clone.addEventListener('click', () =>
-    modalHandler(certsModalTitle, certsModalText)
+    modalHandler(certsModalTitle, certsModalText),
   );
 
   const certCategoryTabs = document.createElement('div');
   certCategoryTabs.classList.add('cert-category-tabs');
   divCertificaciones.insertAdjacentElement('beforebegin', certCategoryTabs);
 
-  CERTIFICATION_CATEGORIES.forEach((category, index) => {
-    const categoryButton = document.createElement('button');
-    categoryButton.type = 'button';
-    categoryButton.classList.add('cert-category-tab');
-    categoryButton.dataset.category = category.id;
-    categoryButton.textContent = category.title;
-    if (index === 0) categoryButton.classList.add('active');
-    certCategoryTabs.appendChild(categoryButton);
+  function createCertificationCard(
+    key,
+    certificationImage,
+    categoryGroup,
+    level,
+  ) {
+    const certification = window.appData.certifications.items[key];
+    if (!certification) return;
 
-    const categoryGroup = document.createElement('div');
-    categoryGroup.classList.add('cert-category-group');
-    categoryGroup.dataset.category = category.id;
-    if (index !== 0) categoryGroup.hidden = true;
+    const divCard = document.createElement('div');
+    divCard.classList.add('card');
+    divCard.dataset.certification = key;
+    if (level === 'secondary') divCard.classList.add('secondary');
 
-    const categoryTitle = document.createElement('h3');
-    categoryTitle.textContent = category.title;
-    categoryGroup.appendChild(categoryTitle);
-    divCertificaciones.appendChild(categoryGroup);
-  });
+    const h4 = document.createElement('h4');
+    const img = document.createElement('img');
+    const anchor = document.createElement('a');
+    anchor.textContent = window.appData.certifications.buttons.open;
+    anchor.target = '_blank';
+    const buttonsDiv = document.createElement('div');
+    buttonsDiv.classList.add('buttons');
+    const moreInfo = document.createElement('a');
+    moreInfo.textContent = '+Info';
+    moreInfo.classList.add('more-info');
+    moreInfo.addEventListener('click', () =>
+      modalHandler(certification.title, certification.description),
+    );
 
-  // Agregar textos de certificaciones
-  Object.entries(window.appData.certifications.certificationsList).forEach(
-    ([key, certification]) => {
-      const certificationImage = window.appImages.certifications[key];
-      const categoryId = certificationImage?.category ?? 'other';
-      const categoryGroup =
-        divCertificaciones.querySelector(
-          `.cert-category-group[data-category="${categoryId}"]`
-        ) ??
-        divCertificaciones.querySelector(
-          '.cert-category-group[data-category="other"]'
-        );
-      const divCard = document.createElement('div');
-      divCard.classList.add('card');
-      divCard.dataset.certification = key;
+    const link = certificationImage.link;
+    const realLink = link.includes('images') ? `${baseUrl}${link}` : link;
 
-      const h4 = document.createElement('h4');
-      const anchor = document.createElement('a');
-      anchor.textContent = certification.open;
-      anchor.target = '_blank';
-      const buttonsDiv = document.createElement('div');
-      buttonsDiv.classList.add('buttons');
-      const moreInfo = document.createElement('a');
-      moreInfo.textContent = '+Info';
-      moreInfo.classList.add('more-info');
-      moreInfo.addEventListener('click', () =>
-        modalHandler(certification.title, certification.description)
+    h4.textContent = certification.title;
+    img.id = key;
+    img.src = `${baseUrl}${certificationImage.src}`;
+    img.alt = certification.title;
+    anchor.href = realLink;
+
+    // Crear la estructura
+    categoryGroup.appendChild(divCard);
+    divCard.appendChild(h4);
+    h4.insertAdjacentElement('afterend', img);
+    divCard.appendChild(buttonsDiv);
+    buttonsDiv.appendChild(anchor);
+    buttonsDiv.appendChild(moreInfo);
+  }
+
+  Object.entries(window.appIndex.certifications).forEach(
+    ([category, content], index) => {
+      const categoryButton = document.createElement('button');
+      categoryButton.type = 'button';
+      categoryButton.classList.add('cert-category-tab');
+      categoryButton.dataset.category = category;
+      categoryButton.textContent = content.title;
+      if (index === 0) categoryButton.classList.add('active');
+      certCategoryTabs.appendChild(categoryButton);
+
+      const categoryGroup = document.createElement('div');
+      categoryGroup.classList.add('cert-category-group');
+      categoryGroup.dataset.category = category;
+      if (index !== 0) categoryGroup.hidden = true;
+
+      const categoryTitle = document.createElement('h3');
+      categoryTitle.textContent = content.title;
+      categoryGroup.appendChild(categoryTitle);
+      divCertificaciones.appendChild(categoryGroup);
+
+      Object.entries(content.primary ?? {}).forEach(
+        ([key, certificationImage]) => {
+          createCertificationCard(
+            key,
+            certificationImage,
+            categoryGroup,
+            'primary',
+          );
+        },
       );
 
-      // Crear la estructura
-      categoryGroup.appendChild(divCard);
-      divCard.appendChild(h4);
-      h4.textContent = certification.title;
-      divCard.appendChild(buttonsDiv);
-      buttonsDiv.appendChild(anchor);
-      buttonsDiv.appendChild(moreInfo);
-    }
+      Object.entries(content.secondary ?? {}).forEach(
+        ([key, certificationImage]) => {
+          createCertificationCard(
+            key,
+            certificationImage,
+            categoryGroup,
+            'secondary',
+          );
+        },
+      );
+    },
   );
 
   /*******************************************************************************/
-  /****************** Imágenes y enlaces (Skills están acá por ahora) ************/
+  /****************** Index (Skills están acá por ahora) ************/
   /*******************************************************************************/
 
   const skills = document.querySelector('.skills-list');
@@ -310,7 +331,7 @@ export const loadResources = async () => {
   title.textContent = `${window.appData.menu.skills}`;
   skills.insertAdjacentElement('beforebegin', title);
   // Agregar skills
-  Object.entries(window.appImages.skills).forEach(([key, skill]) => {
+  Object.entries(window.appIndex.skills).forEach(([key, skill]) => {
     const li = document.createElement('li');
     const divContainer = document.createElement('div');
     divContainer.classList.add('skill-container');
@@ -350,68 +371,56 @@ export const loadResources = async () => {
     let path = '';
     switch (sectionKey) {
       case 'projects':
-        path = 'appData.projects.projectsList';
+        path = 'appData.projects.items';
         break;
       case 'odyssey':
-        path = 'appData.odyssey.odysseyList';
-        break;
-      case 'certifications':
-        path = 'appData.certifications.certificationsList';
+        path = 'appData.odyssey.items';
         break;
     }
     const img = document.createElement('img');
     const h4 = $section[index].querySelector('h4');
     h4.insertAdjacentElement('afterend', img);
     img.id = key;
-    img.src = `${baseUrl}${window.appImages[sectionKey][key].src}`;
+    img.src = `${baseUrl}${window.appIndex[sectionKey][key].src}`;
     const obj = path.split('.').reduce((acc, key) => acc?.[key], globalThis);
     img.alt = obj?.[key].title;
 
     // Enlace condicional para certificados que no están en la nube
     const link = $item.link;
-    console.log('actual path', baseUrl);
     const realLink = link.includes('images') ? `${baseUrl}${link}` : link;
     $section[index].querySelector('a').href = realLink;
 
-    const { level } = window.appImages[sectionKey][key];
+    const { level } = window.appIndex[sectionKey][key];
 
-    if (level === 'secondary')
-      $section[index].classList.add('secondary');
+    if (level === 'secondary') $section[index].classList.add('secondary');
   }
 
   // Agregar imágenes y enlaces a proyectos
   const proyectos = document.querySelectorAll('#proyectos .card');
   let projectsCount = 0; // Acá no usé index porque estoy sacando un proyecto (Portfolio actual)
 
-  Object.entries(window.appImages.projects).forEach(([key, project]) => {
+  Object.entries(window.appIndex.projects).forEach(([key, project]) => {
     if (key === 'portfolioJS') return;
     applyImg(key, project, proyectos, projectsCount, 'projects');
     projectsCount++;
   });
   window.$secondaryProjects = document.querySelectorAll(
-    '#proyectos > .card.secondary'
+    '#proyectos > .card.secondary',
   );
 
   // Agregar imágenes y enlaces a odysseys
   const odysseys = document.querySelectorAll('#odysseys .card');
 
-  Object.entries(window.appImages.odyssey).forEach(([key, odyssey], index) => {
+  Object.entries(window.appIndex.odyssey).forEach(([key, odyssey], index) => {
     applyImg(key, odyssey, odysseys, index, 'odyssey');
   });
   window.$secondaryOdysseys = document.querySelectorAll(
-    '#odysseys > .card.secondary'
+    '#odysseys > .card.secondary',
   );
 
-  // Agregar imágenes, enlaces y clases a certificaciones
-  Object.entries(window.appImages.certifications).forEach(([key, cert]) => {
-    const certCard = document.querySelector(
-      `#certificaciones .card[data-certification="${CSS.escape(key)}"]`
-    );
-    if (!certCard) return;
-    applyImg(key, cert, [certCard], 0, 'certifications');
-  });
+  // Agregar imágenes, enlaces y categorías a certificaciones
   window.$secondaryCerts = document.querySelectorAll(
-    '#certificaciones .card.secondary'
+    '#certificaciones .card.secondary',
   );
   window.dispatchEvent(new Event('resourcesLoaded'));
 };
